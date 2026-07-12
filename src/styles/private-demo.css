@@ -48,6 +48,7 @@ html.wm-pro-banner-reserved .skeleton-shell {
 }
 
 /* Presentation/kiosk mode: remove download prompts, external links, docs, social, and footer chrome. */
+footer,
 .site-footer,
 .mobile-menu-footer-links,
 #footerDownloadMount,
@@ -64,18 +65,12 @@ html.wm-pro-banner-reserved .skeleton-shell {
 .desktop-download-btn,
 .app-download,
 .app-download-btn,
-[aria-label*='Download'],
-[aria-label*='download'],
-[title*='Download'],
-[title*='download'],
-[id*='download'],
-[id*='Download'],
-[class*='download'],
-[class*='Download'],
-[id*='install'],
-[id*='Install'],
-[class*='install'],
-[class*='Install'],
+[class*='download' i],
+[id*='download' i],
+[class*='install' i],
+[id*='install' i],
+[aria-label*='Download' i],
+[title*='Download' i],
 a[href*='/api/download'],
 a[href*='api/download'],
 a[href*='/download'],
@@ -95,12 +90,36 @@ a[href*='twitter.com/'],
 .github-link,
 .site-footer-credit {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Hard kill community/social popups such as the Discord floating banner. */
+[class*='discord' i],
+[id*='discord' i],
+[class*='community' i],
+[id*='community' i],
+[class*='social' i],
+[id*='social' i],
+a[href*='discord'],
+a[href*='Discord'] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* If a popup is rendered with generic classes, this removes bottom-right external promo toasts. */
+body > [style*='position: fixed'][style*='right'],
+body > [style*='position:fixed'][style*='right'] {
+  display: none !important;
 }
 
 /* Keep the header clean for live presentation. */
 .header-right .copy-link-btn,
 .header-right .embed-link-btn,
 .header-right .fullscreen-btn,
+.mobile-settings-btn,
 .mobile-menu-item#mobileMenuSettings,
 .mobile-menu-item#mobileMenuTheme {
   display: none !important;
