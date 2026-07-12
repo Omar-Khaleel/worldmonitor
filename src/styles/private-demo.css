@@ -4,6 +4,7 @@
  * Purpose:
  * - Rebrand the visible demo shell for internal presentation use.
  * - Hide hosted-SaaS Pro/Upgrade CTAs from the demo UI.
+ * - Hide app-download, docs, social, and external chrome for a clean kiosk-style presentation.
  * - Do not unlock paid/remote services or bypass server-side authorization.
  *
  * License note: the upstream project remains AGPL-3.0-only. Keep LICENSE and
@@ -46,21 +47,68 @@ html.wm-pro-banner-reserved .skeleton-shell {
   display: none !important;
 }
 
-/* Hide links that route viewers back to the hosted World Monitor SaaS/Pro funnel. */
-.mobile-menu-footer-links a[href*='/pro'],
-.mobile-menu-footer-links a[href*='worldmonitor.app/pro'],
-.site-footer nav a[href*='/pro'],
-.site-footer nav a[href*='worldmonitor.app/pro'],
-.site-footer nav a[href*='discord.gg'],
-.site-footer nav a[href*='x.com/'],
+/* Presentation/kiosk mode: remove download prompts, external links, docs, social, and footer chrome. */
+.site-footer,
+.mobile-menu-footer-links,
+#footerDownloadMount,
+#downloadAppBtn,
+#installAppBtn,
+.footer-download,
+.download-app,
+.download-btn,
+.install-app,
+.install-btn,
+.pwa-install,
+.pwa-install-btn,
+.desktop-download,
+.desktop-download-btn,
+.app-download,
+.app-download-btn,
+[aria-label*='Download'],
+[aria-label*='download'],
+[title*='Download'],
+[title*='download'],
+[id*='download'],
+[id*='Download'],
+[class*='download'],
+[class*='Download'],
+[id*='install'],
+[id*='Install'],
+[class*='install'],
+[class*='Install'],
+a[href*='/api/download'],
+a[href*='api/download'],
+a[href*='/download'],
+a[href*='download'],
+a[href*='/pro'],
+a[href*='worldmonitor.app/pro'],
+a[href*='/docs'],
+a[href*='worldmonitor.app/docs'],
+a[href*='/blog'],
+a[href*='worldmonitor.app/blog'],
+a[href*='status.worldmonitor.app'],
+a[href*='github.com/koala73/worldmonitor'],
+a[href*='discord.gg'],
+a[href*='x.com/'],
+a[href*='twitter.com/'],
 .credit-link,
 .github-link,
 .site-footer-credit {
   display: none !important;
 }
 
+/* Keep the header clean for live presentation. */
+.header-right .copy-link-btn,
+.header-right .embed-link-btn,
+.header-right .fullscreen-btn,
+.mobile-menu-item#mobileMenuSettings,
+.mobile-menu-item#mobileMenuTheme {
+  display: none !important;
+}
+
 /* Keep non-Pro locked panels from showing empty upgrade placeholders. */
-.panel.panel-is-locked {
+.panel.panel-is-locked,
+.panels-grid > .panel.panel-is-locked {
   display: none !important;
 }
 
@@ -94,7 +142,7 @@ html.wm-pro-banner-reserved .skeleton-shell {
 }
 
 .site-footer-copy::after {
-  content: '© 2026 Falcon Monitor · AGPL-3.0 self-hosted build';
+  content: '© 2026 Falcon Monitor';
   color: var(--text-muted, #9ca3af);
   font-size: 11px;
   letter-spacing: normal;
@@ -124,20 +172,16 @@ html.wm-pro-banner-reserved .skeleton-shell {
   font-size: 11px;
 }
 
-/* Mobile menu footer: remove SaaS funnel, keep the menu compact. */
-.mobile-menu-footer-links {
-  gap: 10px;
-}
-
-/* Avoid leaving awkward empty panels where upgrade cards used to be. */
-.panels-grid > .panel.panel-is-locked {
+/* Remove version/demo labels if you want the screen to look like an internal live system. */
+.header .version {
   display: none !important;
 }
 
-/* Presentation polish. */
-.header .version::before {
-  content: 'demo ';
-  color: var(--text-muted, #9ca3af);
+/* Optional fullscreen/kiosk polish. */
+body.presentation-mode .header,
+body.presentation-mode .mobile-menu,
+body.presentation-mode .site-footer {
+  user-select: none;
 }
 
 @media (max-width: 767px) {
