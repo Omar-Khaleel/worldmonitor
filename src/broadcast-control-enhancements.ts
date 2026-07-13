@@ -247,7 +247,12 @@ export function initBroadcastControlEnhancements(): void {
   liveUrl.value = buildLiveViewerUrl();
   const station = document.createElement('div');
   station.className = 'ayn-sync-indicator';
-  station.innerHTML = `<span></span><strong>المحطة ${getStationId()}</strong><small>مزامنة محلية وفحص الخادم كل ثانية</small>`;
+  const stationDot = document.createElement('span');
+  const stationName = document.createElement('strong');
+  stationName.textContent = `المحطة ${getStationId()}`;
+  const stationState = document.createElement('small');
+  stationState.textContent = 'مزامنة محلية وفحص الخادم كل ثانية';
+  station.append(stationDot, stationName, stationState);
   liveSection.append(station, liveUrl);
 
   const mediaSection = makeSection('جدار القنوات والكاميرات المباشرة', 'اختر عدة قنوات وكاميرات لتظهر كجدار بث صامت ونظيف للمشاهد.');
@@ -269,8 +274,10 @@ export function initBroadcastControlEnhancements(): void {
   }
   const mediaField = document.createElement('label');
   mediaField.className = 'broadcast-control-field';
-  mediaField.innerHTML = '<span class="broadcast-control-label">أعمدة جدار البث</span>';
-  mediaField.appendChild(mediaColumns);
+  const mediaLabel = document.createElement('span');
+  mediaLabel.className = 'broadcast-control-label';
+  mediaLabel.textContent = 'أعمدة جدار البث';
+  mediaField.append(mediaLabel, mediaColumns);
   mediaSection.append(showWall, mediaField);
 
   const channelSection = makeSection('القنوات الإخبارية المباشرة');
@@ -319,13 +326,18 @@ export function initBroadcastControlEnhancements(): void {
   enhancePanelList(room);
   replaceActions(room, status);
 
-  room.addEventListener('input', () => schedulePublish(room, status));
-  room.addEventListener('change', () => schedulePublish(room, status));
+  room.addEventListener('input', (event) => {
+    if ((event.target as HTMLElement).classList.contains('ayn-control-search')) return;
+    schedulePublish(room, status);
+  });
+  room.addEventListener('change', (event) => {
+    if ((event.target as HTMLElement).classList.contains('ayn-control-search')) return;
+    schedulePublish(room, status);
+  });
   window.addEventListener('ayn-broadcast-sync-status', (event) => {
     const detail = (event as CustomEvent<{ state?: string; detail?: string }>).detail;
     station.dataset.state = detail?.state || 'local';
-    const small = station.querySelector('small');
-    if (small) small.textContent = detail?.state === 'online' ? 'متصل — يصل التحديث إلى الرابط مباشرة' : 'المعاينة المحلية فعالة — خادم الربط غير متاح';
+    stationState.textContent = detail?.state === 'online' ? 'متصل — يصل التحديث إلى الرابط مباشرة' : 'المعاينة المحلية فعالة — خادم الربط غير متاح';
   });
 
   publishNow(room, status);
