@@ -14,6 +14,13 @@ function stationUserId(station: string): string {
   return `__broadcast__:${station}`;
 }
 
+function requireServerSecret(supplied: string): void {
+  const expected = process.env.BROADCAST_STATE_SECRET;
+  if (!expected || supplied.length < 32 || supplied !== expected) {
+    throw new Error('UNAUTHORIZED_BROADCAST_STATE');
+  }
+}
+
 function parseStoredState(value: unknown): StoredBroadcastState | null {
   if (!value || typeof value !== 'object') return null;
   const candidate = value as Partial<StoredBroadcastState>;
@@ -28,8 +35,9 @@ function parseStoredState(value: unknown): StoredBroadcastState | null {
 }
 
 export const getState = query({
-  args: { station: v.string() },
+  args: { station: v.string(), serverSecret: v.string() },
   handler: async (ctx, args) => {
+    requireServerSecret(args.serverSecret);
     const record = await ctx.db
       .query('userPreferences')
       .withIndex('by_user_variant', (q) =>
@@ -54,8 +62,10 @@ export const putState = mutation({
     version: v.number(),
     controlKeyHash: v.string(),
     updatedAt: v.number(),
+    serverSecret: v.string(),
   },
   handler: async (ctx, args) => {
+    requireServerSecret(args.serverSecret);
     const userId = stationUserId(args.station);
     const existing = await ctx.db
       .query('userPreferences')
