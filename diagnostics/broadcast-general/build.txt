@@ -1,0 +1,121 @@
+# Build tail
+[2mdist/[22m[2massets/[22m[36mrpc-client-market-v1-Bo995CQG.js               [39m[1m[2m   10.23 kB[22m[1m[22m[2m │ gzip:   1.47 kB[22m
+[2mdist/[22m[2massets/[22m[36mdaily-market-brief-Q9bNsf_K.js                 [39m[1m[2m   10.30 kB[22m[1m[22m[2m │ gzip:   4.33 kB[22m
+[2mdist/[22m[2massets/[22m[36mResilienceWidget-8MDeBlvK.js                   [39m[1m[2m   10.63 kB[22m[1m[22m[2m │ gzip:   3.56 kB[22m
+[2mdist/[22m[2massets/[22m[36mrpc-client-supply-chain-v1-CrO9AqhI.js         [39m[1m[2m   10.68 kB[22m[1m[22m[2m │ gzip:   1.49 kB[22m
+[2mdist/[22m[2massets/[22m[36mconfetti.module-C2jkTI5u.js                    [39m[1m[2m   10.70 kB[22m[1m[22m[2m │ gzip:   4.29 kB[22m
+[2mdist/[22m[2massets/[22m[36mproducts-CskeEKsl.js                           [39m[1m[2m   10.77 kB[22m[1m[22m[2m │ gzip:   3.68 kB[22m
+[2mdist/[22m[2massets/[22m[36msignal-aggregator-CB6XJKIX.js                  [39m[1m[2m   10.78 kB[22m[1m[22m[2m │ gzip:   3.49 kB[22m
+[2mdist/[22m[2massets/[22m[36mstory-renderer-m3oCcFwx.js                     [39m[1m[2m   10.83 kB[22m[1m[22m[2m │ gzip:   3.74 kB[22m
+[2mdist/[22m[2massets/[22m[36mrpc-client-economic-v1-C1e3GeZX.js             [39m[1m[2m   10.90 kB[22m[1m[22m[2m │ gzip:   1.55 kB[22m
+[2mdist/[22m[2massets/[22m[36mmilitary-vessels-dvyS_Rk9.js                   [39m[1m[2m   11.10 kB[22m[1m[22m[2m │ gzip:   4.91 kB[22m
+[2mdist/[22m[2massets/[22m[36mwatchlist-modal-DGo7h33x.js                    [39m[1m[2m   11.10 kB[22m[1m[22m[2m │ gzip:   3.97 kB[22m
+[2mdist/[22m[2massets/[22m[36mweb-vitals.attribution-CgS4vrHl.js             [39m[1m[2m   11.23 kB[22m[1m[22m[2m │ gzip:   4.46 kB[22m
+[2mdist/[22m[2massets/[22m[36mStoryModal-CSGvoAez.js                         [39m[1m[2m   11.29 kB[22m[1m[22m[2m │ gzip:   4.16 kB[22m
+[2mdist/[22m[2massets/[22m[36mWidgetChatModal-IxNRXOJY.js                    [39m[1m[2m   11.79 kB[22m[1m[22m[2m │ gzip:   3.80 kB[22m
+[2mdist/[22m[2massets/[22m[36mresilience-choropleth-utils-d3tSgV2H.js        [39m[1m[2m   11.85 kB[22m[1m[22m[2m │ gzip:   3.82 kB[22m
+[2mdist/[22m[2massets/[22m[36mMcpConnectModal-DYA0LgBX.js                    [39m[1m[2m   11.99 kB[22m[1m[22m[2m │ gzip:   3.89 kB[22m
+[2mdist/[22m[2massets/[22m[36mregional-intelligence-board-utils-CkW1zomd.js  [39m[1m[2m   12.34 kB[22m[1m[22m[2m │ gzip:   3.41 kB[22m
+[2mdist/[22m[2massets/[22m[36mai-regulations-D_33TG-J.js                     [39m[1m[2m   12.51 kB[22m[1m[22m[2m │ gzip:   3.91 kB[22m
+[2mdist/[22m[2massets/[22m[36mrpc-client-intelligence-v1-DJcL7tTi.js         [39m[1m[2m   12.92 kB[22m[1m[22m[2m │ gzip:   1.85 kB[22m
+[2mdist/[22m[2massets/[22m[36mairports-data-BAv_AkRA.js                      [39m[1m[2m   14.11 kB[22m[1m[22m[2m │ gzip:   4.49 kB[22m
+[2mdist/[22m[2massets/[22m[36mcross-module-integration-DaqddSGt.js           [39m[1m[2m   14.35 kB[22m[1m[22m[2m │ gzip:   5.13 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-CYf4Siix.js                              [39m[1m[2m   14.44 kB[22m[1m[22m[2m │ gzip:   5.17 kB[22m
+[2mdist/[22m[2massets/[22m[36mbroadcast-control-enhancements-U0dQ5I6f.js     [39m[1m[2m   14.82 kB[22m[1m[22m[2m │ gzip:   5.71 kB[22m
+[2mdist/[22m[2massets/[22m[36mrenewable-installations-CuB42DHj.js            [39m[1m[2m   15.01 kB[22m[1m[22m[2m │ gzip:   3.12 kB[22m
+[2mdist/[22m[2massets/[22m[36mfinance-geo-DWBqM0zf.js                        [39m[1m[2m   15.20 kB[22m[1m[22m[2m │ gzip:   4.30 kB[22m
+[2mdist/[22m[2massets/[22m[36mcountry-port-clusters-CisGe5RV.js              [39m[1m[2m   15.48 kB[22m[1m[22m[2m │ gzip:   2.25 kB[22m
+[2mdist/[22m[2massets/[22m[36mSignalModal-DzDzcjdZ.js                        [39m[1m[2m   15.58 kB[22m[1m[22m[2m │ gzip:   4.30 kB[22m
+[2mdist/[22m[2massets/[22m[36mlive-channels-window-CyMO9Ecx.js               [39m[1m[2m   15.64 kB[22m[1m[22m[2m │ gzip:   5.00 kB[22m
+[2mdist/[22m[2massets/[22m[36mexport-DHhCJ22j.js                             [39m[1m[2m   16.01 kB[22m[1m[22m[2m │ gzip:   6.02 kB[22m
+[2mdist/[22m[2massets/[22m[36mAviationCommandBar-Bqv1caqT.js                 [39m[1m[2m   16.66 kB[22m[1m[22m[2m │ gzip:   5.99 kB[22m
+[2mdist/[22m[2massets/[22m[36mIntelligenceGapBadge-DrhU1DZG.js               [39m[1m[2m   16.76 kB[22m[1m[22m[2m │ gzip:   5.04 kB[22m
+[2mdist/[22m[2massets/[22m[36mbroadcast-station-4i2JsHR1.js                  [39m[1m[2m   17.05 kB[22m[1m[22m[2m │ gzip:   6.03 kB[22m
+[2mdist/[22m[2massets/[22m[36mmilitary-surge-DAfQUBgl.js                     [39m[1m[2m   17.08 kB[22m[1m[22m[2m │ gzip:   5.85 kB[22m
+[2mdist/[22m[2massets/[22m[36msentry-init-xdBMX3he.js                        [39m[1m[2m   17.25 kB[22m[1m[22m[2m │ gzip:   6.54 kB[22m
+[2mdist/[22m[2massets/[22m[36mlayout-batch-IgoVuxa7.js                       [39m[1m[2m   17.35 kB[22m[1m[22m[2m │ gzip:   6.02 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-DjOPnj4b.js                              [39m[1m[2m   17.89 kB[22m[1m[22m[2m │ gzip:   7.15 kB[22m
+[2mdist/[22m[2massets/[22m[36mcorrelation-engine-Dp6C3vk3.js                 [39m[1m[2m   17.92 kB[22m[1m[22m[2m │ gzip:   6.74 kB[22m
+[2mdist/[22m[2massets/[22m[36mprotomaps-DN3fPpEX.js                          [39m[1m[2m   18.57 kB[22m[1m[22m[2m │ gzip:   7.33 kB[22m
+[2mdist/[22m[2massets/[22m[36mgulf-fdi-Brj4tDHY.js                           [39m[1m[2m   20.66 kB[22m[1m[22m[2m │ gzip:   5.44 kB[22m
+[2mdist/[22m[2massets/[22m[36mstring-iyfKsFnt.js                             [39m[1m[2m   20.82 kB[22m[1m[22m[2m │ gzip:   7.46 kB[22m
+[2mdist/[22m[2massets/[22m[36mstartup-ecosystems-CHD9ZmW2.js                 [39m[1m[2m   21.94 kB[22m[1m[22m[2m │ gzip:   6.05 kB[22m
+[2mdist/[22m[2massets/[22m[36mcheckout-J51DfmUj.js                           [39m[1m[2m   22.19 kB[22m[1m[22m[2m │ gzip:   7.86 kB[22m
+[2mdist/[22m[2massets/[22m[36msatellite.es-DES7etDd.js                       [39m[1m[2m   24.60 kB[22m[1m[22m[2m │ gzip:  11.87 kB[22m
+[2mdist/[22m[2massets/[22m[36membed-url-CH3xIxhA.js                          [39m[1m[2m   27.59 kB[22m[1m[22m[2m │ gzip:   8.95 kB[22m
+[2mdist/[22m[2massets/[22m[36msettings-DlT5cfaK.js                           [39m[1m[2m   29.04 kB[22m[1m[22m[2m │ gzip:   9.07 kB[22m
+[2mdist/[22m[2massets/[22m[36mPanel-DoJT-rT2.js                              [39m[1m[2m   31.04 kB[22m[1m[22m[2m │ gzip:   7.69 kB[22m
+[2mdist/[22m[2massets/[22m[36mMapContainer-BkdSJ3bu.js                       [39m[1m[2m   39.71 kB[22m[1m[22m[2m │ gzip:   8.19 kB[22m
+[2mdist/[22m[2massets/[22m[36mmarked.esm-BrAPT9WN.js                         [39m[1m[2m   41.96 kB[22m[1m[22m[2m │ gzip:  12.75 kB[22m
+[2mdist/[22m[2massets/[22m[36mmilitary-bases-data-Cw2XlpXm.js                [39m[1m[2m   43.48 kB[22m[1m[22m[2m │ gzip:   9.33 kB[22m
+[2mdist/[22m[2massets/[22m[36mwidget-store-CV93P-SA.js                       [39m[1m[2m   43.50 kB[22m[1m[22m[2m │ gzip:  16.71 kB[22m
+[2mdist/[22m[2massets/[22m[36moref-locations-EKm8gxKt.js                     [39m[1m[2m   46.76 kB[22m[1m[22m[2m │ gzip:  16.79 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex.esm-BiNDwt_v.js                          [39m[1m[2m   48.05 kB[22m[1m[22m[2m │ gzip:  17.27 kB[22m
+[2mdist/[22m[2massets/[22m[36mRouteExplorer-kaPwZHVg.js                      [39m[1m[2m   49.11 kB[22m[1m[22m[2m │ gzip:  12.65 kB[22m
+[2mdist/[22m[2massets/[22m[36mtech-geo-data-JQrgiAY7.js                      [39m[1m[2m   50.93 kB[22m[1m[22m[2m │ gzip:  11.14 kB[22m
+[2mdist/[22m[2massets/[22m[36mi18n-qlunRAMb.js                               [39m[1m[2m   52.46 kB[22m[1m[22m[2m │ gzip:  16.61 kB[22m
+[2mdist/[22m[2massets/[22m[36mcached-risk-scores-B8FnbDUn.js                 [39m[1m[2m   57.66 kB[22m[1m[22m[2m │ gzip:  20.03 kB[22m
+[2mdist/[22m[2massets/[22m[36mai-datacenters-data-B8Ka8FcE.js                [39m[1m[2m   63.42 kB[22m[1m[22m[2m │ gzip:  11.19 kB[22m
+[2mdist/[22m[2massets/[22m[36magent-bus-actions-Biwd1x5s.js                  [39m[1m[2m   70.69 kB[22m[1m[22m[2m │ gzip:  19.11 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-defense-D7rGzSWw.js                     [39m[1m[2m   74.15 kB[22m[1m[22m[2m │ gzip:  18.20 kB[22m
+[2mdist/[22m[2massets/[22m[36mapt-groups-BqicQSCc.js                         [39m[1m[2m   78.83 kB[22m[1m[22m[2m │ gzip:  18.02 kB[22m
+[2mdist/[22m[2massets/[22m[36msearch-manager-D-fA7e3Q.js                     [39m[1m[2m   85.69 kB[22m[1m[22m[2m │ gzip:  23.12 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanel-storage-D6uPQ5HD.js                      [39m[1m[2m   89.00 kB[22m[1m[22m[2m │ gzip:  32.08 kB[22m
+[2mdist/[22m[2massets/[22m[36mMap-CqFeYDbS.js                                [39m[1m[2m   92.83 kB[22m[1m[22m[2m │ gzip:  23.74 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-energy-ljlJZtz5.js                      [39m[1m[2m   94.81 kB[22m[1m[22m[2m │ gzip:  23.28 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-news-4-pmnKlg.js                        [39m[1m[2m  104.03 kB[22m[1m[22m[2m │ gzip:  28.15 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-zh-m75KQ5Zo.js                          [39m[1m[2m  107.03 kB[22m[1m[22m[2m │ gzip:  44.34 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-risk-BXxQvFCE.js                        [39m[1m[2m  112.03 kB[22m[1m[22m[2m │ gzip:  28.44 kB[22m
+[2mdist/[22m[2massets/[22m[36men-BDKx8Pjc.js                                 [39m[1m[2m  112.08 kB[22m[1m[22m[2m │ gzip:  40.11 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-fa-B3J1i_32.js                          [39m[1m[2m  112.15 kB[22m[1m[22m[2m │ gzip:  40.31 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-Ca0YFkvm.js                             [39m[1m[2m  114.20 kB[22m[1m[22m[2m │ gzip:  24.61 kB[22m
+[2mdist/[22m[2massets/[22m[36mUnifiedSettings-CuG-kABP.js                    [39m[1m[2m  116.80 kB[22m[1m[22m[2m │ gzip:  31.09 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-sv-DX30qk7F.js                          [39m[1m[2m  116.96 kB[22m[1m[22m[2m │ gzip:  44.56 kB[22m
+[2mdist/[22m[2massets/[22m[36mgdelt-intel-Csx5U81H.js                        [39m[1m[2m  117.71 kB[22m[1m[22m[2m │ gzip:  39.39 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-nl-Dqex8uTq.js                          [39m[1m[2m  119.55 kB[22m[1m[22m[2m │ gzip:  44.75 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-ko-BK2jPOwN.js                          [39m[1m[2m  119.69 kB[22m[1m[22m[2m │ gzip:  44.53 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-tr-BHGkdDLC.js                          [39m[1m[2m  119.80 kB[22m[1m[22m[2m │ gzip:  45.71 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-de-jEKUjDuF.js                          [39m[1m[2m  121.65 kB[22m[1m[22m[2m │ gzip:  45.41 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-it-DBlqWoTp.js                          [39m[1m[2m  122.81 kB[22m[1m[22m[2m │ gzip:  44.58 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-cs-qV83CtLq.js                          [39m[1m[2m  124.74 kB[22m[1m[22m[2m │ gzip:  47.33 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-pt-CgxcWwTC.js                          [39m[1m[2m  124.77 kB[22m[1m[22m[2m │ gzip:  45.90 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-pl-joXguCYm.js                          [39m[1m[2m  124.84 kB[22m[1m[22m[2m │ gzip:  47.67 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-ro-4qw4Epal.js                          [39m[1m[2m  125.22 kB[22m[1m[22m[2m │ gzip:  45.70 kB[22m
+[2mdist/[22m[2massets/[22m[36mlayer-explanation-card-B7N4yCkK.js             [39m[1m[2m  125.69 kB[22m[1m[22m[2m │ gzip:  24.89 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-es-TiG6_b3j.js                          [39m[1m[2m  126.10 kB[22m[1m[22m[2m │ gzip:  45.44 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-ja-DxV6IwR-.js                          [39m[1m[2m  127.49 kB[22m[1m[22m[2m │ gzip:  47.07 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-fr-BudWD-gq.js                          [39m[1m[2m  128.90 kB[22m[1m[22m[2m │ gzip:  46.00 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-hu-cF9daOwC.js                          [39m[1m[2m  129.93 kB[22m[1m[22m[2m │ gzip:  48.19 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-hr-B3bqjtRb.js                          [39m[1m[2m  131.23 kB[22m[1m[22m[2m │ gzip:  49.24 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-economy-BVwNLEE5.js                     [39m[1m[2m  132.41 kB[22m[1m[22m[2m │ gzip:  33.62 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-vi-b1UTS3lq.js                          [39m[1m[2m  136.60 kB[22m[1m[22m[2m │ gzip:  45.72 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-markets-CvskWhDl.js                     [39m[1m[2m  138.04 kB[22m[1m[22m[2m │ gzip:  33.36 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-ar-nfK4UpUr.js                          [39m[1m[2m  154.25 kB[22m[1m[22m[2m │ gzip:  47.92 kB[22m
+[2mdist/[22m[2massets/[22m[36mgeo-map-data-By455S2c.js                       [39m[1m[2m  155.54 kB[22m[1m[22m[2m │ gzip:  31.87 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-bg-C-WaFaTO.js                          [39m[1m[2m  175.84 kB[22m[1m[22m[2m │ gzip:  52.89 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-ru-CWTr34cu.js                          [39m[1m[2m  176.84 kB[22m[1m[22m[2m │ gzip:  54.45 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-el-CIZOX_Wl.js                          [39m[1m[2m  178.16 kB[22m[1m[22m[2m │ gzip:  54.54 kB[22m
+[2mdist/[22m[2massets/[22m[36mh3-js-CJ4YL9qJ.js                              [39m[1m[2m  195.42 kB[22m[1m[22m[2m │ gzip:  58.32 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-hi-kESN39cx.js                          [39m[1m[2m  205.08 kB[22m[1m[22m[2m │ gzip:  50.70 kB[22m
+[2mdist/[22m[2massets/[22m[36mlocale-th-QBNsBVzL.js                          [39m[1m[2m  213.82 kB[22m[1m[22m[2m │ gzip:  51.24 kB[22m
+[2mdist/[22m[2massets/[22m[36mpanels-intel-B1QFx2W1.js                       [39m[1m[2m  243.77 kB[22m[1m[22m[2m │ gzip:  66.83 kB[22m
+[2mdist/[22m[2massets/[22m[36mconflict-zone-cull-BPrwqS3I.js                 [39m[1m[2m  281.99 kB[22m[1m[22m[2m │ gzip:  65.14 kB[22m
+[2mdist/[22m[2massets/[22m[36msentry-DMxp_zBn.js                             [39m[1m[2m  431.70 kB[22m[1m[22m[2m │ gzip: 142.53 kB[22m
+[2mdist/[22m[2massets/[22m[36mhls-B5xTr0nO.js                                [39m[1m[2m  523.89 kB[22m[1m[22m[2m │ gzip: 162.09 kB[22m
+[2mdist/[22m[2massets/[22m[36mmain-Dg7ejNvw.js                               [39m[1m[2m  683.93 kB[22m[1m[22m[2m │ gzip: 203.90 kB[22m
+[2mdist/[22m[2massets/[22m[36mdeck-stack-BJMJdaai.js                         [39m[1m[2m  755.81 kB[22m[1m[22m[2m │ gzip: 212.04 kB[22m
+[2mdist/[22m[2massets/[22m[36mmaplibre-CT3To3KC.js                           [39m[1m[2m1,048.68 kB[22m[1m[22m[2m │ gzip: 283.49 kB[22m
+[2mdist/[22m[2massets/[22m[36mGlobeMap-CaY5fbl5.js                           [39m[1m[33m1,815.00 kB[39m[22m[2m │ gzip: 504.72 kB[22m
+[33m
+(!) Some chunks are larger than 1200 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 26.05s[39m
+
+[36mPWA v1.3.0[39m
+mode      [35mgenerateSW[39m
+precache  [32m271 entries[39m [2m(10854.07 KiB)[22m
+files generated
+  [2mdist/sw.js[22m
+  [2mdist/workbox-c4ecbb2e.js[22m

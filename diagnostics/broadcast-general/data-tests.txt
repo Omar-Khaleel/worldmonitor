@@ -1,0 +1,422 @@
+# Data-test failures and tail
+9575:  [MarketImplications] last-good EXPIRE refresh failed: no providers in test
+9582:✔ all three LLM-failure guards write an error seed-meta before returning (0.675592ms)
+9601:[Market Quotes] On cooldown for 60s after 2 failures
+9620:[MQ-perkey-reset] On cooldown for 60s after 2 failures
+9622:[MQ-anycooldown] On cooldown for 60s after 1 failures
+9626:[MQ-shouldcache-reset] On cooldown for 60s after 2 failures
+9628:  ✔ success on another key resets global failure count before cooldown trips (7.28359ms)
+9631:  ✔ non-cacheable successes still reset failures (P2) (15.598144ms)
+9752:  ✔ keys non-HTTP failures on the stable error name (0.233049ms)
+9784:  ✔ returns 503 when Redis SET NX of mcp-grant:<n> fails AND no prior record exists (transport failure) (40.383162ms)
+9800:  ✔ returns 503 SERVICE_UNAVAILABLE on Redis transport failure (0.389541ms)
+9831:    ✔ enum consistency: failed field matches the leading token of _jmespath_error for each kind (30.571437ms)
+9900:  jmespath_failed: null,
+9914:  jmespath_failed: null,
+9930:  jmespath_failed: null,
+9944:  jmespath_failed: null,
+9959:  jmespath_failed: null,
+9973:  jmespath_failed: null,
+9987:  jmespath_failed: null,
+10002:  jmespath_failed: 'invalid_expression',
+10017:  jmespath_failed: 'expression_too_long',
+10042:  jmespath_failed: null,
+10058:  jmespath_failed: null,
+10953:[rate-limit] redis-error stage=checkScopedRateLimit:/api/mcp-proxy msg=fetch failed
+10999:[rate-limit] redis-error stage=checkScopedRateLimit:/api/mcp-proxy msg=fetch failed
+11000:    ✔ emits audit log on validation failure (status: 400) (334.472322ms)
+11019:[mcp-quota] Redis read failed: redis down
+11083:[mcp-revoke] invalidateCache failed (revoke still succeeded): redis down
+11097:  ✔ cache-invalidation failure does NOT mask success (1.231464ms)
+11207:  jmespath_failed: null,
+11227:  jmespath_failed: null,
+11242:  jmespath_failed: null,
+11257:  jmespath_failed: null,
+11272:  jmespath_failed: null,
+11287:  jmespath_failed: null,
+11324:  jmespath_failed: null,
+11338:  jmespath_failed: null,
+11352:  jmespath_failed: null,
+11366:  jmespath_failed: null,
+11380:  jmespath_failed: null,
+11394:  jmespath_failed: null,
+11408:  jmespath_failed: null,
+11422:  jmespath_failed: null,
+11436:  jmespath_failed: null,
+11450:  jmespath_failed: null,
+11464:  jmespath_failed: null,
+11478:  jmespath_failed: null,
+11492:  jmespath_failed: null,
+11506:  jmespath_failed: null,
+11520:  jmespath_failed: null,
+11534:  jmespath_failed: null,
+11548:  jmespath_failed: null,
+11562:  jmespath_failed: null,
+11576:  jmespath_failed: null,
+11590:  jmespath_failed: null,
+11604:  jmespath_failed: null,
+11618:  jmespath_failed: null,
+11632:  jmespath_failed: null,
+11646:  jmespath_failed: null,
+11660:  jmespath_failed: null,
+11674:  jmespath_failed: null,
+11688:  jmespath_failed: null,
+11702:  jmespath_failed: null,
+11716:  jmespath_failed: null,
+11730:  jmespath_failed: null,
+11744:  jmespath_failed: null,
+11758:  jmespath_failed: null,
+11772:  jmespath_failed: null,
+11786:  jmespath_failed: null,
+11800:  jmespath_failed: null,
+11814:  jmespath_failed: null,
+11828:  jmespath_failed: null,
+11842:  jmespath_failed: null,
+11856:  jmespath_failed: null,
+11871:  jmespath_failed: null,
+11885:  jmespath_failed: null,
+11899:  jmespath_failed: null,
+11913:  jmespath_failed: null,
+11927:  jmespath_failed: null,
+11941:  jmespath_failed: null,
+11955:  jmespath_failed: null,
+11990:  ✔ emission failure never breaks the response (Axiom down) (21.333272ms)
+12045:[mcp] tool execution error: TypeError: fetch failed
+12061:  ✔ telemetry: invalid jmespath expression emits ok:true with jmespath_failed=invalid_expression (143.598225ms)
+12150:[mcp] tool execution error: Error: Airspace data unavailable: both civilian and military sources failed
+12185:  jmespath_failed: null,
+12199:  jmespath_failed: null,
+12237:  jmespath_failed: null,
+12252:  jmespath_failed: null,
+12284:  jmespath_failed: null,
+12291:  ✔ F4: post-DECR-failure overshoot → next request clamps counter back via DECR sweep (36.639611ms)
+12303:  jmespath_failed: null,
+12318:  jmespath_failed: null,
+12333:  jmespath_failed: null,
+12348:  jmespath_failed: null,
+12363:  jmespath_failed: null,
+12378:  jmespath_failed: null,
+12393:  jmespath_failed: null,
+12407:  jmespath_failed: null,
+13259:[redis] cachedFetchJson fetcher failed for "news:digest:timeout-budget": cachedFetchJson timeout after 10ms for "news:digest:timeout-budget"
+13473:▶ shared notification-dedup helper — SETNX failure policy
+13481:✔ shared notification-dedup helper — SETNX failure policy (11.353768ms)
+13759:▶ authorizeProHandler — issue failures
+13765:✔ authorizeProHandler — issue failures (31.956169ms)
+13766:▶ authorizeProHandler — code-storage failure rollback
+13769:[authorize-pro] orphaned mcpProTokens row token_id_xyz for user user_pro_123: revoke failed (network)
+13771:✔ authorizeProHandler — code-storage failure rollback (36.730083ms)
+13778:▶ authorizeProHandler — Redis transport failures
+13781:✔ authorizeProHandler — Redis transport failures (20.851976ms)
+13836:  ✔ revocation-state read failure restores the consumed token and does not rotate (1.710917ms)
+13886:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: proxy 502; trying proxy (curl)
+13887:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: proxy curl 502
+13891:✔ production defaults: connect/curl resolvers are different functions (no single point of failure) (2.985407ms)
+13894:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: HTTP 404; trying proxy (curl)
+13902:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: CONNECT 404; trying proxy (curl)
+13903:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: curl 502
+13907:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: CONNECT failed; trying proxy (curl)
+13908:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: Unexpected token 'o', "not-valid-json" is not valid JSON
+13913:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: Open-Meteo proxy batch size mismatch for Tropical, Polar: expected 2, got 1; trying proxy (curl)
+13914:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: Open-Meteo proxy (curl) batch size mismatch for Tropical, Polar: expected 2, got 1
+15039:  [port-activity] schema introspection failed (ArcGIS direct direct Error + no proxy configured for https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_D) — using fallback "date"
+15066:  ✔ redisMgetJson failure degrades to cold-path (does not abort the seed) (0.178852ms)
+15203:✔ permanent failure: chokepoint empty on both passes is dropped (no throw) (13.515405ms)
+15204:✔ permanent failure: chokepoint that throws on both passes is dropped (no throw) (9.145008ms)
+15264:▶ positive-events GDELT seed failure semantics
+15265:  ✔ does not count failed GDELT calls as successful empty responses (0.918272ms)
+15266:  ✔ preserves stale cache when every positive-events query failed (0.420124ms)
+15267:✔ positive-events GDELT seed failure semantics (16.571404ms)
+15503:[pro-mcp-token] validateProMcpToken Convex fetch failed: The operation was aborted due to timeout
+15504:[pro-mcp-token] validateProMcpToken Convex JSON parse failed: Unexpected token 'o', "not json{}{" is not valid JSON
+15506:[pro-mcp-token] revokeProMcpToken Convex fetch failed: Failed to fetch
+15748:✔ token is cached single-flight with early refresh and a post-failure cooldown (10.815022ms)
+15751:✔ ScrapeCreators failure falls through to OAuth/public (page-1 non-2xx OR throw); later-page failure keeps data (0.305008ms)
+15755:✔ both reddit consumers route through fetchRedditHotListing and label failures with the real source (0.427347ms)
+15766:[redis] getCachedJson failed: Redis GET failed
+15767:[redis] cachedFetchJson fetcher failed for "neg:test:throw": upstream ETIMEDOUT
+15768:[redis] setCachedJson failed: Redis SET failed
+15769:[redis] cachedFetchJson fetcher failed for "neg:test:redis-read-error": upstream ETIMEDOUT
+15770:[redis] getCachedJson failed: Redis ECONNRESET
+15771:[redis] setCachedJson failed: Redis SET failed
+15783:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15784:[redis] cachedFetchJson fetcher failed for "hang:test:key": cachedFetchJson timeout after 50ms for "hang:test:key"
+15785:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15788:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15790:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15791:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15793:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15794:[redis] cachedFetchJsonWithMeta fetcher failed for "meta:hang:key": cachedFetchJsonWithMeta timeout after 50ms for "meta:hang:key"
+15795:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15812:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15813:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15814:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
+15823:▶ setCachedJson wire shape and failure reporting
+15827:✔ setCachedJson wire shape and failure reporting (62.318958ms)
+15987:✔ failed/invalid generations are never cached (0.924937ms)
+15996:[alerts] LPUSH failed for regional_regime_shift — rolling back dedup key
+15999:[alerts] LPUSH failed for regional_regime_shift — rolling back dedup key
+16001:[alerts] LPUSH failed for regional_regime_shift — rolling back dedup key
+16002:[alerts] publish failed for regional_regime_shift: network blown up
+16012:  ✔ emits one buffer_failure event per axis with high severity (8.856049ms)
+
+  ✔ PRO badge rendered in header when tier is pro (0.034134ms)
+✔ CustomWidgetPanel — header buttons and events (0.514764ms)
+▶ PRO widget — relay auth and configuration
+  ✔ PRO_WIDGET_KEY is read from env (0.590707ms)
+  ✔ PRO_WIDGET_RATE_LIMIT is 20 (5.051521ms)
+  ✔ proWidgetRateLimitMap is a separate rate limit bucket from basic (1.597001ms)
+  ✔ x-pro-key header is read for PRO auth (0.244029ms)
+  ✔ PRO request rejected with 403 when x-pro-key is wrong (0.356624ms)
+  ✔ invalid tier value rejected with 400 (1.683922ms)
+  ✔ health endpoint includes proKeyConfigured boolean (1.289661ms)
+  ✔ PRO uses claude-sonnet model (not haiku) (0.304983ms)
+  ✔ PRO max_tokens is 8192 (0.818734ms)
+  ✔ WIDGET_PRO_SYSTEM_PROMPT exists and forbids DOCTYPE/html wrappers (0.22322ms)
+  ✔ PRO system prompt allows cdn.jsdelivr.net for Chart.js (0.097639ms)
+✔ PRO widget — relay auth and configuration (12.600687ms)
+▶ PRO widget — store and sanitizer
+  ✔ MAX_HTML_CHARS_PRO is 80000 (0.338546ms)
+  ✔ PRO auth migrates wm-pro-key to an HttpOnly session instead of storing it (0.229726ms)
+  ✔ user identity migrates legacy wm-pro-key instead of reading localStorage directly (0.147313ms)
+  ✔ legacy wm-pro-html-{id} key remains supported for old PRO widgets (0.066387ms)
+  ✔ loadWidgets can hydrate legacy PRO HTML from the side key (2.036172ms)
+  ✔ loadWidgets treats canonical PRO HTML as primary before legacy side key (0.099931ms)
+  ✔ loadWidgets drops PRO entry only when no persisted HTML remains (0.082073ms)
+  ✔ saveWidget for PRO uses raw localStorage.setItem (not saveToStorage helper) (0.125808ms)
+  ✔ saveWidget for PRO does not duplicate HTML into the legacy side key (0.316206ms)
+  ✔ deleteWidget removes wm-pro-html-{id} key (0.119217ms)
+  ✔ wrapProWidgetHtml returns iframe with sandbox="allow-scripts" only (0.097053ms)
+  ✔ widget document builder places CSP as first head child (client-owned skeleton) (0.066589ms)
+  ✔ widget document builder CSP restricts connect-src to cdn.jsdelivr.net only (0.060857ms)
+  ✔ wrapProWidgetHtml uses sandbox page src (not srcdoc) for CSP isolation (0.059584ms)
+  ✔ PRO widget iframe uses nonce handshake before posting HTML (2.306727ms)
+  ✔ PRO widget postMessage targetOrigins match the opaque sandbox model (0.269907ms)
+  ✔ widget sandbox allows approved Vercel previews and rejects lookalike origins (0.823068ms)
+  ✔ widget sandbox behavior accepts Vercel previews and blocks spoofed parents (9.337763ms)
+  ✔ PRO widget message listener has AbortController cleanup wired to iframe removal (0.165318ms)
+  ✔ PRO widget re-deliveries are rate-limited to bound document.write storms (0.266109ms)
+  ✔ widget document builder injects panel CSS classes for design-system alignment (0.79763ms)
+  ✔ widget document builder injects Chart.js from jsdelivr so new Chart() is available (0.120584ms)
+✔ PRO widget — store and sanitizer (18.484085ms)
+▶ PRO widget — modal and layout integration
+  ✔ modal sends tier in request body (0.157139ms)
+  ✔ modal sends X-Pro-Key header for PRO requests (0.0658ms)
+  ✔ modal uses 120s timeout for PRO (vs 60s basic) (0.049392ms)
+  ✔ modal shows preflightProUnavailable when proKeyConfigured is false (0.036804ms)
+  ✔ pendingSaveSpec includes tier field (0.057918ms)
+  ✔ PRO example chips defined (separate from basic examples) (0.030716ms)
+  ✔ layout has PRO create button when hasPremiumAccess (0.12276ms)
+  ✔ layout PRO button opens modal with tier: pro (0.077865ms)
+✔ PRO widget — modal and layout integration (0.754694ms)
+▶ PRO widget — i18n keys and CSS
+  ✔ widgets.createInteractive is defined and non-empty (0.127378ms)
+  ✔ widgets.proBadge is defined and non-empty (0.029211ms)
+  ✔ widgets.preflightProUnavailable is defined and non-empty (0.025744ms)
+  ✔ widgets.proExamples has all 4 example keys (0.0831ms)
+  ✔ .widget-pro-badge CSS class defined (0.384793ms)
+  ✔ .wm-widget-pro iframe CSS sets 400px height (8.321183ms)
+✔ PRO widget — i18n keys and CSS (9.090826ms)
+▶ widget-agent edge proxy — Convex entitlement fallback
+  ✔ imports getEntitlements from server/_shared/entitlement-check (0.176438ms)
+  ✔ Clerk JWT path falls back to Convex entitlement when role !== "pro" (0.149332ms)
+  ✔ does NOT 403 immediately on session.role !== "pro" (0.439552ms)
+✔ widget-agent edge proxy — Convex entitlement fallback (0.996136ms)
+▶ widget-agent relay — error classifier
+  ✔ classifyWidgetAgentError function is defined (0.512995ms)
+  ✔ catch block routes through classifyWidgetAgentError instead of hardcoded "Agent error" (9.303886ms)
+  ✔ classifier maps Anthropic 401 to an operator-facing API-key hint (3.115901ms)
+  ✔ classifier surfaces 400 invalid_request_error with the SDK message (capped) (0.312555ms)
+  ✔ classifier scrubs Claude API keys from any fallback message (0.269269ms)
+  ✔ classifier scrubs API keys in the 400 branch (defence-in-depth on every rawMsg interpolation) (0.731317ms)
+  ✔ classifier handles Anthropic APITimeoutError (status 408) — does not fall through to fallback (4.343697ms)
+  ✔ 400 branch does NOT pre-empt timeout: APITimeoutError-with-status-400 stays a timeout (rare but defensive) (0.458058ms)
+  ✔ handler logs structured error context with status + type + model (3.012571ms)
+  ✔ toolCallCount is declared OUTSIDE the try whose catch reads it (scoping regression guard) (0.37495ms)
+✔ widget-agent relay — error classifier (22.737404ms)
+▶ panel-layout — Pro add-block gating reacts to entitlement updates
+  ✔ imports onEntitlementChange (0.163758ms)
+  ✔ proBlock + mcpBlock gating subscribes to BOTH auth and entitlement changes (0.146465ms)
+  ✔ teardown clears the entitlement subscription so a destroyed layout does not leak callbacks (2.324549ms)
+✔ panel-layout — Pro add-block gating reacts to entitlement updates (2.748254ms)
+▶ entitlement-check — cache-write failure does not collapse confirmed entitlement
+  ✔ setCachedJson call is wrapped in its own try/catch (0.127459ms)
+  ✔ cache-write catch logs but does not return null or throw (3.336951ms)
+✔ entitlement-check — cache-write failure does not collapse confirmed entitlement (3.55132ms)
+▶ WidgetChatModal — preflight 403 message branches on auth mode
+  ✔ buildWidgetAuthHeaders returns usedTesterKey flag (0.123369ms)
+  ✔ resolvePreflightMessage takes usedTesterKey and branches Clerk path on isPro (0.088704ms)
+  ✔ en.json defines widgets.preflightProSubscriptionRequired (just-upgraded / outage) (0.119352ms)
+  ✔ en.json defines widgets.preflightProRequired (free-user upgrade ask, no "just upgraded" language) (0.154999ms)
+✔ WidgetChatModal — preflight 403 message branches on auth mode (0.604066ms)
+▶ widget-agent edge proxy — fail-closed observability
+  ✔ 403 site emits a structured log with reason + userId + entitlementTier (0.203198ms)
+✔ widget-agent edge proxy — fail-closed observability (0.255353ms)
+▶ widget-store PRO persistence
+  ✔ saveWidget persists PRO generated HTML in the canonical widget entry (77.98958ms)
+  ✔ loadWidgets restores PRO HTML from the canonical entry when the side key is absent (39.388228ms)
+  ✔ loadWidgets restores legacy PRO HTML from the side key when canonical HTML is absent (41.791917ms)
+  ✔ loadWidgets prefers canonical PRO HTML over a stale side key (30.002811ms)
+  ✔ loadWidgets drops PRO widgets when no persisted HTML remains (30.132757ms)
+✔ widget-store PRO persistence (220.73009ms)
+▶ wildfire dashboard payload cap
+  ✔ caps response detections without mutating the seed array and keeps highest-signal detections (9.786095ms)
+  ✔ caps bootstrap wildfire data and records the uncapped total count (13.734718ms)
+  ✔ keeps bootstrap and RPC caps in ranking parity (2.393586ms)
+  ✔ coerces legacy missing possibleExplosion flags consistently (0.272259ms)
+  ✔ returns uncapped total count from capped responses (0.733947ms)
+  ✔ keeps a high-volume FIRMS snapshot under the mobile first-load byte budget (45.260899ms)
+✔ wildfire dashboard payload cap (74.019874ms)
+▶ window.open reverse-tabnabbing guard
+  ✔ requires noopener,noreferrer for _blank browser windows (202.003754ms)
+✔ window.open reverse-tabnabbing guard (202.57958ms)
+▶ withTimeout
+  ✔ resolves with the source value when the source resolves first (1.95108ms)
+  ✔ rejects with the source error when the source rejects first (0.606329ms)
+  ✔ rejects with a TimeoutError after the budget when the source hangs forever (27.009369ms)
+  ✔ clears the timer when the source resolves, so a longer test exits without dangling work (6.470682ms)
+  ✔ invokes onTimeout exactly once when the budget fires (15.603026ms)
+  ✔ does not invoke onTimeout when the source resolves first (35.170662ms)
+  ✔ swallows onTimeout errors and still rejects with the TimeoutError (20.013711ms)
+  ✔ does not invoke onTimeout when the source rejects before the budget (84.311154ms)
+✔ withTimeout (193.337583ms)
+▶ wm-session periodic refresh (Layer 1)
+  ✔ skips the periodic mint when document is hidden (19.532381ms)
+  ✔ skips the periodic mint when the cached token is still fresh (2.534223ms)
+  ✔ visibilitychange handler mints when token is expired and tab becomes visible (1.80598ms)
+  ✔ visibilitychange handler does NOT mint when the cached token is fresh (0.564247ms)
+✔ wm-session periodic refresh (Layer 1) (26.091189ms)
+▶ wm-session refresh-on-401 (Layer 2)
+  ✔ retries an API 401 with a freshly-minted token (1.285335ms)
+  ✔ does NOT retry when the path is in PREMIUM_RPC_PATHS (0.437391ms)
+  ✔ does NOT retry when the caller supplied Authorization (0.918571ms)
+  ✔ returns the second 401 if the retry also fails (no infinite loop) (2.326476ms)
+✔ wm-session refresh-on-401 (Layer 2) (5.336339ms)
+▶ wm-session interceptor URL matcher (PR #3574 regression)
+  ✔ matches a relative /api/ path even when apiOrigin is empty (1.010512ms)
+  ✔ REGRESSION: matches absolute URLs to the canonical API origin (0.180757ms)
+  ✔ REGRESSION: documents the pre-fix bug — empty apiOrigin silently misses absolute URLs (0.196199ms)
+  ✔ does not match cross-origin third-party URLs (0.223489ms)
+  ✔ SECURITY: rejects look-alike hosts that embed the canonical origin as a prefix (0.211247ms)
+  ✔ SECURITY: does not match non-/api/ paths even on the canonical origin (0.119374ms)
+  ✔ matches a URL object passed as a string (panels build with new URL().href) (0.341664ms)
+  ✔ returns false on garbage input rather than throwing (0.201446ms)
+✔ wm-session interceptor URL matcher (PR #3574 regression) (3.676784ms)
+▶ wm-session.ts must not regress to getApiBaseUrl (static-import guard)
+  ✔ imports getCanonicalApiOrigin and not getApiBaseUrl (0.577025ms)
+✔ wm-session.ts must not regress to getApiBaseUrl (static-import guard) (0.736811ms)
+▶ WSB Ticker Scanner
+  ▶ ticker extraction regex
+    ✔ finds $TICKER patterns (6.673357ms)
+    ✔ finds bare uppercase tickers (0.206151ms)
+    ✔ filters blacklisted words (1.516761ms)
+    ✔ filters WSB jargon (0.136979ms)
+    ✔ validates against known ticker set when non-empty (0.113709ms)
+    ✔ returns empty set for empty/null input (0.163352ms)
+    ✔ handles mixed $TICKER and bare forms (4.132463ms)
+  ✔ ticker extraction regex (18.453169ms)
+  ▶ aggregation
+    ✔ merges multiple mentions of same ticker (6.460595ms)
+    ✔ counts multiple tickers in same post separately (4.15289ms)
+    ✔ picks highest-score post as topPost (0.292282ms)
+  ✔ aggregation (11.219573ms)
+  ▶ velocity scoring
+    ✔ higher score + more mentions = higher velocity (4.829966ms)
+    ✔ velocity uses log1p of totalScore (0.179784ms)
+  ✔ velocity scoring (5.111894ms)
+  ▶ top-50 cutoff
+    ✔ returns at most 50 tickers (0.505336ms)
+  ✔ top-50 cutoff (3.658633ms)
+✔ WSB Ticker Scanner (41.924341ms)
+  [YAHOO] AAPL 429 — waiting 0s (1/1)
+✔ production defaults: curl leg uses resolveProxy (us.decodo.com pool) and curlFetch (27.488747ms)
+✔ production defaults: NO CONNECT leg (Yahoo blocks Decodo CONNECT egress with 404) (1.722709ms)
+✔ 200 OK: returns parsed JSON, never touches proxy (3.169334ms)
+  [YAHOO] AAPL 429 — waiting 7s (1/1)
+  [YAHOO] AAPL 429 — waiting 0s (1/1)
+  [YAHOO] AAPL 429 — waiting 0s (1/1)
+✔ 429 with no proxy configured: throws after exhausting retries (HTTP 429 in message) (13.955299ms)
+✔ Retry-After header parsed: backoff respects upstream hint (DI _sleep capture) (7.138565ms)
+✔ Retry-After absent: falls back to linear backoff retryBaseMs * (attempt+1) (3.946405ms)
+  [YAHOO] direct exhausted on AAPL (HTTP 429); trying proxy (curl)
+  [YAHOO] proxy (curl) succeeded for AAPL
+  [YAHOO] AAPL Connect Timeout Error; retrying in 0s (1/1)
+✔ 429 + curl proxy succeeds: returns proxy data (11.420223ms)
+  [YAHOO] direct exhausted on AAPL (Connect Timeout Error); trying proxy (curl)
+  [YAHOO] proxy (curl) succeeded for AAPL
+✔ thrown fetch error on final retry → proxy fallback runs (P1 regression guard) (11.376673ms)
+  [YAHOO] AAPL 429 — waiting 0s (1/1)
+  [YAHOO] direct exhausted on AAPL (HTTP 429); trying proxy (curl)
+  [YAHOO] AAPL 429 — waiting 0s (1/1)
+✔ 429 + proxy ALSO fails: throws with both errors visible in message (14.95813ms)
+  [YAHOO] direct exhausted on AAPL (HTTP 429); trying proxy (curl)
+  [YAHOO] AAPL 429 — waiting 0s (1/1)
+✔ proxy returns malformed JSON: throws exhausted (11.858968ms)
+  [YAHOO] direct exhausted on AAPL (HTTP 500); trying proxy (curl)
+  [YAHOO] proxy (curl) succeeded for AAPL
+✔ proxy malformed JSON does NOT emit "succeeded" log before throwing (P2 log ordering) (12.479214ms)
+✔ non-retryable status (500): no extra direct retry, falls to proxy (1.896028ms)
+✔ parseRetryAfterMs: seconds + HTTP-date + null cases (1.954096ms)
+▶ yieldToMain
+  ✔ returns a Promise (2.859447ms)
+  ✔ yields to the macrotask queue (resolves after an earlier-queued timer) (4.857208ms)
+  ✔ can be awaited repeatedly in order (2.009086ms)
+✔ yieldToMain (10.798782ms)
+ℹ tests 14424
+ℹ suites 2459
+ℹ pass 14416
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 6
+ℹ todo 0
+ℹ duration_ms 82758.757219
+
+✖ failing tests:
+
+test at tests/ci-workflow-coverage.test.mts:2:28
+✖ keeps GitHub Actions external uses pinned to commit SHAs (20.67418ms)
+  AssertionError [ERR_ASSERTION]: GitHub Actions uses refs must be 40-character commit SHAs:
+  broadcast-station-check.yml:35 uses: actions/checkout@v4
+  broadcast-station-check.yml:186 uses: actions/upload-artifact@v4
+  diagnose-broadcast-general-tests.yml:86 uses: actions/upload-artifact@v4
+  + actual - expected
+  
+  + [
+  +   'broadcast-station-check.yml:35 uses: actions/checkout@v4',
+  +   'broadcast-station-check.yml:186 uses: actions/upload-artifact@v4',
+  +   'diagnose-broadcast-general-tests.yml:86 uses: actions/upload-artifact@v4'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/home/runner/work/worldmonitor/worldmonitor/tests/ci-workflow-coverage.test.mts:327:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'broadcast-station-check.yml:35 uses: actions/checkout@v4', 'broadcast-station-check.yml:186 uses: actions/upload-artifact@v4', 'diagnose-broadcast-general-tests.yml:86 uses: actions/upload-artifact@v4' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/edge-functions.test.mjs:87:5
+✖ broadcast/state.ts does not import node: built-ins (unsupported in Vercel Edge Runtime) (35.602287ms)
+  AssertionError [ERR_ASSERTION]: broadcast/state.ts: imports node:crypto — Vercel Edge Runtime does not support node: built-in modules. Use an edge-compatible alternative.
+      at TestContext.<anonymous> (/home/runner/work/worldmonitor/worldmonitor/tests/edge-functions.test.mjs:90:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
