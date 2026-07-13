@@ -1,3 +1,5 @@
+import './styles/broadcast-station-hotfix.css';
+
 async function waitForDashboardPanels(timeoutMs = 30_000): Promise<void> {
   const started = Date.now();
   while (Date.now() - started < timeoutMs) {
@@ -13,4 +15,10 @@ export async function initBroadcastStationWhenReady(): Promise<void> {
   const module = await import('@/broadcast-station');
   module.prepareBroadcastLanguage();
   await module.initBroadcastStation();
+
+  const params = new URL(window.location.href).searchParams;
+  if (params.get('broadcast') === '1') {
+    const translation = await import('@/broadcast-translation-hotfix');
+    translation.initBroadcastTranslationHotfix();
+  }
 }
