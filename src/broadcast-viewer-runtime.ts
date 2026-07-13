@@ -3,6 +3,10 @@ import { OPTIONAL_LIVE_CHANNELS, getDefaultLiveChannels, type LiveChannel } from
 import { BROADCAST_WEBCAMS } from '@/broadcast-control-enhancements';
 import { loadLiveConfig, subscribeLiveConfig, type LiveBroadcastConfig } from '@/broadcast-sync';
 
+interface ManagedVideoElement extends HTMLVideoElement {
+  __aynHls?: { destroy(): void };
+}
+
 let currentConfig: LiveBroadcastConfig | null = null;
 let cleanupSubscription: (() => void) | null = null;
 let mapApplyTimer: number | null = null;
@@ -92,8 +96,8 @@ function youtubeEmbed(videoId: string): HTMLIFrameElement {
   return iframe;
 }
 
-async function hlsVideo(url: string): Promise<HTMLVideoElement> {
-  const video = document.createElement('video');
+async function hlsVideo(url: string): Promise<ManagedVideoElement> {
+  const video = document.createElement('video') as ManagedVideoElement;
   video.autoplay = true;
   video.muted = true;
   video.playsInline = true;
@@ -112,7 +116,7 @@ async function hlsVideo(url: string): Promise<HTMLVideoElement> {
         hls.loadSource(url);
         hls.attachMedia(video);
         video.dataset.aynHls = 'true';
-        (video as HTMLVideoElement & { __aynHls?: InstanceType<typeof Hls> }).__aynHls = hls;
+        video.__aynHls = hls;
       } else {
         video.src = url;
       }
@@ -126,9 +130,8 @@ async function hlsVideo(url: string): Promise<HTMLVideoElement> {
 
 function destroyMediaWall(): void {
   const wall = document.querySelector<HTMLElement>('#aynBroadcastMediaWall');
-  wall?.querySelectorAll<HTMLVideoElement>('video').forEach((video) => {
-    const hls = (video as HTMLVideoElement & { __aynHls?: { destroy(): void } }).__aynHls;
-    hls?.destroy();
+  wall?.querySelectorAll<ManagedVideoElement>('video').forEach((video) => {
+    video.__aynHls?.destroy();
     video.pause();
     video.removeAttribute('src');
     video.load();
@@ -178,7 +181,6 @@ async function renderMediaWall(config: LiveBroadcastConfig): Promise<void> {
   wall.append(...tiles);
   grid.prepend(wall);
 
-  // The dedicated wall replaces the original interactive media panels.
   for (const id of ['live-news', 'live-webcams', 'windy-webcams']) {
     document.querySelector<HTMLElement>(`#panelsGrid .panel[data-panel='${id}']`)?.classList.add('broadcast-panel-hidden');
   }
