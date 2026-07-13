@@ -32,7 +32,31 @@ jobs:
         run: npm ci --ignore-scripts --silent >/dev/null 2>&1
 
       - name: Typecheck dashboard
-        run: npx tsc --noEmit --pretty false
+        id: dashboard
+        continue-on-error: true
+        shell: bash
+        run: npx tsc --noEmit --pretty false > dashboard-typecheck.log 2>&1
 
       - name: Typecheck API
-        run: npx tsc --noEmit --pretty false -p tsconfig.api.json
+        id: api
+        continue-on-error: true
+        shell: bash
+        run: npx tsc --noEmit --pretty false -p tsconfig.api.json > api-typecheck.log 2>&1
+
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: broadcast-typecheck-diagnostics
+          path: |
+            dashboard-typecheck.log
+            api-typecheck.log
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Fail when typecheck failed
+        if: steps.dashboard.outcome != 'success' || steps.api.outcome != 'success'
+        run: |
+          echo 'Dashboard typecheck: ${{ steps.dashboard.outcome }}'
+          echo 'API typecheck: ${{ steps.api.outcome }}'
+          exit 1
