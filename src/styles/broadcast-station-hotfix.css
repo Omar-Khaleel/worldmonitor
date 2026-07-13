@@ -9,7 +9,7 @@ body.broadcast-control {
 body.broadcast-control .broadcast-control-room {
   display: flex !important;
   flex-direction: column !important;
-  width: min(430px, 96vw) !important;
+  width: min(520px, 98vw) !important;
   height: 100vh !important;
   height: 100dvh !important;
   max-height: 100vh !important;
@@ -33,7 +33,7 @@ body.broadcast-control .broadcast-control-body {
 
 body.broadcast-control .broadcast-panel-list {
   flex: 0 0 auto;
-  max-height: 300px !important;
+  max-height: 420px !important;
   min-height: 190px;
   overflow-y: auto !important;
   overflow-x: hidden !important;
