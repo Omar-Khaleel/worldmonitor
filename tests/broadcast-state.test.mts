@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import handler from '../api/broadcast/state';
 
@@ -93,4 +94,11 @@ test('broadcast state rejects invalid stations and oversized or malformed writes
     controlKey: 'control-key-12345678901234567890',
   });
   assert.equal(oversized.status, 400);
+});
+
+test('broadcast state remains compatible with the Vercel Edge runtime', async () => {
+  const source = await readFile(new URL('../api/broadcast/state.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /from ['"]node:/);
+  assert.doesNotMatch(source, /\bBuffer\./);
+  assert.match(source, /crypto\.subtle\.digest\(['"]SHA-256['"]/);
 });
