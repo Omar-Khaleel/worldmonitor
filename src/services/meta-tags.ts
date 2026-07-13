@@ -144,8 +144,34 @@ export function parseStoryParams(url: URL): StoryMeta | null {
   };
 }
 
+function initBroadcastMode(url: URL): boolean {
+  const enabled = url.searchParams.get('broadcast') === '1' || url.searchParams.get('control') === '1';
+  if (!enabled) return false;
+
+  // This runs synchronously before App.init(), so i18next detects Arabic during
+  // the normal application bootstrap instead of repainting the dashboard later.
+  try { localStorage.setItem('wm-locale-explicit', 'ar'); } catch { /* hardened kiosk */ }
+  document.documentElement.lang = 'ar';
+  document.documentElement.dir = 'rtl';
+
+  if (url.searchParams.get('broadcast') === '1') {
+    const title = 'عين الصقر — بث المعلومات والتحليل';
+    document.title = title;
+    setMetaTag('title', title);
+    setMetaTag('description', 'واجهة بث عربية مباشرة للأخبار والتحليلات والخريطة العالمية.');
+    setMetaTag('robots', 'noindex, nofollow');
+  }
+
+  void import('@/broadcast-station')
+    .then((module) => module.initBroadcastStation())
+    .catch((error) => console.error('[broadcast] Failed to start broadcast station', error));
+  return true;
+}
+
 export function initMetaTags(): void {
   const url = new URL(window.location.href);
+
+  if (initBroadcastMode(url)) return;
 
   if (url.pathname === '/story' || url.searchParams.has('c')) {
     const params = parseStoryParams(url);
