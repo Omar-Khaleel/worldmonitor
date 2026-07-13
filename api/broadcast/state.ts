@@ -1,4 +1,3 @@
-import { createHash, timingSafeEqual } from 'node:crypto';
 import { Redis } from '@upstash/redis';
 
 interface ApiRequest {
@@ -52,18 +51,20 @@ function normalizeStation(value: string): string | null {
   return /^[a-z0-9-]{6,48}$/.test(station) ? station : null;
 }
 
-function hashKey(value: string): string {
-  return createHash('sha256').update(value).digest('hex');
+async function hashKey(value: string): Promise<string> {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
 function secureEqual(left: string, right: string): boolean {
-  try {
-    const a = Buffer.from(left, 'hex');
-    const b = Buffer.from(right, 'hex');
-    return a.length === b.length && timingSafeEqual(a, b);
-  } catch {
-    return false;
+  if (!/^[a-f0-9]{64}$/.test(left) || !/^[a-f0-9]{64}$/.test(right)) return false;
+  let mismatch = left.length ^ right.length;
+  const length = Math.max(left.length, right.length);
+  for (let index = 0; index < length; index += 1) {
+    mismatch |= (left.charCodeAt(index) || 0) ^ (right.charCodeAt(index) || 0);
   }
+  return mismatch === 0;
 }
 
 function prune(): void {
@@ -84,7 +85,7 @@ function parseBody(body: unknown): { config: Record<string, unknown>; controlKey
   if (!candidate.config || typeof candidate.config !== 'object' || Array.isArray(candidate.config)) return null;
   if (typeof candidate.controlKey !== 'string' || candidate.controlKey.length < 20 || candidate.controlKey.length > 200) return null;
   const serialized = JSON.stringify(candidate.config);
-  if (Buffer.byteLength(serialized, 'utf8') > MAX_CONFIG_BYTES) return null;
+  if (new TextEncoder().encode(serialized).byteLength > MAX_CONFIG_BYTES) return null;
   return { config: candidate.config as Record<string, unknown>, controlKey: candidate.controlKey };
 }
 
@@ -245,7 +246,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse): Promis
     return;
   }
 
-  const suppliedHash = hashKey(parsed.controlKey);
+  const suppliedHash = await hashKey(parsed.controlKey);
   let existing: StateRecord | null;
   try {
     existing = await readState(station);
