@@ -31,7 +31,12 @@ export function mountBroadcastLauncher(): void {
 
   const copy = document.createElement('span');
   copy.className = 'ayn-broadcast-launcher-copy';
-  copy.innerHTML = '<strong>عين الصقر</strong><small>غرفة التحكم والبث</small>';
+
+  const name = document.createElement('strong');
+  name.textContent = 'عين الصقر';
+  const subtitle = document.createElement('small');
+  subtitle.textContent = 'غرفة التحكم والبث';
+  copy.append(name, subtitle);
 
   button.append(mark, copy);
   button.addEventListener('click', () => window.location.assign(buildControlUrl()));
