@@ -1,5 +1,4 @@
-docs-stats --check FAILED (3):
-  ✗ ARCHITECTURE.md: CI workflow `broadcast-station-check.yml` is not listed in the CI/CD table
+docs-stats --check FAILED (2):
   ✗ ARCHITECTURE.md: CI workflow `diagnose-broadcast-doc-claims.yml` is not listed in the CI/CD table
   ✗ ARCHITECTURE.md: CI workflow `diagnose-broadcast-general-tests.yml` is not listed in the CI/CD table
 
