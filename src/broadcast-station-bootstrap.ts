@@ -167,12 +167,14 @@ export async function initBroadcastStationWhenReady(): Promise<void> {
   }
 
   if (params.get('broadcast') === '1') {
-    const [translation, polish, runtime, newsWire] = await Promise.all([
+    const [translation, polish, runtime, tickerShell, newsWire] = await Promise.all([
       import('@/broadcast-translation-hotfix'),
       import('@/broadcast-viewer-polish'),
       import('@/broadcast-viewer-runtime'),
+      import('@/broadcast-ticker-shell'),
       import('@/broadcast-news-wire-v2'),
     ]);
+    tickerShell.initBroadcastTickerShell();
     translation.initBroadcastTranslationHotfix();
     polish.initBroadcastViewerPolish();
     runtime.initBroadcastViewerRuntime();
