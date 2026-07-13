@@ -341,7 +341,14 @@ async function fetchFeed(url: string): Promise<string[]> {
     .slice(0, 12);
 }
 
+function hasFreshProjectedHeadlines(config: LiveBroadcastConfig): boolean {
+  const minimum = Math.min(5, config.tickerLimit);
+  const age = config.projectionUpdatedAt > 0 ? Date.now() - config.projectionUpdatedAt : Number.POSITIVE_INFINITY;
+  return config.tickerHeadlines.length >= minimum && age < 2 * 60 * 1000;
+}
+
 async function refreshFallbackHeadlines(): Promise<void> {
+  if (hasFreshProjectedHeadlines(currentConfig)) return;
   try {
     const batches = await Promise.all(FALLBACK_FEEDS.map(fetchFeed));
     const raw = uniqueHeadlines(batches.flat(), Math.max(currentConfig.tickerLimit, 20));
@@ -378,10 +385,9 @@ window.addEventListener('ayn-broadcast-sync-status', (event) => {
 
 subscribeLiveConfig((config) => void applyConfig(config));
 void refreshRemoteConfig();
-void refreshFallbackHeadlines();
-window.setTimeout(() => void refreshFallbackHeadlines(), 5_000);
+window.setTimeout(() => void refreshFallbackHeadlines(), 2_500);
 if (fallbackTimer !== null) window.clearInterval(fallbackTimer);
-fallbackTimer = window.setInterval(() => void refreshFallbackHeadlines(), 60_000);
+fallbackTimer = window.setInterval(() => void refreshFallbackHeadlines(), 90_000);
 updateClock();
 if (clockTimer !== null) window.clearInterval(clockTimer);
 clockTimer = window.setInterval(updateClock, 1_000);
