@@ -1,16 +1,95 @@
-# Data-test failures and tail
+6111:[followed-countries] handoff permanent failure (kind=INPUT_TOO_LARGE); clearing localStorage
+6112:▶ Phase2 — P1 #4 max-retry exhaustion → failed-permanent; recovery via _clearFailedHandoffForTests
+6113:  ✔ after MAX_HANDOFF_RETRIES (5) visibility events, state flips to failed-permanent (35.111509ms)
+6114:  ✔ _clearFailedHandoffForTests resets failed-permanent → idle (11.41548ms)
+6115:✔ Phase2 — P1 #4 max-retry exhaustion → failed-permanent; recovery via _clearFailedHandoffForTests (46.816627ms)
+6136:  ✔ UNAUTHENTICATED IS counted toward MAX_HANDOFF_RETRIES — 5 consecutive UNAUTHENTICATED throws → failed-permanent (38.185996ms)
+6236:  ✔ does not classify a temporal "end of" phrase as a failed ceasefire (7.431466ms)
+6574:  ✔ keeps a healthy cache miss distinct from a backend failure (34.006005ms)
+6583:  ✔ returns a well-formed degraded empty response on backend failure (7.091902ms)
+6591:  ✔ surfaces all-failed simulation metadata from the outcome pointer (9.602954ms)
+6642:  ✔ keeps client request failures distinct from backend degradation (1.325437ms)
+6848:  ✔ keeps R2 receipt archival best-effort so one object failure stays retryable (14.278556ms)
+6871:  [Redis] Cache write failed for k: ECONNRESET
+6872:  [Redis] Cache write failed for k: HTTP 400
+6877:  Retry 1/3 in 1ms: fetch failed (cause: ETIMEDOUT)
+6881:  Retry 2/3 in 2ms: fetch failed (cause: ETIMEDOUT)
+6882:  Retry 3/3 in 4ms: fetch failed (cause: ETIMEDOUT)
+6884:  Retry 1/3 in 1ms: fetch failed
+6885:  Retry 2/3 in 2ms: fetch failed
+6886:  Retry 3/3 in 4ms: fetch failed
+6887:  [LLM:default] openrouter fetch failed
+6890:  ✔ survives 3 consecutive transport failures then succeeds (proves maxRetries>=3) (33.761114ms)
+6938:  [SimulationDecorations] Write failed: Missing UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN
+6940:  [SimulationDecorations] Apply failed (non-fatal): Missing UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN
+7215:  ✔ getSimulationCompletionStatus distinguishes all-failed and partial simulation runs (0.121895ms)
+7217:  ✔ writeSimulationOutcome surfaces all-failed simulation metadata in the Redis pointer (0.398003ms)
+7390:  [fredFetch] proxy failed after retries (Invalid proxy auth string) — retrying direct
+7400:  ✔ logs Redis pipeline HTTP status failures (0.493007ms)
+7401:  ✔ logs Redis pipeline timeout failures with the timeout marker (2.937639ms)
+7513:✔ checkout-return reconciliation fires success/failed events (0.821775ms)
+7519:✔ checkout-failed status is bucketed to a closed vocabulary (0.397972ms)
+7665:  [GDELT] proxy (curl) attempt 1/5 failed: HTTP 429; retrying in 0s
+7666:  [GDELT] proxy (curl) attempt 2/5 failed: HTTP 429; retrying in 0s
+7667:  [GDELT] proxy (curl) attempt 3/5 failed: HTTP 429; retrying in 0s
+7668:  [GDELT] proxy (curl) attempt 4/5 failed: HTTP 429; retrying in 0s
+7677:  [GDELT] proxy (curl) attempt 1/5 failed (non-retryable): Unexpected token 'o', "not-valid-json" is not valid JSON
+7678:✔ proxy non-retryable error (parse failure) bails immediately, does NOT burn all attempts (19.06743ms)
+7681:  [GDELT] proxy (curl) attempt 1/3 failed: Command failed: curl ... timed out; retrying in 0s
+7686:  [GDELT] proxy (curl) attempt 1/3 failed: socket hang up; retrying in 0s
+7691:  [GDELT] proxy (curl) attempt 1/5 failed (non-retryable): HTTP 401
+7695:  [GDELT] proxy (curl) attempt 1/5 failed: HTTP 429; retrying in 0s
+7696:  [GDELT] proxy (curl) attempt 2/5 failed: HTTP 429; retrying in 0s
+7697:  [GDELT] proxy (curl) attempt 3/5 failed (non-retryable): Unexpected token 'o', "not-valid-json" is not valid JSON
+7698:✔ proxy retryable + non-retryable mix: retries on 429, bails on parse failure (52.7074ms)
+7705:  [GDELT] proxy (curl) attempt 1/3 failed: HTTP 429; retrying in 0s
+7706:  [GDELT] proxy (curl) attempt 2/3 failed: HTTP 429; retrying in 0s
+7707:  [GDELT] proxy (curl) attempt 3/3 failed (last attempt): HTTP 429
+7710:  [GDELT] proxy (curl) attempt 1/3 failed (non-retryable): Unexpected token 'o', "not-valid-json" is not valid JSON
+7715:  [GDELT] proxy (curl) attempt 1/2 failed: HTTP 429; retrying in 0s
+7717:  [GDELT] proxy (curl) attempt 1/2 failed: HTTP 429; retrying in 0s
+7718:  [GDELT] proxy (curl) attempt 2/2 failed (last attempt): HTTP 429
+7721:✔ maxRetries:0 + proxyMaxAttempts:0 → single direct attempt, no proxy, throws on first failure (1.230827ms)
+7849:  ✔ signals upstreamUnavailable on Redis failure so the gateway skips caching (0.149136ms)
+8087:  ✔ fetcher preserves last-good on failure (extendExistingTtl + exit 0), no fetchedAt refresh (0.225933ms)
+8096:  ✔ does NOT abort when failures are a minority of attempts (0.413287ms)
+8225:[HDX HAPI:US] On cooldown for 300s after 2 failures
+8228:[GDELT Positive] On cooldown for 300s after 2 failures
+8243:  ✔ HAPI: failure in one country does not trip another (41.985453ms)
+8247:  ✔ GDELT: positive breaker failure does not trip regular breaker (14.198623ms)
+8293:✔ classifyKey returns STALE_CONTENT when content stale + no other failure mode applies (0.636846ms)
+8306:  ✔ returns lastFailure + failureLog shape, never throws (203.328973ms)
+8571:  ✔ missing downloadedAt → epoch sentinel (loud failure, not silent today) (0.145621ms)
+8624:  ✔ returns unavailable on upstream failure (355.694381ms)
+8903:[redis] setCachedJson failed: fetch failed
+8906:[redis] setCachedJson failed: fetch failed
+8908:[redis] setCachedJson failed: fetch failed
+8910:[redis] setCachedJson failed: fetch failed
+8912:[redis] setCachedJson failed: fetch failed
+8953:  ✔ sets cooldown on HLS failure (0.131069ms)
+8993:  ✔ has play overlay for autoplay failures (0.165531ms)
+9104:  ✔ records the failed attempt AND the fallback success (12.969349ms)
+9121:  ✔ keeps satellite.js chunk failures local to the satellite layer (0.341498ms)
+9199:  ✔ keeps ExportPanel behind a dynamic import and resets failed loads (23.509127ms)
+9204:  ✔ keeps SignalModal behind a dynamic import and resets failed loads (0.168826ms)
+9219:  ✔ keeps country signals resilient to signal-aggregator chunk failures (4.534384ms)
+9220:  ✔ surfaces signal-aggregator chunk failures in the status panel (0.517815ms)
+9477:  ✔ seed preserves null for failed Barchart fetches (0.228015ms)
+9561:✔ a genuine provider failure (budget remaining) still writes a SEED_ERROR (15.663464ms)
+9562:✔ a genuine provider failure that drains the run deadline still writes a SEED_ERROR (6.306289ms)
+9565:✔ mid-call provider_failed result still writes a SEED_ERROR (#5 classification symmetry) (6.137063ms)
 9575:  [MarketImplications] last-good EXPIRE refresh failed: no providers in test
-9582:✔ all three LLM-failure guards write an error seed-meta before returning (0.675592ms)
+9582:✔ all three LLM-failure guards write an error seed-meta before returning (10.382559ms)
 9601:[Market Quotes] On cooldown for 60s after 2 failures
 9620:[MQ-perkey-reset] On cooldown for 60s after 2 failures
 9622:[MQ-anycooldown] On cooldown for 60s after 1 failures
 9626:[MQ-shouldcache-reset] On cooldown for 60s after 2 failures
-9628:  ✔ success on another key resets global failure count before cooldown trips (7.28359ms)
-9631:  ✔ non-cacheable successes still reset failures (P2) (15.598144ms)
-9752:  ✔ keys non-HTTP failures on the stable error name (0.233049ms)
-9784:  ✔ returns 503 when Redis SET NX of mcp-grant:<n> fails AND no prior record exists (transport failure) (40.383162ms)
-9800:  ✔ returns 503 SERVICE_UNAVAILABLE on Redis transport failure (0.389541ms)
-9831:    ✔ enum consistency: failed field matches the leading token of _jmespath_error for each kind (30.571437ms)
+9628:  ✔ success on another key resets global failure count before cooldown trips (13.978239ms)
+9631:  ✔ non-cacheable successes still reset failures (P2) (10.237859ms)
+9752:  ✔ keys non-HTTP failures on the stable error name (13.128841ms)
+9784:  ✔ returns 503 when Redis SET NX of mcp-grant:<n> fails AND no prior record exists (transport failure) (30.190084ms)
+9800:  ✔ returns 503 SERVICE_UNAVAILABLE on Redis transport failure (0.368799ms)
+9831:    ✔ enum consistency: failed field matches the leading token of _jmespath_error for each kind (27.719699ms)
 9900:  jmespath_failed: null,
 9914:  jmespath_failed: null,
 9930:  jmespath_failed: null,
@@ -24,10 +103,10 @@
 10058:  jmespath_failed: null,
 10953:[rate-limit] redis-error stage=checkScopedRateLimit:/api/mcp-proxy msg=fetch failed
 10999:[rate-limit] redis-error stage=checkScopedRateLimit:/api/mcp-proxy msg=fetch failed
-11000:    ✔ emits audit log on validation failure (status: 400) (334.472322ms)
+11000:    ✔ emits audit log on validation failure (status: 400) (132.516286ms)
 11019:[mcp-quota] Redis read failed: redis down
 11083:[mcp-revoke] invalidateCache failed (revoke still succeeded): redis down
-11097:  ✔ cache-invalidation failure does NOT mask success (1.231464ms)
+11097:  ✔ cache-invalidation failure does NOT mask success (8.850857ms)
 11207:  jmespath_failed: null,
 11227:  jmespath_failed: null,
 11242:  jmespath_failed: null,
@@ -80,16 +159,16 @@
 11927:  jmespath_failed: null,
 11941:  jmespath_failed: null,
 11955:  jmespath_failed: null,
-11990:  ✔ emission failure never breaks the response (Axiom down) (21.333272ms)
+11990:  ✔ emission failure never breaks the response (Axiom down) (25.287151ms)
 12045:[mcp] tool execution error: TypeError: fetch failed
-12061:  ✔ telemetry: invalid jmespath expression emits ok:true with jmespath_failed=invalid_expression (143.598225ms)
+12061:  ✔ telemetry: invalid jmespath expression emits ok:true with jmespath_failed=invalid_expression (99.860165ms)
 12150:[mcp] tool execution error: Error: Airspace data unavailable: both civilian and military sources failed
 12185:  jmespath_failed: null,
 12199:  jmespath_failed: null,
 12237:  jmespath_failed: null,
 12252:  jmespath_failed: null,
 12284:  jmespath_failed: null,
-12291:  ✔ F4: post-DECR-failure overshoot → next request clamps counter back via DECR sweep (36.639611ms)
+12291:  ✔ F4: post-DECR-failure overshoot → next request clamps counter back via DECR sweep (34.835902ms)
 12303:  jmespath_failed: null,
 12318:  jmespath_failed: null,
 12333:  jmespath_failed: null,
@@ -100,18 +179,18 @@
 12407:  jmespath_failed: null,
 13259:[redis] cachedFetchJson fetcher failed for "news:digest:timeout-budget": cachedFetchJson timeout after 10ms for "news:digest:timeout-budget"
 13473:▶ shared notification-dedup helper — SETNX failure policy
-13481:✔ shared notification-dedup helper — SETNX failure policy (11.353768ms)
+13481:✔ shared notification-dedup helper — SETNX failure policy (36.197363ms)
 13759:▶ authorizeProHandler — issue failures
-13765:✔ authorizeProHandler — issue failures (31.956169ms)
+13765:✔ authorizeProHandler — issue failures (48.972271ms)
 13766:▶ authorizeProHandler — code-storage failure rollback
 13769:[authorize-pro] orphaned mcpProTokens row token_id_xyz for user user_pro_123: revoke failed (network)
-13771:✔ authorizeProHandler — code-storage failure rollback (36.730083ms)
+13771:✔ authorizeProHandler — code-storage failure rollback (28.470263ms)
 13778:▶ authorizeProHandler — Redis transport failures
-13781:✔ authorizeProHandler — Redis transport failures (20.851976ms)
-13836:  ✔ revocation-state read failure restores the consumed token and does not rotate (1.710917ms)
+13781:✔ authorizeProHandler — Redis transport failures (26.999955ms)
+13836:  ✔ revocation-state read failure restores the consumed token and does not rotate (1.052185ms)
 13886:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: proxy 502; trying proxy (curl)
 13887:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: proxy curl 502
-13891:✔ production defaults: connect/curl resolvers are different functions (no single point of failure) (2.985407ms)
+13891:✔ production defaults: connect/curl resolvers are different functions (no single point of failure) (8.632641ms)
 13894:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: HTTP 404; trying proxy (curl)
 13902:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: CONNECT 404; trying proxy (curl)
 13903:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: curl 502
@@ -119,20 +198,20 @@
 13908:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: Unexpected token 'o', "not-valid-json" is not valid JSON
 13913:  [OPEN_METEO] proxy (CONNECT) failed for Tropical, Polar: Open-Meteo proxy batch size mismatch for Tropical, Polar: expected 2, got 1; trying proxy (curl)
 13914:  [OPEN_METEO] proxy (curl) failed for Tropical, Polar: Open-Meteo proxy (curl) batch size mismatch for Tropical, Polar: expected 2, got 1
-15039:  [port-activity] schema introspection failed (ArcGIS direct direct Error + no proxy configured for https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_D) — using fallback "date"
-15066:  ✔ redisMgetJson failure degrades to cold-path (does not abort the seed) (0.178852ms)
-15203:✔ permanent failure: chokepoint empty on both passes is dropped (no throw) (13.515405ms)
-15204:✔ permanent failure: chokepoint that throws on both passes is dropped (no throw) (9.145008ms)
+15064:  ✔ redisMgetJson failure degrades to cold-path (does not abort the seed) (7.746712ms)
+15114:  [port-activity] schema introspection failed (ArcGIS direct direct Error + no proxy configured for https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_D) — using fallback "date"
+15203:✔ permanent failure: chokepoint empty on both passes is dropped (no throw) (1.016461ms)
+15204:✔ permanent failure: chokepoint that throws on both passes is dropped (no throw) (8.603481ms)
 15264:▶ positive-events GDELT seed failure semantics
-15265:  ✔ does not count failed GDELT calls as successful empty responses (0.918272ms)
-15266:  ✔ preserves stale cache when every positive-events query failed (0.420124ms)
-15267:✔ positive-events GDELT seed failure semantics (16.571404ms)
+15265:  ✔ does not count failed GDELT calls as successful empty responses (2.828367ms)
+15266:  ✔ preserves stale cache when every positive-events query failed (0.33621ms)
+15267:✔ positive-events GDELT seed failure semantics (8.455787ms)
 15503:[pro-mcp-token] validateProMcpToken Convex fetch failed: The operation was aborted due to timeout
 15504:[pro-mcp-token] validateProMcpToken Convex JSON parse failed: Unexpected token 'o', "not json{}{" is not valid JSON
 15506:[pro-mcp-token] revokeProMcpToken Convex fetch failed: Failed to fetch
-15748:✔ token is cached single-flight with early refresh and a post-failure cooldown (10.815022ms)
-15751:✔ ScrapeCreators failure falls through to OAuth/public (page-1 non-2xx OR throw); later-page failure keeps data (0.305008ms)
-15755:✔ both reddit consumers route through fetchRedditHotListing and label failures with the real source (0.427347ms)
+15748:✔ token is cached single-flight with early refresh and a post-failure cooldown (0.272493ms)
+15751:✔ ScrapeCreators failure falls through to OAuth/public (page-1 non-2xx OR throw); later-page failure keeps data (0.354938ms)
+15755:✔ both reddit consumers route through fetchRedditHotListing and label failures with the real source (7.495341ms)
 15766:[redis] getCachedJson failed: Redis GET failed
 15767:[redis] cachedFetchJson fetcher failed for "neg:test:throw": upstream ETIMEDOUT
 15768:[redis] setCachedJson failed: Redis SET failed
@@ -152,216 +231,376 @@
 15813:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
 15814:[redis] setCachedJson failed: Unexpected fetch URL: https://redis.test/
 15823:▶ setCachedJson wire shape and failure reporting
-15827:✔ setCachedJson wire shape and failure reporting (62.318958ms)
-15987:✔ failed/invalid generations are never cached (0.924937ms)
-15996:[alerts] LPUSH failed for regional_regime_shift — rolling back dedup key
+15827:✔ setCachedJson wire shape and failure reporting (73.203818ms)
+15987:✔ failed/invalid generations are never cached (8.243725ms)
+15998:[alerts] LPUSH failed for regional_regime_shift — rolling back dedup key
 15999:[alerts] LPUSH failed for regional_regime_shift — rolling back dedup key
 16001:[alerts] LPUSH failed for regional_regime_shift — rolling back dedup key
 16002:[alerts] publish failed for regional_regime_shift: network blown up
-16012:  ✔ emits one buffer_failure event per axis with high severity (8.856049ms)
+16012:  ✔ emits one buffer_failure event per axis with high severity (3.510351ms)
 
-  ✔ PRO badge rendered in header when tier is pro (0.034134ms)
-✔ CustomWidgetPanel — header buttons and events (0.514764ms)
+✔ widget-agent unified tester key auth (453.42583ms)
+▶ widget-agent relay — security
+  ✔ isPublicRoute includes /widget-agent so relay secret gate is bypassed (1.265198ms)
+  ✔ route is registered before the 404 catch-all (0.316069ms)
+  ✔ auth check uses x-widget-key header (not relay shared secret) (0.380136ms)
+  ✔ widget-agent fails closed when WIDGET_AGENT_KEY is missing (8.352858ms)
+  ✔ auth 403 response is sent before any processing on bad key (0.262287ms)
+  ✔ body size limit is enforced (160KB for PRO, covers basic too) (0.312664ms)
+  ✔ SSRF guard — isWidgetEndpointAllowed function is present (0.460889ms)
+  ✔ SSRF guard — allowlist is checked before any fetch call in tool loop (0.248747ms)
+  ✔ SSRF guard — dangerous inference/write paths are blocked (0.518235ms)
+  ✔ SSRF guard — deduct-situation blocklist entry matches the real method name (#3740) (4.433238ms)
+  ✔ injection guard — isWidgetInjectionAttempt function is present (0.849487ms)
+  ✔ injection guard — hard rejected before API call (0.390582ms)
+  ✔ injection guard — tool results are sanitized before context insertion (0.429241ms)
+  ✔ tool loop is bounded by maxTurns (6 for basic, 10 for PRO) (0.414489ms)
+  ✔ server timeout is 90 seconds (0.108484ms)
+  ✔ CORS for /widget-agent: POST in Allow-Methods, X-Widget-Key and X-Pro-Key in Allow-Headers (0.180784ms)
+  ✔ CORS reuses getCorsOrigin (not a narrow hardcoded origin list) (4.933446ms)
+  ✔ registers GET /widget-agent/health before the 404 catch-all (0.32345ms)
+  ✔ uses raw @anthropic-ai/sdk (not agent SDK) (0.27105ms)
+  ✔ model used is claude-haiku (cost-efficient for widgets) (0.302799ms)
+✔ widget-agent relay — security (43.971849ms)
+▶ widget-store — constants and logic
+  ✔ storage key is wm-custom-widgets (0.192762ms)
+  ✔ auth gate migrates wm-widget-key to an HttpOnly session instead of storing it (0.194905ms)
+  ✔ MAX_WIDGETS is 10 (2.547671ms)
+  ✔ MAX_HTML_CHARS is 50000 (0.181986ms)
+  ✔ MAX_HISTORY is 10 (0.142285ms)
+  ✔ widget IDs use cw- prefix (in modal or store) (0.209688ms)
+  ✔ deleteWidget cleans worldmonitor-panel-spans (aggregate map) (0.114844ms)
+  ✔ deleteWidget cleans worldmonitor-panel-col-spans (aggregate map) (0.145681ms)
+  ✔ saveWidget trims conversationHistory before write (0.126842ms)
+  ✔ saveWidget truncates html to MAX_HTML_CHARS before write (0.121845ms)
+✔ widget-store — constants and logic (7.519386ms)
+▶ widget-agent relay — title extraction regex
+  ✔ title regex does NOT exclude hyphens (fixed bug: [^\n\-] → [^\n]) (0.882508ms)
+  ✔ title regex correctly parses hyphenated titles (0.219874ms)
+  ✔ title regex falls back to "Custom Widget" when comment absent (0.096276ms)
+  ✔ html extraction regex handles multiline content (0.133822ms)
+  ✔ html extraction falls back to full text when markers missing (0.133292ms)
+✔ widget-agent relay — title extraction regex (1.653636ms)
+▶ widget-sanitizer — allowlist verification
+  ✔ allowed tag 'div' is in ALLOWED_TAGS (0.242568ms)
+  ✔ allowed tag 'span' is in ALLOWED_TAGS (0.060863ms)
+  ✔ allowed tag 'p' is in ALLOWED_TAGS (0.088634ms)
+  ✔ allowed tag 'table' is in ALLOWED_TAGS (0.056956ms)
+  ✔ allowed tag 'svg' is in ALLOWED_TAGS (0.047672ms)
+  ✔ allowed tag 'path' is in ALLOWED_TAGS (0.04002ms)
+  ✔ forbidden tag 'button' is in FORBID_TAGS (0.397493ms)
+  ✔ forbidden tag 'input' is in FORBID_TAGS (0.060371ms)
+  ✔ forbidden tag 'script' is in FORBID_TAGS (0.055003ms)
+  ✔ forbidden tag 'iframe' is in FORBID_TAGS (0.0655ms)
+  ✔ forbidden tag 'form' is in FORBID_TAGS (0.07228ms)
+  ✔ attribute 'class' is in ALLOWED_ATTR (0.071158ms)
+  ✔ attribute 'style' is in ALLOWED_ATTR (0.038558ms)
+  ✔ attribute 'viewBox' is in ALLOWED_ATTR (0.034362ms)
+  ✔ attribute 'fill' is in ALLOWED_ATTR (0.034252ms)
+  ✔ attribute 'stroke' is in ALLOWED_ATTR (0.030527ms)
+  ✔ FORCE_BODY is true (prevents <html> wrapper) (0.073822ms)
+  ✔ post-pass strips url() from style attributes (0.0593ms)
+  ✔ post-pass strips javascript: from style attributes (0.087702ms)
+  ✔ post-pass strips expression() from style attributes (0.088885ms)
+✔ widget-sanitizer — allowlist verification (2.152843ms)
+▶ panel guardrails — cw- prefix handling
+  ✔ UnifiedSettings filters out cw- panels from settings list (0.15824ms)
+  ✔ event-handlers confirms before deleting cw- panels (0.107203ms)
+  ✔ event-handlers calls deleteWidget for cw- panels (0.067493ms)
+  ✔ event-handlers registers wm:widget-modify listener (0.071829ms)
+  ✔ panel-layout loads widgets when feature is enabled (0.077087ms)
+  ✔ panel-layout has addCustomWidget method (0.086652ms)
+  ✔ panel-layout AI button is gated by hasPremiumAccess (0.129387ms)
+  ✔ panel-layout DEV warning excludes cw- panels (0.093892ms)
+✔ panel guardrails — cw- prefix handling (2.749427ms)
+▶ widget-agent relay — SSE event protocol
+  ✔ SSE event 'html_complete' is sent by handler (2.044038ms)
+  ✔ SSE event 'done' is sent by handler (0.187965ms)
+  ✔ SSE event 'error' is sent by handler (0.055945ms)
+  ✔ SSE event 'tool_call' is sent by handler (0.266714ms)
+  ✔ sendWidgetSSE helper is defined (0.299975ms)
+  ✔ html_complete event carries html payload (0.319884ms)
+  ✔ done event carries title payload (0.232042ms)
+  ✔ tool_call event carries endpoint for UI badge display (0.337712ms)
+✔ widget-agent relay — SSE event protocol (4.021825ms)
+▶ WidgetChatModal — SSE client protocol
+  ✔ uses fetch (not EventSource) for POST SSE (0.263479ms)
+  ✔ sends X-Widget-Key header (0.088584ms)
+  ✔ runs preflight against widget-agent health route on open (0.095665ms)
+  ✔ AbortController used for cancellation (0.072129ms)
+  ✔ client timeout is 60 seconds (0.080652ms)
+  ✔ currentHtml sent as separate field (not embedded in conversationHistory) (0.2637ms)
+  ✔ prompt is sliced to 2000 chars before sending (0.088864ms)
+  ✔ history content is sliced to 500 chars per entry (0.084177ms)
+  ✔ modal handles AbortError without showing error to user (0.087102ms)
+  ✔ Escape key closes modal (0.085109ms)
+  ✔ action button says "Add to Dashboard" (create) or "Apply Changes" (modify) (0.116246ms)
+  ✔ uses split layout and sticky footer action bar structure (0.100752ms)
+  ✔ renders prompt example chips (0.077547ms)
+  ✔ conversationHistory entries use literal role types (user | assistant) (0.089446ms)
+  ✔ multi-turn requests reuse mutable sessionHistory instead of original spec history (0.132171ms)
+✔ WidgetChatModal — SSE client protocol (7.374216ms)
+▶ proxy routing — widgetAgentUrl
+  ✔ widgetAgentUrl() exists in proxy.ts (0.135696ms)
+  ✔ widgetAgentUrl returns /widget-agent in dev (for Vite proxy) (0.068474ms)
+  ✔ widgetAgentUrl targets proxy.worldmonitor.app (not toRuntimeUrl) (0.111729ms)
+  ✔ vite.config.ts proxies /widget-agent to proxy.worldmonitor.app (0.122555ms)
+  ✔ widgetAgentHealthUrl() exists and targets /widget-agent/health (0.077537ms)
+✔ proxy routing — widgetAgentUrl (0.769066ms)
+▶ i18n — widgets section completeness
+  ✔ widgets.confirmDelete is defined and non-empty (4.62555ms)
+  ✔ widgets.chatTitle is defined and non-empty (0.083546ms)
+  ✔ widgets.modifyTitle is defined and non-empty (0.063947ms)
+  ✔ widgets.inputPlaceholder is defined and non-empty (0.049155ms)
+  ✔ widgets.addToDashboard is defined and non-empty (0.047993ms)
+  ✔ widgets.applyChanges is defined and non-empty (0.047031ms)
+  ✔ widgets.send is defined and non-empty (0.047922ms)
+  ✔ widgets.modifyWithAi is defined and non-empty (0.042865ms)
+  ✔ widgets.ready is defined and non-empty (0.043515ms)
+  ✔ widgets.fetching is defined and non-empty (0.05963ms)
+  ✔ widgets.requestTimedOut is defined and non-empty (0.061864ms)
+  ✔ widgets.serverError is defined and non-empty (0.054773ms)
+  ✔ widgets.unknownError is defined and non-empty (0.054943ms)
+  ✔ widgets.generatedWidget is defined and non-empty (0.043126ms)
+  ✔ widgets.checkingConnection is defined and non-empty (0.043706ms)
+  ✔ widgets.preflightConnected is defined and non-empty (0.047102ms)
+  ✔ widgets.preflightInvalidKey is defined and non-empty (0.056335ms)
+  ✔ widgets.preflightUnavailable is defined and non-empty (0.05879ms)
+  ✔ widgets.preflightAiUnavailable is defined and non-empty (0.056235ms)
+  ✔ widgets.readyToGenerate is defined and non-empty (0.051839ms)
+  ✔ widgets.readyToApply is defined and non-empty (0.048874ms)
+  ✔ widgets.modifyHint is defined and non-empty (0.048263ms)
+  ✔ widgets.generating is defined and non-empty (0.056396ms)
+  ✔ widgets.examplesTitle is defined and non-empty (2.259024ms)
+  ✔ widgets.previewTitle is defined and non-empty (0.08587ms)
+  ✔ widgets.phaseChecking is defined and non-empty (0.051268ms)
+  ✔ widgets.phaseReadyToPrompt is defined and non-empty (0.048093ms)
+  ✔ widgets.phaseFetching is defined and non-empty (0.045278ms)
+  ✔ widgets.phaseComposing is defined and non-empty (0.048013ms)
+  ✔ widgets.phaseComplete is defined and non-empty (0.047232ms)
+  ✔ widgets.phaseError is defined and non-empty (0.045429ms)
+  ✔ widgets.previewCheckingHeading is defined and non-empty (0.049806ms)
+  ✔ widgets.previewReadyHeading is defined and non-empty (0.050096ms)
+  ✔ widgets.previewFetchingHeading is defined and non-empty (0.055374ms)
+  ✔ widgets.previewComposingHeading is defined and non-empty (0.057778ms)
+  ✔ widgets.previewErrorHeading is defined and non-empty (0.080982ms)
+  ✔ widgets.previewCheckingCopy is defined and non-empty (0.059821ms)
+  ✔ widgets.previewReadyCopy is defined and non-empty (1.949564ms)
+  ✔ widgets.previewFetchingCopy is defined and non-empty (0.062384ms)
+  ✔ widgets.previewComposingCopy is defined and non-empty (0.041773ms)
+  ✔ widgets.previewErrorCopy is defined and non-empty (0.041102ms)
+  ✔ confirmDelete text sounds permanent (not just hide) (0.100552ms)
+  ✔ widget UI sources labels from i18n keys instead of hardcoded English copy (0.524876ms)
+  ✔ prompt examples are defined and non-empty (0.135616ms)
+✔ i18n — widgets section completeness (12.711775ms)
+▶ CustomWidgetPanel — header buttons and events
+  ✔ dispatches wm:widget-modify event from chat button (0.14514ms)
+  ✔ applies --widget-accent CSS variable (0.087342ms)
+  ✔ renderWidget uses shared wrapped widget HTML helper (0.091028ms)
+  ✔ extends Panel (display-only widget with panel infrastructure) (0.07914ms)
+  ✔ renderWidget branches on tier — PRO uses wrapProWidgetHtml (0.076515ms)
+  ✔ PRO badge rendered in header when tier is pro (0.065169ms)
+✔ CustomWidgetPanel — header buttons and events (0.737808ms)
 ▶ PRO widget — relay auth and configuration
-  ✔ PRO_WIDGET_KEY is read from env (0.590707ms)
-  ✔ PRO_WIDGET_RATE_LIMIT is 20 (5.051521ms)
-  ✔ proWidgetRateLimitMap is a separate rate limit bucket from basic (1.597001ms)
-  ✔ x-pro-key header is read for PRO auth (0.244029ms)
-  ✔ PRO request rejected with 403 when x-pro-key is wrong (0.356624ms)
-  ✔ invalid tier value rejected with 400 (1.683922ms)
-  ✔ health endpoint includes proKeyConfigured boolean (1.289661ms)
-  ✔ PRO uses claude-sonnet model (not haiku) (0.304983ms)
-  ✔ PRO max_tokens is 8192 (0.818734ms)
-  ✔ WIDGET_PRO_SYSTEM_PROMPT exists and forbids DOCTYPE/html wrappers (0.22322ms)
-  ✔ PRO system prompt allows cdn.jsdelivr.net for Chart.js (0.097639ms)
-✔ PRO widget — relay auth and configuration (12.600687ms)
+  ✔ PRO_WIDGET_KEY is read from env (0.333746ms)
+  ✔ PRO_WIDGET_RATE_LIMIT is 20 (5.508748ms)
+  ✔ proWidgetRateLimitMap is a separate rate limit bucket from basic (0.714072ms)
+  ✔ x-pro-key header is read for PRO auth (0.200905ms)
+  ✔ PRO request rejected with 403 when x-pro-key is wrong (0.295989ms)
+  ✔ invalid tier value rejected with 400 (0.522933ms)
+  ✔ health endpoint includes proKeyConfigured boolean (0.601201ms)
+  ✔ PRO uses claude-sonnet model (not haiku) (0.312895ms)
+  ✔ PRO max_tokens is 8192 (0.619378ms)
+  ✔ WIDGET_PRO_SYSTEM_PROMPT exists and forbids DOCTYPE/html wrappers (0.229297ms)
+  ✔ PRO system prompt allows cdn.jsdelivr.net for Chart.js (0.117178ms)
+✔ PRO widget — relay auth and configuration (9.827303ms)
 ▶ PRO widget — store and sanitizer
-  ✔ MAX_HTML_CHARS_PRO is 80000 (0.338546ms)
-  ✔ PRO auth migrates wm-pro-key to an HttpOnly session instead of storing it (0.229726ms)
-  ✔ user identity migrates legacy wm-pro-key instead of reading localStorage directly (0.147313ms)
-  ✔ legacy wm-pro-html-{id} key remains supported for old PRO widgets (0.066387ms)
-  ✔ loadWidgets can hydrate legacy PRO HTML from the side key (2.036172ms)
-  ✔ loadWidgets treats canonical PRO HTML as primary before legacy side key (0.099931ms)
-  ✔ loadWidgets drops PRO entry only when no persisted HTML remains (0.082073ms)
-  ✔ saveWidget for PRO uses raw localStorage.setItem (not saveToStorage helper) (0.125808ms)
-  ✔ saveWidget for PRO does not duplicate HTML into the legacy side key (0.316206ms)
-  ✔ deleteWidget removes wm-pro-html-{id} key (0.119217ms)
-  ✔ wrapProWidgetHtml returns iframe with sandbox="allow-scripts" only (0.097053ms)
-  ✔ widget document builder places CSP as first head child (client-owned skeleton) (0.066589ms)
-  ✔ widget document builder CSP restricts connect-src to cdn.jsdelivr.net only (0.060857ms)
-  ✔ wrapProWidgetHtml uses sandbox page src (not srcdoc) for CSP isolation (0.059584ms)
-  ✔ PRO widget iframe uses nonce handshake before posting HTML (2.306727ms)
-  ✔ PRO widget postMessage targetOrigins match the opaque sandbox model (0.269907ms)
-  ✔ widget sandbox allows approved Vercel previews and rejects lookalike origins (0.823068ms)
-  ✔ widget sandbox behavior accepts Vercel previews and blocks spoofed parents (9.337763ms)
-  ✔ PRO widget message listener has AbortController cleanup wired to iframe removal (0.165318ms)
-  ✔ PRO widget re-deliveries are rate-limited to bound document.write storms (0.266109ms)
-  ✔ widget document builder injects panel CSS classes for design-system alignment (0.79763ms)
-  ✔ widget document builder injects Chart.js from jsdelivr so new Chart() is available (0.120584ms)
-✔ PRO widget — store and sanitizer (18.484085ms)
+  ✔ MAX_HTML_CHARS_PRO is 80000 (0.416211ms)
+  ✔ PRO auth migrates wm-pro-key to an HttpOnly session instead of storing it (0.252332ms)
+  ✔ user identity migrates legacy wm-pro-key instead of reading localStorage directly (0.17108ms)
+  ✔ legacy wm-pro-html-{id} key remains supported for old PRO widgets (0.09247ms)
+  ✔ loadWidgets can hydrate legacy PRO HTML from the side key (3.192939ms)
+  ✔ loadWidgets treats canonical PRO HTML as primary before legacy side key (0.110237ms)
+  ✔ loadWidgets drops PRO entry only when no persisted HTML remains (0.100232ms)
+  ✔ saveWidget for PRO uses raw localStorage.setItem (not saveToStorage helper) (0.12552ms)
+  ✔ saveWidget for PRO does not duplicate HTML into the legacy side key (0.119591ms)
+  ✔ deleteWidget removes wm-pro-html-{id} key (3.591402ms)
+  ✔ wrapProWidgetHtml returns iframe with sandbox="allow-scripts" only (0.165241ms)
+  ✔ widget document builder places CSP as first head child (client-owned skeleton) (0.128285ms)
+  ✔ widget document builder CSP restricts connect-src to cdn.jsdelivr.net only (0.101755ms)
+  ✔ wrapProWidgetHtml uses sandbox page src (not srcdoc) for CSP isolation (0.115575ms)
+  ✔ PRO widget iframe uses nonce handshake before posting HTML (0.126462ms)
+  ✔ PRO widget postMessage targetOrigins match the opaque sandbox model (0.287676ms)
+  ✔ widget sandbox allows approved Vercel previews and rejects lookalike origins (4.857892ms)
+  ✔ widget sandbox behavior accepts Vercel previews and blocks spoofed parents (3.987513ms)
+  ✔ PRO widget message listener has AbortController cleanup wired to iframe removal (0.191189ms)
+  ✔ PRO widget re-deliveries are rate-limited to bound document.write storms (0.289018ms)
+  ✔ widget document builder injects panel CSS classes for design-system alignment (0.149276ms)
+  ✔ widget document builder injects Chart.js from jsdelivr so new Chart() is available (0.11216ms)
+✔ PRO widget — store and sanitizer (19.438959ms)
 ▶ PRO widget — modal and layout integration
-  ✔ modal sends tier in request body (0.157139ms)
-  ✔ modal sends X-Pro-Key header for PRO requests (0.0658ms)
-  ✔ modal uses 120s timeout for PRO (vs 60s basic) (0.049392ms)
-  ✔ modal shows preflightProUnavailable when proKeyConfigured is false (0.036804ms)
-  ✔ pendingSaveSpec includes tier field (0.057918ms)
-  ✔ PRO example chips defined (separate from basic examples) (0.030716ms)
-  ✔ layout has PRO create button when hasPremiumAccess (0.12276ms)
-  ✔ layout PRO button opens modal with tier: pro (0.077865ms)
-✔ PRO widget — modal and layout integration (0.754694ms)
+  ✔ modal sends tier in request body (0.223759ms)
+  ✔ modal sends X-Pro-Key header for PRO requests (0.100162ms)
+  ✔ modal uses 120s timeout for PRO (vs 60s basic) (0.126722ms)
+  ✔ modal shows preflightProUnavailable when proKeyConfigured is false (0.097989ms)
+  ✔ pendingSaveSpec includes tier field (0.115235ms)
+  ✔ PRO example chips defined (separate from basic examples) (0.078138ms)
+  ✔ layout has PRO create button when hasPremiumAccess (0.110507ms)
+  ✔ layout PRO button opens modal with tier: pro (0.135245ms)
+✔ PRO widget — modal and layout integration (4.531858ms)
 ▶ PRO widget — i18n keys and CSS
-  ✔ widgets.createInteractive is defined and non-empty (0.127378ms)
-  ✔ widgets.proBadge is defined and non-empty (0.029211ms)
-  ✔ widgets.preflightProUnavailable is defined and non-empty (0.025744ms)
-  ✔ widgets.proExamples has all 4 example keys (0.0831ms)
-  ✔ .widget-pro-badge CSS class defined (0.384793ms)
-  ✔ .wm-widget-pro iframe CSS sets 400px height (8.321183ms)
-✔ PRO widget — i18n keys and CSS (9.090826ms)
+  ✔ widgets.createInteractive is defined and non-empty (0.201685ms)
+  ✔ widgets.proBadge is defined and non-empty (0.063266ms)
+  ✔ widgets.preflightProUnavailable is defined and non-empty (0.064758ms)
+  ✔ widgets.proExamples has all 4 example keys (0.11226ms)
+  ✔ .widget-pro-badge CSS class defined (0.221115ms)
+  ✔ .wm-widget-pro iframe CSS sets 400px height (0.467458ms)
+✔ PRO widget — i18n keys and CSS (1.312179ms)
 ▶ widget-agent edge proxy — Convex entitlement fallback
-  ✔ imports getEntitlements from server/_shared/entitlement-check (0.176438ms)
-  ✔ Clerk JWT path falls back to Convex entitlement when role !== "pro" (0.149332ms)
-  ✔ does NOT 403 immediately on session.role !== "pro" (0.439552ms)
-✔ widget-agent edge proxy — Convex entitlement fallback (0.996136ms)
+  ✔ imports getEntitlements from server/_shared/entitlement-check (0.202167ms)
+  ✔ Clerk JWT path falls back to Convex entitlement when role !== "pro" (0.413366ms)
+  ✔ does NOT 403 immediately on session.role !== "pro" (1.775611ms)
+✔ widget-agent edge proxy — Convex entitlement fallback (2.535482ms)
 ▶ widget-agent relay — error classifier
-  ✔ classifyWidgetAgentError function is defined (0.512995ms)
-  ✔ catch block routes through classifyWidgetAgentError instead of hardcoded "Agent error" (9.303886ms)
-  ✔ classifier maps Anthropic 401 to an operator-facing API-key hint (3.115901ms)
-  ✔ classifier surfaces 400 invalid_request_error with the SDK message (capped) (0.312555ms)
-  ✔ classifier scrubs Claude API keys from any fallback message (0.269269ms)
-  ✔ classifier scrubs API keys in the 400 branch (defence-in-depth on every rawMsg interpolation) (0.731317ms)
-  ✔ classifier handles Anthropic APITimeoutError (status 408) — does not fall through to fallback (4.343697ms)
-  ✔ 400 branch does NOT pre-empt timeout: APITimeoutError-with-status-400 stays a timeout (rare but defensive) (0.458058ms)
-  ✔ handler logs structured error context with status + type + model (3.012571ms)
-  ✔ toolCallCount is declared OUTSIDE the try whose catch reads it (scoping regression guard) (0.37495ms)
-✔ widget-agent relay — error classifier (22.737404ms)
+  ✔ classifyWidgetAgentError function is defined (1.964898ms)
+  ✔ catch block routes through classifyWidgetAgentError instead of hardcoded "Agent error" (1.237185ms)
+  ✔ classifier maps Anthropic 401 to an operator-facing API-key hint (0.279573ms)
+  ✔ classifier surfaces 400 invalid_request_error with the SDK message (capped) (0.274957ms)
+  ✔ classifier scrubs Claude API keys from any fallback message (0.258521ms)
+  ✔ classifier scrubs API keys in the 400 branch (defence-in-depth on every rawMsg interpolation) (0.820924ms)
+  ✔ classifier handles Anthropic APITimeoutError (status 408) — does not fall through to fallback (0.635343ms)
+  ✔ 400 branch does NOT pre-empt timeout: APITimeoutError-with-status-400 stays a timeout (rare but defensive) (0.399726ms)
+  ✔ handler logs structured error context with status + type + model (2.565177ms)
+  ✔ toolCallCount is declared OUTSIDE the try whose catch reads it (scoping regression guard) (0.433737ms)
+✔ widget-agent relay — error classifier (18.018327ms)
 ▶ panel-layout — Pro add-block gating reacts to entitlement updates
-  ✔ imports onEntitlementChange (0.163758ms)
-  ✔ proBlock + mcpBlock gating subscribes to BOTH auth and entitlement changes (0.146465ms)
-  ✔ teardown clears the entitlement subscription so a destroyed layout does not leak callbacks (2.324549ms)
-✔ panel-layout — Pro add-block gating reacts to entitlement updates (2.748254ms)
+  ✔ imports onEntitlementChange (0.218512ms)
+  ✔ proBlock + mcpBlock gating subscribes to BOTH auth and entitlement changes (0.142156ms)
+  ✔ teardown clears the entitlement subscription so a destroyed layout does not leak callbacks (0.113272ms)
+✔ panel-layout — Pro add-block gating reacts to entitlement updates (0.60066ms)
 ▶ entitlement-check — cache-write failure does not collapse confirmed entitlement
-  ✔ setCachedJson call is wrapped in its own try/catch (0.127459ms)
-  ✔ cache-write catch logs but does not return null or throw (3.336951ms)
-✔ entitlement-check — cache-write failure does not collapse confirmed entitlement (3.55132ms)
+  ✔ setCachedJson call is wrapped in its own try/catch (0.15175ms)
+  ✔ cache-write catch logs but does not return null or throw (0.210509ms)
+✔ entitlement-check — cache-write failure does not collapse confirmed entitlement (0.447258ms)
 ▶ WidgetChatModal — preflight 403 message branches on auth mode
-  ✔ buildWidgetAuthHeaders returns usedTesterKey flag (0.123369ms)
-  ✔ resolvePreflightMessage takes usedTesterKey and branches Clerk path on isPro (0.088704ms)
-  ✔ en.json defines widgets.preflightProSubscriptionRequired (just-upgraded / outage) (0.119352ms)
-  ✔ en.json defines widgets.preflightProRequired (free-user upgrade ask, no "just upgraded" language) (0.154999ms)
-✔ WidgetChatModal — preflight 403 message branches on auth mode (0.604066ms)
+  ✔ buildWidgetAuthHeaders returns usedTesterKey flag (0.156417ms)
+  ✔ resolvePreflightMessage takes usedTesterKey and branches Clerk path on isPro (0.108324ms)
+  ✔ en.json defines widgets.preflightProSubscriptionRequired (just-upgraded / outage) (0.127683ms)
+  ✔ en.json defines widgets.preflightProRequired (free-user upgrade ask, no "just upgraded" language) (0.173653ms)
+✔ WidgetChatModal — preflight 403 message branches on auth mode (0.696155ms)
 ▶ widget-agent edge proxy — fail-closed observability
-  ✔ 403 site emits a structured log with reason + userId + entitlementTier (0.203198ms)
-✔ widget-agent edge proxy — fail-closed observability (0.255353ms)
+  ✔ 403 site emits a structured log with reason + userId + entitlementTier (0.293304ms)
+✔ widget-agent edge proxy — fail-closed observability (0.433697ms)
 ▶ widget-store PRO persistence
-  ✔ saveWidget persists PRO generated HTML in the canonical widget entry (77.98958ms)
-  ✔ loadWidgets restores PRO HTML from the canonical entry when the side key is absent (39.388228ms)
-  ✔ loadWidgets restores legacy PRO HTML from the side key when canonical HTML is absent (41.791917ms)
-  ✔ loadWidgets prefers canonical PRO HTML over a stale side key (30.002811ms)
-  ✔ loadWidgets drops PRO widgets when no persisted HTML remains (30.132757ms)
-✔ widget-store PRO persistence (220.73009ms)
+  ✔ saveWidget persists PRO generated HTML in the canonical widget entry (81.47552ms)
+  ✔ loadWidgets restores PRO HTML from the canonical entry when the side key is absent (48.935157ms)
+  ✔ loadWidgets restores legacy PRO HTML from the side key when canonical HTML is absent (57.339087ms)
+  ✔ loadWidgets prefers canonical PRO HTML over a stale side key (50.118374ms)
+  ✔ loadWidgets drops PRO widgets when no persisted HTML remains (44.062416ms)
+✔ widget-store PRO persistence (283.499302ms)
 ▶ wildfire dashboard payload cap
-  ✔ caps response detections without mutating the seed array and keeps highest-signal detections (9.786095ms)
-  ✔ caps bootstrap wildfire data and records the uncapped total count (13.734718ms)
-  ✔ keeps bootstrap and RPC caps in ranking parity (2.393586ms)
-  ✔ coerces legacy missing possibleExplosion flags consistently (0.272259ms)
-  ✔ returns uncapped total count from capped responses (0.733947ms)
-  ✔ keeps a high-volume FIRMS snapshot under the mobile first-load byte budget (45.260899ms)
-✔ wildfire dashboard payload cap (74.019874ms)
+  ✔ caps response detections without mutating the seed array and keeps highest-signal detections (8.026094ms)
+  ✔ caps bootstrap wildfire data and records the uncapped total count (8.998647ms)
+  ✔ keeps bootstrap and RPC caps in ranking parity (6.685311ms)
+  ✔ coerces legacy missing possibleExplosion flags consistently (4.065832ms)
+  ✔ returns uncapped total count from capped responses (0.979475ms)
+  ✔ keeps a high-volume FIRMS snapshot under the mobile first-load byte budget (47.923938ms)
+✔ wildfire dashboard payload cap (78.02739ms)
 ▶ window.open reverse-tabnabbing guard
-  ✔ requires noopener,noreferrer for _blank browser windows (202.003754ms)
-✔ window.open reverse-tabnabbing guard (202.57958ms)
+  ✔ requires noopener,noreferrer for _blank browser windows (247.070459ms)
+✔ window.open reverse-tabnabbing guard (247.738761ms)
 ▶ withTimeout
-  ✔ resolves with the source value when the source resolves first (1.95108ms)
-  ✔ rejects with the source error when the source rejects first (0.606329ms)
-  ✔ rejects with a TimeoutError after the budget when the source hangs forever (27.009369ms)
-  ✔ clears the timer when the source resolves, so a longer test exits without dangling work (6.470682ms)
-  ✔ invokes onTimeout exactly once when the budget fires (15.603026ms)
-  ✔ does not invoke onTimeout when the source resolves first (35.170662ms)
-  ✔ swallows onTimeout errors and still rejects with the TimeoutError (20.013711ms)
-  ✔ does not invoke onTimeout when the source rejects before the budget (84.311154ms)
-✔ withTimeout (193.337583ms)
+  ✔ resolves with the source value when the source resolves first (7.602511ms)
+  ✔ rejects with the source error when the source rejects first (0.695173ms)
+  ✔ rejects with a TimeoutError after the budget when the source hangs forever (28.925155ms)
+  ✔ clears the timer when the source resolves, so a longer test exits without dangling work (6.63757ms)
+  ✔ invokes onTimeout exactly once when the budget fires (17.275862ms)
+  ✔ does not invoke onTimeout when the source resolves first (31.0394ms)
+  ✔ swallows onTimeout errors and still rejects with the TimeoutError (16.210877ms)
+  ✔ does not invoke onTimeout when the source rejects before the budget (81.877935ms)
+✔ withTimeout (192.420041ms)
 ▶ wm-session periodic refresh (Layer 1)
-  ✔ skips the periodic mint when document is hidden (19.532381ms)
-  ✔ skips the periodic mint when the cached token is still fresh (2.534223ms)
-  ✔ visibilitychange handler mints when token is expired and tab becomes visible (1.80598ms)
-  ✔ visibilitychange handler does NOT mint when the cached token is fresh (0.564247ms)
-✔ wm-session periodic refresh (Layer 1) (26.091189ms)
+  ✔ skips the periodic mint when document is hidden (71.98331ms)
+  ✔ skips the periodic mint when the cached token is still fresh (4.594944ms)
+  ✔ visibilitychange handler mints when token is expired and tab becomes visible (4.098161ms)
+  ✔ visibilitychange handler does NOT mint when the cached token is fresh (1.988083ms)
+✔ wm-session periodic refresh (Layer 1) (93.826233ms)
 ▶ wm-session refresh-on-401 (Layer 2)
-  ✔ retries an API 401 with a freshly-minted token (1.285335ms)
-  ✔ does NOT retry when the path is in PREMIUM_RPC_PATHS (0.437391ms)
-  ✔ does NOT retry when the caller supplied Authorization (0.918571ms)
-  ✔ returns the second 401 if the retry also fails (no infinite loop) (2.326476ms)
-✔ wm-session refresh-on-401 (Layer 2) (5.336339ms)
+  ✔ retries an API 401 with a freshly-minted token (4.24261ms)
+  ✔ does NOT retry when the path is in PREMIUM_RPC_PATHS (2.173454ms)
+  ✔ does NOT retry when the caller supplied Authorization (5.007279ms)
+  ✔ returns the second 401 if the retry also fails (no infinite loop) (2.248218ms)
+✔ wm-session refresh-on-401 (Layer 2) (14.136163ms)
 ▶ wm-session interceptor URL matcher (PR #3574 regression)
-  ✔ matches a relative /api/ path even when apiOrigin is empty (1.010512ms)
-  ✔ REGRESSION: matches absolute URLs to the canonical API origin (0.180757ms)
-  ✔ REGRESSION: documents the pre-fix bug — empty apiOrigin silently misses absolute URLs (0.196199ms)
-  ✔ does not match cross-origin third-party URLs (0.223489ms)
-  ✔ SECURITY: rejects look-alike hosts that embed the canonical origin as a prefix (0.211247ms)
-  ✔ SECURITY: does not match non-/api/ paths even on the canonical origin (0.119374ms)
-  ✔ matches a URL object passed as a string (panels build with new URL().href) (0.341664ms)
-  ✔ returns false on garbage input rather than throwing (0.201446ms)
-✔ wm-session interceptor URL matcher (PR #3574 regression) (3.676784ms)
+  ✔ matches a relative /api/ path even when apiOrigin is empty (0.749065ms)
+  ✔ REGRESSION: matches absolute URLs to the canonical API origin (0.162646ms)
+  ✔ REGRESSION: documents the pre-fix bug — empty apiOrigin silently misses absolute URLs (0.109286ms)
+  ✔ does not match cross-origin third-party URLs (0.121324ms)
+  ✔ SECURITY: rejects look-alike hosts that embed the canonical origin as a prefix (0.554671ms)
+  ✔ SECURITY: does not match non-/api/ paths even on the canonical origin (0.140293ms)
+  ✔ matches a URL object passed as a string (panels build with new URL().href) (0.679931ms)
+  ✔ returns false on garbage input rather than throwing (1.095791ms)
+✔ wm-session interceptor URL matcher (PR #3574 regression) (8.008878ms)
 ▶ wm-session.ts must not regress to getApiBaseUrl (static-import guard)
-  ✔ imports getCanonicalApiOrigin and not getApiBaseUrl (0.577025ms)
-✔ wm-session.ts must not regress to getApiBaseUrl (static-import guard) (0.736811ms)
+  ✔ imports getCanonicalApiOrigin and not getApiBaseUrl (3.632765ms)
+✔ wm-session.ts must not regress to getApiBaseUrl (static-import guard) (3.786838ms)
 ▶ WSB Ticker Scanner
   ▶ ticker extraction regex
-    ✔ finds $TICKER patterns (6.673357ms)
-    ✔ finds bare uppercase tickers (0.206151ms)
-    ✔ filters blacklisted words (1.516761ms)
-    ✔ filters WSB jargon (0.136979ms)
-    ✔ validates against known ticker set when non-empty (0.113709ms)
-    ✔ returns empty set for empty/null input (0.163352ms)
-    ✔ handles mixed $TICKER and bare forms (4.132463ms)
-  ✔ ticker extraction regex (18.453169ms)
+    ✔ finds $TICKER patterns (0.999715ms)
+    ✔ finds bare uppercase tickers (0.169958ms)
+    ✔ filters blacklisted words (1.820519ms)
+    ✔ filters WSB jargon (0.175005ms)
+    ✔ validates against known ticker set when non-empty (0.155516ms)
+    ✔ returns empty set for empty/null input (2.324062ms)
+    ✔ handles mixed $TICKER and bare forms (0.1779ms)
+  ✔ ticker extraction regex (11.614722ms)
   ▶ aggregation
-    ✔ merges multiple mentions of same ticker (6.460595ms)
-    ✔ counts multiple tickers in same post separately (4.15289ms)
-    ✔ picks highest-score post as topPost (0.292282ms)
-  ✔ aggregation (11.219573ms)
+    ✔ merges multiple mentions of same ticker (1.214831ms)
+    ✔ counts multiple tickers in same post separately (0.296229ms)
+    ✔ picks highest-score post as topPost (0.322769ms)
+  ✔ aggregation (2.1708ms)
   ▶ velocity scoring
-    ✔ higher score + more mentions = higher velocity (4.829966ms)
-    ✔ velocity uses log1p of totalScore (0.179784ms)
-  ✔ velocity scoring (5.111894ms)
+    ✔ higher score + more mentions = higher velocity (5.631535ms)
+    ✔ velocity uses log1p of totalScore (0.566338ms)
+  ✔ velocity scoring (6.386138ms)
   ▶ top-50 cutoff
-    ✔ returns at most 50 tickers (0.505336ms)
-  ✔ top-50 cutoff (3.658633ms)
-✔ WSB Ticker Scanner (41.924341ms)
+    ✔ returns at most 50 tickers (0.509752ms)
+  ✔ top-50 cutoff (1.223324ms)
+✔ WSB Ticker Scanner (22.32934ms)
   [YAHOO] AAPL 429 — waiting 0s (1/1)
-✔ production defaults: curl leg uses resolveProxy (us.decodo.com pool) and curlFetch (27.488747ms)
-✔ production defaults: NO CONNECT leg (Yahoo blocks Decodo CONNECT egress with 404) (1.722709ms)
-✔ 200 OK: returns parsed JSON, never touches proxy (3.169334ms)
+✔ production defaults: curl leg uses resolveProxy (us.decodo.com pool) and curlFetch (38.721782ms)
+✔ production defaults: NO CONNECT leg (Yahoo blocks Decodo CONNECT egress with 404) (2.977773ms)
+✔ 200 OK: returns parsed JSON, never touches proxy (3.918829ms)
+✔ 429 with no proxy configured: throws after exhausting retries (HTTP 429 in message) (13.465137ms)
+✔ Retry-After header parsed: backoff respects upstream hint (DI _sleep capture) (7.84553ms)
+✔ Retry-After absent: falls back to linear backoff retryBaseMs * (attempt+1) (4.017719ms)
   [YAHOO] AAPL 429 — waiting 7s (1/1)
   [YAHOO] AAPL 429 — waiting 0s (1/1)
   [YAHOO] AAPL 429 — waiting 0s (1/1)
-✔ 429 with no proxy configured: throws after exhausting retries (HTTP 429 in message) (13.955299ms)
-✔ Retry-After header parsed: backoff respects upstream hint (DI _sleep capture) (7.138565ms)
-✔ Retry-After absent: falls back to linear backoff retryBaseMs * (attempt+1) (3.946405ms)
+  [YAHOO] AAPL Connect Timeout Error; retrying in 0s (1/1)
   [YAHOO] direct exhausted on AAPL (HTTP 429); trying proxy (curl)
   [YAHOO] proxy (curl) succeeded for AAPL
-  [YAHOO] AAPL Connect Timeout Error; retrying in 0s (1/1)
-✔ 429 + curl proxy succeeds: returns proxy data (11.420223ms)
+✔ 429 + curl proxy succeeds: returns proxy data (19.686766ms)
+  [YAHOO] AAPL 429 — waiting 0s (1/1)
   [YAHOO] direct exhausted on AAPL (Connect Timeout Error); trying proxy (curl)
   [YAHOO] proxy (curl) succeeded for AAPL
-✔ thrown fetch error on final retry → proxy fallback runs (P1 regression guard) (11.376673ms)
-  [YAHOO] AAPL 429 — waiting 0s (1/1)
+✔ thrown fetch error on final retry → proxy fallback runs (P1 regression guard) (12.061018ms)
   [YAHOO] direct exhausted on AAPL (HTTP 429); trying proxy (curl)
   [YAHOO] AAPL 429 — waiting 0s (1/1)
-✔ 429 + proxy ALSO fails: throws with both errors visible in message (14.95813ms)
+✔ 429 + proxy ALSO fails: throws with both errors visible in message (18.449079ms)
   [YAHOO] direct exhausted on AAPL (HTTP 429); trying proxy (curl)
   [YAHOO] AAPL 429 — waiting 0s (1/1)
-✔ proxy returns malformed JSON: throws exhausted (11.858968ms)
+✔ proxy returns malformed JSON: throws exhausted (13.854737ms)
   [YAHOO] direct exhausted on AAPL (HTTP 500); trying proxy (curl)
   [YAHOO] proxy (curl) succeeded for AAPL
-✔ proxy malformed JSON does NOT emit "succeeded" log before throwing (P2 log ordering) (12.479214ms)
-✔ non-retryable status (500): no extra direct retry, falls to proxy (1.896028ms)
-✔ parseRetryAfterMs: seconds + HTTP-date + null cases (1.954096ms)
+✔ proxy malformed JSON does NOT emit "succeeded" log before throwing (P2 log ordering) (14.336337ms)
+✔ non-retryable status (500): no extra direct retry, falls to proxy (1.234531ms)
+✔ parseRetryAfterMs: seconds + HTTP-date + null cases (1.805246ms)
 ▶ yieldToMain
-  ✔ returns a Promise (2.859447ms)
-  ✔ yields to the macrotask queue (resolves after an earlier-queued timer) (4.857208ms)
-  ✔ can be awaited repeatedly in order (2.009086ms)
-✔ yieldToMain (10.798782ms)
+  ✔ returns a Promise (7.194869ms)
+  ✔ yields to the macrotask queue (resolves after an earlier-queued timer) (7.032528ms)
+  ✔ can be awaited repeatedly in order (2.313876ms)
+✔ yieldToMain (18.017672ms)
 ℹ tests 14424
 ℹ suites 2459
 ℹ pass 14416
@@ -369,12 +608,12 @@
 ℹ cancelled 0
 ℹ skipped 6
 ℹ todo 0
-ℹ duration_ms 82758.757219
+ℹ duration_ms 93841.72307
 
 ✖ failing tests:
 
 test at tests/ci-workflow-coverage.test.mts:2:28
-✖ keeps GitHub Actions external uses pinned to commit SHAs (20.67418ms)
+✖ keeps GitHub Actions external uses pinned to commit SHAs (52.899093ms)
   AssertionError [ERR_ASSERTION]: GitHub Actions uses refs must be 40-character commit SHAs:
   broadcast-station-check.yml:35 uses: actions/checkout@v4
   broadcast-station-check.yml:186 uses: actions/upload-artifact@v4
@@ -404,7 +643,7 @@ test at tests/ci-workflow-coverage.test.mts:2:28
   }
 
 test at tests/edge-functions.test.mjs:87:5
-✖ broadcast/state.ts does not import node: built-ins (unsupported in Vercel Edge Runtime) (35.602287ms)
+✖ broadcast/state.ts does not import node: built-ins (unsupported in Vercel Edge Runtime) (38.745774ms)
   AssertionError [ERR_ASSERTION]: broadcast/state.ts: imports node:crypto — Vercel Edge Runtime does not support node: built-in modules. Use an edge-compatible alternative.
       at TestContext.<anonymous> (/home/runner/work/worldmonitor/worldmonitor/tests/edge-functions.test.mjs:90:14)
       at Test.runInAsyncScope (node:async_hooks:227:14)
