@@ -20,7 +20,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,6 +49,12 @@ jobs:
         shell: bash
         run: npx biome lint src/broadcast-*.ts api/broadcast/*.ts > broadcast-lint.log 2>&1
 
+      - name: Build production dashboard
+        id: build
+        continue-on-error: true
+        shell: bash
+        run: npm run build > broadcast-build.log 2>&1
+
       - name: Upload diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -58,13 +64,15 @@ jobs:
             dashboard-typecheck.log
             api-typecheck.log
             broadcast-lint.log
+            broadcast-build.log
           if-no-files-found: error
           retention-days: 3
 
       - name: Fail when validation failed
-        if: steps.dashboard.outcome != 'success' || steps.api.outcome != 'success' || steps.lint.outcome != 'success'
+        if: steps.dashboard.outcome != 'success' || steps.api.outcome != 'success' || steps.lint.outcome != 'success' || steps.build.outcome != 'success'
         run: |
           echo 'Dashboard typecheck: ${{ steps.dashboard.outcome }}'
           echo 'API typecheck: ${{ steps.api.outcome }}'
           echo 'Broadcast lint: ${{ steps.lint.outcome }}'
+          echo 'Production build: ${{ steps.build.outcome }}'
           exit 1
