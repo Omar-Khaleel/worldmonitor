@@ -79,6 +79,43 @@ test('broadcast state publishes, polls, and rejects a different controller key',
   assert.equal((forbidden.body as { error?: string }).error, 'invalid_control_key');
 });
 
+test('an older delayed write cannot replace a newer live configuration', async () => {
+  const station = `ayn-order-${Date.now().toString(36)}`;
+  const controlKey = 'control-key-ordering-123456789012345';
+  const base = Date.now() + 1_000;
+
+  const newer = await invoke('PUT', { station }, {
+    controlKey,
+    config: {
+      version: 2,
+      updatedAt: base + 100,
+      channelName: 'الإعداد الأحدث',
+      tickerHeadlines: ['الخبر الأحدث'],
+    },
+  });
+  assert.equal(newer.status, 200);
+
+  const stale = await invoke('PUT', { station }, {
+    controlKey,
+    config: {
+      version: 2,
+      updatedAt: base,
+      channelName: 'إعداد قديم وصل متأخراً',
+      tickerHeadlines: ['خبر قديم'],
+    },
+  });
+  assert.equal(stale.status, 200);
+  assert.equal((stale.body as { ignored?: string }).ignored, 'stale_update');
+
+  const current = await invoke('GET', { station });
+  assert.equal(current.status, 200);
+  assert.equal((current.body as { config?: { channelName?: string } }).config?.channelName, 'الإعداد الأحدث');
+  assert.deepEqual(
+    (current.body as { config?: { tickerHeadlines?: string[] } }).config?.tickerHeadlines,
+    ['الخبر الأحدث'],
+  );
+});
+
 test('broadcast state rejects invalid stations and oversized or malformed writes', async () => {
   const invalidStation = await invoke('GET', { station: '../admin' });
   assert.equal(invalidStation.status, 400);
