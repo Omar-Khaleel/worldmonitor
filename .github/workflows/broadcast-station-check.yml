@@ -18,7 +18,7 @@ permissions:
   contents: read
 
 jobs:
-  typecheck:
+  validate:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -43,20 +43,28 @@ jobs:
         shell: bash
         run: npx tsc --noEmit --pretty false -p tsconfig.api.json > api-typecheck.log 2>&1
 
+      - name: Lint broadcast files
+        id: lint
+        continue-on-error: true
+        shell: bash
+        run: npx biome lint src/broadcast-*.ts api/broadcast/*.ts > broadcast-lint.log 2>&1
+
       - name: Upload diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: broadcast-typecheck-diagnostics
+          name: broadcast-validation-diagnostics
           path: |
             dashboard-typecheck.log
             api-typecheck.log
+            broadcast-lint.log
           if-no-files-found: error
           retention-days: 3
 
-      - name: Fail when typecheck failed
-        if: steps.dashboard.outcome != 'success' || steps.api.outcome != 'success'
+      - name: Fail when validation failed
+        if: steps.dashboard.outcome != 'success' || steps.api.outcome != 'success' || steps.lint.outcome != 'success'
         run: |
           echo 'Dashboard typecheck: ${{ steps.dashboard.outcome }}'
           echo 'API typecheck: ${{ steps.api.outcome }}'
+          echo 'Broadcast lint: ${{ steps.lint.outcome }}'
           exit 1
