@@ -100,6 +100,18 @@ async function dispatch(
   }
 }
 
+function rewriteDedicatedPage(request: IncomingMessage, response: ServerResponse, url: URL): boolean {
+  const normalized = url.pathname.replace(/\/+$/, '') || '/';
+  if (normalized !== '/broadcast' && normalized !== '/control') return false;
+
+  const target = normalized === '/broadcast' ? '/broadcast/index.html' : '/control/index.html';
+  request.url = `${target}${url.search}`;
+  response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  response.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  response.setHeader('Vary', 'Accept-Encoding');
+  return true;
+}
+
 export function broadcastStationDevPlugin(): Plugin {
   return {
     name: 'ayn-broadcast-station-api',
@@ -109,6 +121,15 @@ export function broadcastStationDevPlugin(): Plugin {
         if (!request.url) return next();
         const port = server.config.server.port || 3000;
         const url = new URL(request.url, `http://127.0.0.1:${port}`);
+
+        // Vite's SPA fallback otherwise serves index.html (the full dashboard)
+        // for /broadcast and /control after a hard refresh. Rewrite these routes
+        // to their independent HTML entries before Vite's fallback middleware.
+        if (rewriteDedicatedPage(request, response, url)) {
+          next();
+          return;
+        }
+
         const path = url.pathname.replace(/\/$/, '');
         if (path === '/api/broadcast/state') {
           void dispatch(stateHandler as ApiHandler, request, response, url);
