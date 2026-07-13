@@ -1,0 +1,30 @@
+/* Keep the isolated viewer cheap even when many cards are projected. */
+.ayn-panel-card,
+.ayn-section {
+  contain: layout paint style;
+}
+
+.ayn-panel-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 220px;
+}
+
+.ayn-media-tile {
+  contain: strict;
+}
+
+.ayn-map-frame,
+.ayn-media-tile iframe,
+.ayn-media-tile video {
+  transform: translateZ(0);
+}
+
+.ayn-ticker-track {
+  backface-visibility: hidden;
+}
+
+@media (max-width: 720px) {
+  .ayn-panel-card {
+    contain-intrinsic-size: 200px;
+  }
+}
