@@ -64,6 +64,6 @@ test('Vite and Vercel route refreshes to dedicated control and viewer documents'
 
 test('service worker navigation cache excludes the isolated station routes', async () => {
   const viteConfig = await text('vite.config.ts');
-  assert.match(viteConfig, /!\/\^\\\/(?:\(\?:)?broadcast\|control/);
+  assert.ok(viteConfig.includes("!/^\\/(?:broadcast|control)(?:\\/|$)/.test(url.pathname)"));
   assert.match(viteConfig, /cacheName:\s*['"]html-navigation['"]/);
 });
