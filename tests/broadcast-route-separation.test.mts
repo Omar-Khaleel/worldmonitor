@@ -18,10 +18,13 @@ test('broadcast viewer has a dedicated lightweight HTML and JavaScript entry', a
   assert.doesNotMatch(viewerHtml, /src="\/src\/main\.ts"/);
   assert.doesNotMatch(viewerHtml, /id="app"/);
   assert.doesNotMatch(viewerEntry, /from ['"]\.\/App|from ['"]@\/App|new App\(/);
-  assert.doesNotMatch(viewerEntry, /broadcast-control-enhancements|LiveNewsPanel/);
+  assert.doesNotMatch(viewerEntry, /broadcast-control-enhancements|LiveNewsPanel|@\/main/);
   assert.match(viewerEntry, /subscribeLiveConfig/);
   assert.match(viewerEntry, /panelSnapshots/);
   assert.match(viewerEntry, /tickerHeadlines/);
+  assert.match(viewerEntry, /MAX_MEDIA_SOURCES = 6/);
+  assert.match(viewerEntry, /window\.setTimeout\(\(\) => void refreshFallbackHeadlines\(\), 500\)/);
+  assert.match(viewerEntry, /fallbackHeadlines = raw;\s*renderTicker\(currentConfig\)/);
 
   assert.match(controlHtml, /id="app"/);
   assert.match(controlHtml, /src="\/src\/control-entry\.ts"/);
@@ -30,8 +33,9 @@ test('broadcast viewer has a dedicated lightweight HTML and JavaScript entry', a
 });
 
 test('Vite and Vercel route refreshes to dedicated control and viewer documents', async () => {
-  const [viteConfig, vercelRaw, metaTags, syncSource] = await Promise.all([
+  const [viteConfig, devPlugin, vercelRaw, metaTags, syncSource] = await Promise.all([
     text('vite.config.ts'),
+    text('scripts/vite/broadcast-station-plugin.ts'),
     text('vercel.json'),
     text('src/services/meta-tags.ts'),
     text('src/broadcast-sync.ts'),
@@ -44,6 +48,9 @@ test('Vite and Vercel route refreshes to dedicated control and viewer documents'
   assert.match(viteConfig, /control:\s*resolve\(__dirname, ['"]control\/index\.html['"]\)/);
   assert.match(viteConfig, /broadcast:\s*resolve\(__dirname, ['"]broadcast\/index\.html['"]\)/);
   assert.match(viteConfig, /broadcastStationDevPlugin\(\)/);
+  assert.match(devPlugin, /normalized !== '\/broadcast' && normalized !== '\/control'/);
+  assert.match(devPlugin, /'\/broadcast\/index\.html'/);
+  assert.match(devPlugin, /request\.url = `\$\{target\}\$\{url\.search\}`/);
 
   const controlRewrite = vercel.rewrites.find((entry) => entry.source === '/control');
   const viewerRewrite = vercel.rewrites.find((entry) => entry.source === '/broadcast');
