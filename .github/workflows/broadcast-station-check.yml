@@ -1,5 +1,6 @@
 name: Broadcast Station Check
 
+# Focused validation for the realtime Ain Al-Saqr control room and viewer.
 on:
   push:
     branches:
