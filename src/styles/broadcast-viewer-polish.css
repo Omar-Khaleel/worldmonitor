@@ -56,6 +56,27 @@ body.broadcast-viewer #panelsGrid .webcam-controls {
   pointer-events: none !important;
 }
 
+/* Hide every dashboard editing/addition placeholder from the audience. */
+body.broadcast-viewer #panelsGrid .add-panel,
+body.broadcast-viewer #panelsGrid .add-panel-button,
+body.broadcast-viewer #panelsGrid .panel-add,
+body.broadcast-viewer #panelsGrid .add-widget,
+body.broadcast-viewer #panelsGrid .add-widget-button,
+body.broadcast-viewer #panelsGrid [data-action='add-panel'],
+body.broadcast-viewer #panelsGrid [data-testid='add-panel'],
+body.broadcast-viewer #panelsGrid .empty-panel-slot,
+body.broadcast-viewer #panelsGrid .dashboard-add-panel,
+body.broadcast-viewer #panelsGrid .panel-placeholder,
+body.broadcast-viewer #panelsGrid .resize-handle,
+body.broadcast-viewer #panelsGrid .panel-resize-handle,
+body.broadcast-viewer #panelsGrid [class*='add-panel' i],
+body.broadcast-viewer #panelsGrid [class*='add-widget' i],
+body.broadcast-viewer #panelsGrid [class*='empty-slot' i] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* Hide channel/camera/webcam identity labels while retaining the media itself. */
 body.broadcast-viewer #panelsGrid .webcam-cell-label,
 body.broadcast-viewer #panelsGrid .webcam-city,
