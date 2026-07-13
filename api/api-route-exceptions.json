@@ -561,6 +561,21 @@
     },
 
     {
+    "path": "api/broadcast/state.ts",
+    "category": "internal-helper",
+    "reason": "Dashboard-internal transport for the Ain Al-Saqr broadcast control room. Stores and returns station-scoped presentation state so a viewer link can receive panel, map-layer, channel, webcam, ticker, and translation changes without reloading. It is control-plane plumbing rather than a product data API; writes require a station controller key and enforce station, payload-size, retention, and record-count limits.",
+    "owner": "@Omar-Khaleel",
+    "removal_issue": null
+  },
+    {
+    "path": "api/broadcast/translate.ts",
+    "category": "internal-helper",
+    "reason": "Dashboard-internal Arabic translation proxy for the Ain Al-Saqr ticker and visible news cards. Keeps provider credentials server-side and exposes only a tightly bounded batch translation shape used by the broadcast UI; it is presentation plumbing, not a public product data contract.",
+    "owner": "@Omar-Khaleel",
+    "removal_issue": null
+  },
+
+    {
       "path": "api/latest-brief.ts",
       "category": "deferred",
       "reason": "Returns the current user's latest brief. Auth-gated and Clerk-coupled; migrating requires modeling Brief in proto and auth context in handler. Deferred to brief/v1 service.",
