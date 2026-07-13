@@ -15,6 +15,7 @@ on:
       - 'src/control-entry.ts'
       - 'src/styles/broadcast-*.css'
       - 'api/broadcast/**'
+      - 'convex/broadcastState.ts'
       - 'scripts/vite/broadcast-station-plugin.ts'
       - 'tests/broadcast-*.test.mts'
       - 'vite.config.ts'
@@ -60,6 +61,7 @@ jobs:
           src/broadcast-*.ts
           src/control-entry.ts
           api/broadcast/*.ts
+          convex/broadcastState.ts
           scripts/vite/broadcast-station-plugin.ts
           tests/broadcast-*.test.mts
           > broadcast-lint.log 2>&1
@@ -107,21 +109,31 @@ jobs:
           assert.ok(fs.existsSync(controlPath), 'dist/control/index.html is missing');
           const viewer = fs.readFileSync(viewerPath, 'utf8');
           const control = fs.readFileSync(controlPath, 'utf8');
-          assert.match(viewer, /عين الصقر — شاشة المشاهد/);
-          assert.match(control, /عين الصقر — غرفة التحكم/);
+          assert.match(viewer, /id="aynBroadcastViewer"/);
+          assert.match(viewer, /assets\/broadcast-[^"']+\.js/);
+          assert.match(control, /id="app"/);
+          assert.match(control, /assets\/control-[^"']+\.js/);
           assert.notEqual(viewer, control);
-          assert.doesNotMatch(viewer, /src\/main\.ts|id="app"/);
-          const directScripts = [...viewer.matchAll(/<script[^>]+src="([^"]+)"/g)].map((match) => match[1]);
-          assert.ok(directScripts.length >= 1, 'viewer has no built script');
-          let directBytes = 0;
-          for (const source of directScripts) {
-            const relative = source.replace(/^\//, '');
-            const file = path.join('dist', relative);
-            assert.ok(fs.existsSync(file), `missing viewer script ${file}`);
-            directBytes += fs.statSync(file).size;
+          assert.doesNotMatch(viewer, /src\/main\.ts|id="app"|assets\/control-/);
+
+          const referencedAssets = new Set([
+            ...[...viewer.matchAll(/<script[^>]+src="([^"]+)"/g)].map((match) => match[1]),
+            ...[...viewer.matchAll(/<link[^>]+(?:href)="([^"]+)"/g)].map((match) => match[1]),
+          ].filter((asset) => asset.startsWith('/assets/')));
+          assert.ok(referencedAssets.size >= 2, 'viewer has no built assets');
+          let initialAssetBytes = 0;
+          for (const source of referencedAssets) {
+            const file = path.join('dist', source.replace(/^\//, ''));
+            assert.ok(fs.existsSync(file), `missing viewer asset ${file}`);
+            initialAssetBytes += fs.statSync(file).size;
           }
-          assert.ok(directBytes < 500_000, `viewer direct scripts are too heavy: ${directBytes} bytes`);
-          console.log({ directScripts, directBytes, viewerBytes: Buffer.byteLength(viewer), controlBytes: Buffer.byteLength(control) });
+          assert.ok(initialAssetBytes < 250_000, `viewer initial assets are too heavy: ${initialAssetBytes} bytes`);
+          console.log({
+            referencedAssets: [...referencedAssets],
+            initialAssetBytes,
+            viewerBytes: Buffer.byteLength(viewer),
+            controlBytes: Buffer.byteLength(control),
+          });
           NODE
 
       - name: Smoke-test refresh routes and Vite broadcast API
@@ -139,9 +151,11 @@ jobs:
             sleep 1
           done
           grep -q 'src/broadcast-viewer-entry.ts' /tmp/viewer.html
+          curl -fsS 'http://127.0.0.1:4174/broadcast/?station=ayn-refresh-test' >/tmp/viewer-refresh.html
+          grep -q 'src/broadcast-viewer-entry.ts' /tmp/viewer-refresh.html
+          ! grep -q 'src/main.ts' /tmp/viewer-refresh.html
           curl -fsS http://127.0.0.1:4174/control/ >/tmp/control.html
           grep -q 'src/control-entry.ts' /tmp/control.html
-          ! grep -q 'src/main.ts' /tmp/viewer.html
 
           STATION="ayn-ci-$(date +%s)"
           KEY='ci-control-key-12345678901234567890'
