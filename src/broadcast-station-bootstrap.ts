@@ -4,7 +4,8 @@ const BROADCAST_STORAGE_KEY = 'ayn-al-saqr-broadcast-config-v1';
 const URL_CONFIG_KEY = 'bcfg';
 
 interface DefaultBroadcastConfig {
-  version: 1;
+  version: 2;
+  updatedAt: number;
   channelName: string;
   channelSubtitle: string;
   panelIds: string[];
@@ -19,6 +20,11 @@ interface DefaultBroadcastConfig {
   translationMode: 'server' | 'ollama' | 'off';
   ollamaUrl: string;
   ollamaModel: string;
+  liveChannelIds: string[];
+  webcamIds: string[];
+  mapLayerIds: string[];
+  mediaColumns: 1 | 2 | 3 | 4;
+  showMediaWall: boolean;
 }
 
 async function waitForDashboardPanels(timeoutMs = 30_000): Promise<void> {
@@ -72,22 +78,35 @@ function selectDefaultViewerPanels(): string[] {
 function ensureDefaultViewerConfig(params: URLSearchParams): void {
   if (params.get('broadcast') !== '1' || params.has(URL_CONFIG_KEY)) return;
 
+  let existing: Partial<DefaultBroadcastConfig> = {};
+  try {
+    existing = JSON.parse(localStorage.getItem(BROADCAST_STORAGE_KEY) || '{}') as Partial<DefaultBroadcastConfig>;
+  } catch {
+    existing = {};
+  }
+
   const config: DefaultBroadcastConfig = {
-    version: 1,
-    channelName: 'عين الصقر',
-    channelSubtitle: 'قناة الأخبار والمعلومات والتحليل',
-    panelIds: selectDefaultViewerPanels(),
-    showMap: true,
-    columns: 3,
-    gapPx: 0,
-    tickerEnabled: true,
-    tickerSpeedSeconds: 48,
-    tickerLimit: 24,
+    version: 2,
+    updatedAt: Number(existing.updatedAt || Date.now()),
+    channelName: existing.channelName || 'عين الصقر',
+    channelSubtitle: existing.channelSubtitle || 'قناة الأخبار والمعلومات والتحليل',
+    panelIds: existing.panelIds?.length ? existing.panelIds : selectDefaultViewerPanels(),
+    showMap: existing.showMap !== false,
+    columns: existing.columns || 3,
+    gapPx: Number(existing.gapPx ?? 0),
+    tickerEnabled: existing.tickerEnabled !== false,
+    tickerSpeedSeconds: Number(existing.tickerSpeedSeconds ?? 48),
+    tickerLimit: Number(existing.tickerLimit ?? 24),
     forceArabic: true,
-    translatePanelHeadlines: true,
-    translationMode: 'server',
-    ollamaUrl: 'http://127.0.0.1:11434',
-    ollamaModel: 'qwen2.5:7b',
+    translatePanelHeadlines: existing.translatePanelHeadlines !== false,
+    translationMode: existing.translationMode || 'ollama',
+    ollamaUrl: existing.ollamaUrl || 'http://127.0.0.1:11434',
+    ollamaModel: existing.ollamaModel || 'qwen2.5:7b',
+    liveChannelIds: existing.liveChannelIds || ['alarabiya', 'aljazeera-arabic'],
+    webcamIds: existing.webcamIds || ['jerusalem', 'middle-east'],
+    mapLayerIds: existing.mapLayerIds || ['conflicts', 'hotspots', 'sanctions', 'weather', 'military', 'natural'],
+    mediaColumns: existing.mediaColumns || 2,
+    showMediaWall: existing.showMediaWall !== false,
   };
 
   try {
@@ -143,16 +162,20 @@ export async function initBroadcastStationWhenReady(): Promise<void> {
   if (params.get('control') === '1') {
     forceControlActionsVisible();
     window.setTimeout(forceControlActionsVisible, 500);
+    const control = await import('@/broadcast-control-enhancements');
+    control.initBroadcastControlEnhancements();
   }
 
   if (params.get('broadcast') === '1') {
-    const [translation, polish, newsWire] = await Promise.all([
+    const [translation, polish, runtime, newsWire] = await Promise.all([
       import('@/broadcast-translation-hotfix'),
       import('@/broadcast-viewer-polish'),
-      import('@/broadcast-news-wire'),
+      import('@/broadcast-viewer-runtime'),
+      import('@/broadcast-news-wire-v2'),
     ]);
     translation.initBroadcastTranslationHotfix();
     polish.initBroadcastViewerPolish();
-    newsWire.initBroadcastNewsWire();
+    runtime.initBroadcastViewerRuntime();
+    newsWire.initBroadcastNewsWireV2();
   }
 }
