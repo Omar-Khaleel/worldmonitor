@@ -53,7 +53,7 @@ jobs:
         id: build
         continue-on-error: true
         shell: bash
-        run: npm run build > broadcast-build.log 2>&1
+        run: npx vite build > broadcast-build.log 2>&1
 
       - name: Upload diagnostics
         if: always()
