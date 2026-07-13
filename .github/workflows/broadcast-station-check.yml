@@ -49,6 +49,18 @@ jobs:
         shell: bash
         run: npx biome lint src/broadcast-*.ts api/broadcast/*.ts > broadcast-lint.log 2>&1
 
+      - name: Validate API contract
+        id: api_contract
+        continue-on-error: true
+        shell: bash
+        run: npm run lint:api-contract > api-contract.log 2>&1
+
+      - name: Validate API rate-limit policies
+        id: rate_limits
+        continue-on-error: true
+        shell: bash
+        run: npm run lint:rate-limit-policies > rate-limit-policies.log 2>&1
+
       - name: Build production dashboard
         id: build
         continue-on-error: true
@@ -64,15 +76,19 @@ jobs:
             dashboard-typecheck.log
             api-typecheck.log
             broadcast-lint.log
+            api-contract.log
+            rate-limit-policies.log
             broadcast-build.log
           if-no-files-found: error
           retention-days: 3
 
       - name: Fail when validation failed
-        if: steps.dashboard.outcome != 'success' || steps.api.outcome != 'success' || steps.lint.outcome != 'success' || steps.build.outcome != 'success'
+        if: steps.dashboard.outcome != 'success' || steps.api.outcome != 'success' || steps.lint.outcome != 'success' || steps.api_contract.outcome != 'success' || steps.rate_limits.outcome != 'success' || steps.build.outcome != 'success'
         run: |
           echo 'Dashboard typecheck: ${{ steps.dashboard.outcome }}'
           echo 'API typecheck: ${{ steps.api.outcome }}'
           echo 'Broadcast lint: ${{ steps.lint.outcome }}'
+          echo 'API contract: ${{ steps.api_contract.outcome }}'
+          echo 'Rate limits: ${{ steps.rate_limits.outcome }}'
           echo 'Production build: ${{ steps.build.outcome }}'
           exit 1
