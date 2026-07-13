@@ -1,0 +1,47 @@
+name: Diagnose Broadcast Unit Only
+
+on:
+  push:
+    branches:
+      - broadcast-station-mvp
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: broadcast-station-mvp
+          fetch-depth: 0
+          show-progress: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --silent
+      - run: VITE_VARIANT=full npx vite build >/tmp/broadcast-unit-build.log 2>&1
+      - name: Capture data-test failure
+        shell: bash
+        run: |
+          npm run test:data >/tmp/broadcast-unit.log 2>&1 || true
+          mkdir -p diagnostics/broadcast-general
+          {
+            grep -nE '^(not ok|# fail|FAIL|Error:|AssertionError|✖|×)|failed|failure' /tmp/broadcast-unit.log | tail -n 240 || true
+            echo
+            tail -n 420 /tmp/broadcast-unit.log || true
+          } > diagnostics/broadcast-general/data-tests.txt
+          rm .github/workflows/diagnose-broadcast-unit-only.yml
+      - name: Commit diagnostic and self-delete
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add diagnostics/broadcast-general/data-tests.txt .github/workflows/diagnose-broadcast-unit-only.yml
+          git commit -m 'capture unit test failure diagnostics'
+          git pull --rebase origin broadcast-station-mvp
+          git push origin HEAD:broadcast-station-mvp
