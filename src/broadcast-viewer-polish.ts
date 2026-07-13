@@ -1,7 +1,9 @@
 import './styles/broadcast-viewer-polish.css';
+import { playAllLiveMedia } from '@/services/live-media-controller';
 
 let observer: MutationObserver | null = null;
 let debounceTimer: number | null = null;
+let liveStartTimer: number | null = null;
 
 const CONTROL_SELECTOR = [
   'button',
@@ -74,6 +76,18 @@ function cleanMediaPanel(panel: HTMLElement): void {
   });
 }
 
+function startSelectedLiveOutputs(): void {
+  const selectedLivePanel = Array.from(document.querySelectorAll<HTMLElement>('#panelsGrid .panel[data-panel]'))
+    .some((panel) => !panel.classList.contains('broadcast-panel-hidden') && MEDIA_PANEL_PATTERN.test(panel.dataset.panel || ''));
+  if (!selectedLivePanel) return;
+
+  try {
+    playAllLiveMedia();
+  } catch (error) {
+    console.warn('[عين الصقر] تعذر بدء بعض مصادر البث المرئي', error);
+  }
+}
+
 function cleanViewer(): void {
   if (!document.body.classList.contains('broadcast-viewer')) return;
   cleanMapViewer();
@@ -88,6 +102,15 @@ function scheduleClean(delay = 250): void {
   }, delay);
 }
 
+function scheduleLiveStart(delay = 900): void {
+  if (liveStartTimer !== null) window.clearTimeout(liveStartTimer);
+  liveStartTimer = window.setTimeout(() => {
+    liveStartTimer = null;
+    startSelectedLiveOutputs();
+    window.setTimeout(cleanViewer, 500);
+  }, delay);
+}
+
 export function initBroadcastViewerPolish(): void {
   const params = new URL(window.location.href).searchParams;
   if (params.get('broadcast') !== '1') return;
@@ -95,10 +118,21 @@ export function initBroadcastViewerPolish(): void {
   document.body.dataset.aynViewerPolish = '1';
 
   cleanViewer();
+  scheduleLiveStart(600);
   window.setTimeout(cleanViewer, 800);
-  window.setTimeout(cleanViewer, 2500);
+  window.setTimeout(() => {
+    startSelectedLiveOutputs();
+    cleanViewer();
+  }, 2500);
 
   observer?.disconnect();
-  observer = new MutationObserver(() => scheduleClean(350));
+  observer = new MutationObserver(() => {
+    scheduleClean(350);
+    scheduleLiveStart(1400);
+  });
   observer.observe(document.body, { childList: true, subtree: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) scheduleLiveStart(300);
+  });
 }
