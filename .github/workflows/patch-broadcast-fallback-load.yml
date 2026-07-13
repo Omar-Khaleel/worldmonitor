@@ -1,0 +1,80 @@
+name: Optimize Broadcast Fallback Loading
+
+on:
+  push:
+    branches:
+      - broadcast-station-mvp
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: broadcast-station-mvp
+          fetch-depth: 0
+
+      - name: Defer fallback feeds when control news is fresh
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = 'src/broadcast-viewer-entry.ts';
+          let text = fs.readFileSync(path, 'utf8');
+          const oldFunction = `async function refreshFallbackHeadlines(): Promise<void> {
+            try {
+              const batches = await Promise.all(FALLBACK_FEEDS.map(fetchFeed));
+              const raw = uniqueHeadlines(batches.flat(), Math.max(currentConfig.tickerLimit, 20));
+              fallbackHeadlines = await translateBroadcastStrings(raw, currentConfig, 30);
+              renderTicker(currentConfig);
+            } catch {
+              // The projected headlines from control remain the primary source.
+            }
+          }`;
+          const newFunction = `function hasFreshProjectedHeadlines(config: LiveBroadcastConfig): boolean {
+            const minimum = Math.min(5, config.tickerLimit);
+            const age = config.projectionUpdatedAt > 0 ? Date.now() - config.projectionUpdatedAt : Number.POSITIVE_INFINITY;
+            return config.tickerHeadlines.length >= minimum && age < 2 * 60 * 1000;
+          }
+
+          async function refreshFallbackHeadlines(): Promise<void> {
+            if (hasFreshProjectedHeadlines(currentConfig)) return;
+            try {
+              const batches = await Promise.all(FALLBACK_FEEDS.map(fetchFeed));
+              const raw = uniqueHeadlines(batches.flat(), Math.max(currentConfig.tickerLimit, 20));
+              fallbackHeadlines = await translateBroadcastStrings(raw, currentConfig, 30);
+              renderTicker(currentConfig);
+            } catch {
+              // The projected headlines from control remain the primary source.
+            }
+          }`;
+          if (!text.includes(oldFunction)) throw new Error('fallback function anchor not found');
+          text = text.replace(oldFunction, newFunction);
+          const oldBoot = `subscribeLiveConfig((config) => void applyConfig(config));
+          void refreshRemoteConfig();
+          void refreshFallbackHeadlines();
+          window.setTimeout(() => void refreshFallbackHeadlines(), 5_000);
+          if (fallbackTimer !== null) window.clearInterval(fallbackTimer);
+          fallbackTimer = window.setInterval(() => void refreshFallbackHeadlines(), 60_000);`;
+          const newBoot = `subscribeLiveConfig((config) => void applyConfig(config));
+          void refreshRemoteConfig();
+          window.setTimeout(() => void refreshFallbackHeadlines(), 2_500);
+          if (fallbackTimer !== null) window.clearInterval(fallbackTimer);
+          fallbackTimer = window.setInterval(() => void refreshFallbackHeadlines(), 90_000);`;
+          if (!text.includes(oldBoot)) throw new Error('fallback boot anchor not found');
+          text = text.replace(oldBoot, newBoot);
+          fs.writeFileSync(path, text);
+          NODE
+
+      - name: Commit optimization
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/broadcast-viewer-entry.ts
+          git commit -m 'defer fallback news when control headlines are fresh'
+          git push origin HEAD:broadcast-station-mvp
