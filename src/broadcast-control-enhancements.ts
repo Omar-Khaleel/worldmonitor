@@ -104,7 +104,7 @@ function checkedValues(room: HTMLElement, group: string): string[] {
     .map((input) => input.value || input.id.replace(`ayn-${group}-`, ''));
 }
 
-function valueOf<T extends HTMLInputElement | HTMLSelectElement>(room: HTMLElement, id: string): T | null {
+function getControlField<T extends HTMLInputElement | HTMLSelectElement>(room: HTMLElement, id: string): T | null {
   return room.querySelector<T>(`#${id}`);
 }
 
@@ -120,25 +120,25 @@ function readFullConfig(room: HTMLElement): LiveBroadcastConfig {
     ...base,
     version: 2,
     updatedAt: Date.now(),
-    channelName: valueOf<HTMLInputElement>(room, 'broadcast-channel-name')?.value || base.channelName,
-    channelSubtitle: valueOf<HTMLInputElement>(room, 'broadcast-channel-subtitle')?.value || base.channelSubtitle,
+    channelName: getControlField<HTMLInputElement>(room, 'broadcast-channel-name')?.value || base.channelName,
+    channelSubtitle: getControlField<HTMLInputElement>(room, 'broadcast-channel-subtitle')?.value || base.channelSubtitle,
     panelIds,
-    showMap: valueOf<HTMLInputElement>(room, 'broadcast-show-map')?.checked !== false,
-    columns: Number(valueOf<HTMLSelectElement>(room, 'broadcast-columns')?.value || base.columns) as 1 | 2 | 3 | 4,
-    gapPx: Number(valueOf<HTMLInputElement>(room, 'broadcast-gap')?.value || base.gapPx),
-    tickerEnabled: valueOf<HTMLInputElement>(room, 'broadcast-ticker-enabled')?.checked !== false,
-    tickerSpeedSeconds: Number(valueOf<HTMLInputElement>(room, 'broadcast-ticker-speed')?.value || base.tickerSpeedSeconds),
-    tickerLimit: Number(valueOf<HTMLInputElement>(room, 'broadcast-ticker-limit')?.value || base.tickerLimit),
+    showMap: getControlField<HTMLInputElement>(room, 'broadcast-show-map')?.checked !== false,
+    columns: Number(getControlField<HTMLSelectElement>(room, 'broadcast-columns')?.value || base.columns) as 1 | 2 | 3 | 4,
+    gapPx: Number(getControlField<HTMLInputElement>(room, 'broadcast-gap')?.value || base.gapPx),
+    tickerEnabled: getControlField<HTMLInputElement>(room, 'broadcast-ticker-enabled')?.checked !== false,
+    tickerSpeedSeconds: Number(getControlField<HTMLInputElement>(room, 'broadcast-ticker-speed')?.value || base.tickerSpeedSeconds),
+    tickerLimit: Number(getControlField<HTMLInputElement>(room, 'broadcast-ticker-limit')?.value || base.tickerLimit),
     forceArabic: true,
-    translatePanelHeadlines: valueOf<HTMLInputElement>(room, 'broadcast-translate-panels')?.checked !== false,
-    translationMode: (valueOf<HTMLSelectElement>(room, 'broadcast-translation-mode')?.value || base.translationMode) as LiveBroadcastConfig['translationMode'],
-    ollamaUrl: valueOf<HTMLInputElement>(room, 'broadcast-ollama-url')?.value || base.ollamaUrl,
-    ollamaModel: valueOf<HTMLInputElement>(room, 'broadcast-ollama-model')?.value || base.ollamaModel,
+    translatePanelHeadlines: getControlField<HTMLInputElement>(room, 'broadcast-translate-panels')?.checked !== false,
+    translationMode: (getControlField<HTMLSelectElement>(room, 'broadcast-translation-mode')?.value || base.translationMode) as LiveBroadcastConfig['translationMode'],
+    ollamaUrl: getControlField<HTMLInputElement>(room, 'broadcast-ollama-url')?.value || base.ollamaUrl,
+    ollamaModel: getControlField<HTMLInputElement>(room, 'broadcast-ollama-model')?.value || base.ollamaModel,
     liveChannelIds: selectedChannels,
     webcamIds: selectedWebcams,
     mapLayerIds: selectedLayers,
-    mediaColumns: Number(valueOf<HTMLSelectElement>(room, 'ayn-media-columns')?.value || base.mediaColumns) as 1 | 2 | 3 | 4,
-    showMediaWall: valueOf<HTMLInputElement>(room, 'ayn-show-media-wall')?.checked !== false,
+    mediaColumns: Number(getControlField<HTMLSelectElement>(room, 'ayn-media-columns')?.value || base.mediaColumns) as 1 | 2 | 3 | 4,
+    showMediaWall: getControlField<HTMLInputElement>(room, 'ayn-show-media-wall')?.checked !== false,
   };
 }
 
