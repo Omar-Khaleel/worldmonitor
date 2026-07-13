@@ -44,7 +44,7 @@ function applyPanels(config: LiveBroadcastConfig): void {
   for (const panel of panels) {
     if (panel.dataset.panel === 'ayn-media-wall') continue;
     const id = panel.dataset.panel || '';
-    panel.classList.toggle('broadcast-panel-hidden', selected.length > 0 && !selected.has(id));
+    panel.classList.toggle('broadcast-panel-hidden', selected.size > 0 && !selected.has(id));
   }
   document.querySelector<HTMLElement>('#mapSection')?.classList.toggle('broadcast-panel-hidden', !config.showMap);
   document.documentElement.style.setProperty('--broadcast-columns', String(config.columns));
