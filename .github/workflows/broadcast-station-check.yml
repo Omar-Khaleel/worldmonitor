@@ -15,7 +15,6 @@ on:
       - 'src/control-entry.ts'
       - 'src/styles/broadcast-*.css'
       - 'api/broadcast/**'
-      - 'convex/broadcastState.ts'
       - 'scripts/vite/broadcast-station-plugin.ts'
       - 'tests/broadcast-*.test.mts'
       - 'e2e/broadcast-station.spec.ts'
@@ -62,7 +61,6 @@ jobs:
           src/broadcast-*.ts
           src/control-entry.ts
           api/broadcast/*.ts
-          convex/broadcastState.ts
           scripts/vite/broadcast-station-plugin.ts
           tests/broadcast-*.test.mts
           e2e/broadcast-station.spec.ts
