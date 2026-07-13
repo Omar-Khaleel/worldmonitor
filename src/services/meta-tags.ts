@@ -162,8 +162,8 @@ function initBroadcastMode(url: URL): boolean {
     setMetaTag('robots', 'noindex, nofollow');
   }
 
-  void import('@/broadcast-station')
-    .then((module) => module.initBroadcastStation())
+  void import('@/broadcast-station-bootstrap')
+    .then((module) => module.initBroadcastStationWhenReady())
     .catch((error) => console.error('[broadcast] Failed to start broadcast station', error));
   return true;
 }
