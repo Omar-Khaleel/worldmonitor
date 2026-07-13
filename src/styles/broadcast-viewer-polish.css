@@ -1,0 +1,147 @@
+/* عين الصقر — clean, non-interactive newsroom viewer */
+
+body.broadcast-viewer {
+  cursor: default !important;
+  user-select: none !important;
+}
+
+/* Remove every map configuration/control surface from the viewer. */
+body.broadcast-viewer #mapSection button,
+body.broadcast-viewer #mapSection select,
+body.broadcast-viewer #mapSection input,
+body.broadcast-viewer #mapSection [role='button'],
+body.broadcast-viewer #mapSection [role='toolbar'],
+body.broadcast-viewer #mapSection [role='tablist'],
+body.broadcast-viewer #mapSection [class*='toolbar' i],
+body.broadcast-viewer #mapSection [class*='control' i],
+body.broadcast-viewer #mapSection [class*='selector' i],
+body.broadcast-viewer #mapSection [class*='toggle' i],
+body.broadcast-viewer #mapSection [class*='filter' i],
+body.broadcast-viewer #mapSection [class*='layer' i],
+body.broadcast-viewer #mapSection [class*='legend' i],
+body.broadcast-viewer #mapSection [class*='timeline' i],
+body.broadcast-viewer #mapSection [class*='time-range' i],
+body.broadcast-viewer #mapSection .mapboxgl-ctrl,
+body.broadcast-viewer #mapSection .maplibregl-ctrl,
+body.broadcast-viewer #mapSection .deckgl-control,
+body.broadcast-viewer #mapSection .map-overlay-controls {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Viewer panels are output surfaces, never configuration surfaces. */
+body.broadcast-viewer #panelsGrid .panel-toolbar,
+body.broadcast-viewer #panelsGrid .panel-controls,
+body.broadcast-viewer #panelsGrid .panel-actions,
+body.broadcast-viewer #panelsGrid [class*='toolbar' i],
+body.broadcast-viewer #panelsGrid [class*='selector' i],
+body.broadcast-viewer #panelsGrid [class*='switcher' i],
+body.broadcast-viewer #panelsGrid [class*='tabs' i],
+body.broadcast-viewer #panelsGrid [role='tablist'],
+body.broadcast-viewer #panelsGrid .webcam-toolbar,
+body.broadcast-viewer #panelsGrid .webcam-toolbar-group,
+body.broadcast-viewer #panelsGrid .webcam-region-btn,
+body.broadcast-viewer #panelsGrid .webcam-view-btn,
+body.broadcast-viewer #panelsGrid .live-channel-switcher,
+body.broadcast-viewer #panelsGrid .channel-switcher,
+body.broadcast-viewer #panelsGrid .channel-tabs,
+body.broadcast-viewer #panelsGrid .live-news-channels,
+body.broadcast-viewer #panelsGrid .stream-controls,
+body.broadcast-viewer #panelsGrid .live-controls,
+body.broadcast-viewer #panelsGrid .camera-controls,
+body.broadcast-viewer #panelsGrid .webcam-controls {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Hide channel/camera/webcam identity labels while retaining the media itself. */
+body.broadcast-viewer #panelsGrid .webcam-cell-label,
+body.broadcast-viewer #panelsGrid .webcam-city,
+body.broadcast-viewer #panelsGrid .webcam-preview-status,
+body.broadcast-viewer #panelsGrid .webcam-preview-title,
+body.broadcast-viewer #panelsGrid .webcam-preview-meta,
+body.broadcast-viewer #panelsGrid [class*='webcam'][class*='label' i],
+body.broadcast-viewer #panelsGrid [class*='webcam'][class*='title' i],
+body.broadcast-viewer #panelsGrid [class*='webcam'][class*='name' i],
+body.broadcast-viewer #panelsGrid [class*='webcam'][class*='meta' i],
+body.broadcast-viewer #panelsGrid [class*='camera'][class*='label' i],
+body.broadcast-viewer #panelsGrid [class*='camera'][class*='title' i],
+body.broadcast-viewer #panelsGrid [class*='camera'][class*='name' i],
+body.broadcast-viewer #panelsGrid [class*='camera'][class*='location' i],
+body.broadcast-viewer #panelsGrid [class*='channel'][class*='label' i],
+body.broadcast-viewer #panelsGrid [class*='channel'][class*='title' i],
+body.broadcast-viewer #panelsGrid [class*='channel'][class*='name' i],
+body.broadcast-viewer #panelsGrid [class*='stream'][class*='label' i],
+body.broadcast-viewer #panelsGrid [class*='stream'][class*='title' i],
+body.broadcast-viewer #panelsGrid [class*='stream'][class*='name' i] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Remove interaction affordances from media panels. */
+body.broadcast-viewer #panelsGrid .webcam-preview-tile button,
+body.broadcast-viewer #panelsGrid .webcam-cell button,
+body.broadcast-viewer #panelsGrid .live-news-player button,
+body.broadcast-viewer #panelsGrid .live-mute-btn,
+body.broadcast-viewer #panelsGrid .panel-sort-btn,
+body.broadcast-viewer #panelsGrid .panel-summarize-btn,
+body.broadcast-viewer #panelsGrid .item-translate-btn {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Media should fill the broadcast box cleanly. */
+body.broadcast-viewer #panelsGrid iframe,
+body.broadcast-viewer #panelsGrid video,
+body.broadcast-viewer #panelsGrid canvas,
+body.broadcast-viewer #panelsGrid .webcam-iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  object-fit: cover !important;
+}
+
+body.broadcast-viewer #panelsGrid .webcam-cell,
+body.broadcast-viewer #panelsGrid .webcam-grid,
+body.broadcast-viewer #panelsGrid .live-news-player,
+body.broadcast-viewer #panelsGrid .player-container {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #020305 !important;
+  overflow: hidden !important;
+}
+
+/* Newsroom-safe polish. */
+body.broadcast-viewer #panelsGrid .panel-content {
+  scrollbar-width: none !important;
+}
+
+body.broadcast-viewer #panelsGrid .panel-content::-webkit-scrollbar {
+  display: none !important;
+}
+
+body.broadcast-viewer #panelsGrid .item-title,
+body.broadcast-viewer #panelsGrid .news-title,
+body.broadcast-viewer #panelsGrid .headline,
+body.broadcast-viewer #panelsGrid [data-headline] {
+  text-wrap: pretty;
+}
+
+body.broadcast-viewer .broadcast-ticker-track[data-ayn-global-news-wire='true'] .broadcast-ticker-text {
+  direction: rtl !important;
+  unicode-bidi: plaintext;
+  text-align: right !important;
+  font-family: system-ui, 'Segoe UI', Tahoma, Arial, sans-serif !important;
+  font-weight: 800 !important;
+}
+
+body.broadcast-viewer[data-ayn-ticker-status='refreshing'] .broadcast-ticker-pulse,
+body.broadcast-viewer .broadcast-ticker-pulse {
+  animation-duration: 1.15s !important;
+}
