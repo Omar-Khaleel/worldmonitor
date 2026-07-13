@@ -16,10 +16,12 @@ const CACHE_KEY = 'ayn-al-saqr-arabic-wire-cache-v2';
 const CACHE_TTL = 18 * 60 * 60 * 1000;
 const cache = new Map<string, { value: string; at: number }>();
 let observer: MutationObserver | null = null;
+let tickerObserver: MutationObserver | null = null;
 let interval: number | null = null;
 let debounce: number | null = null;
 let running = false;
 let rerun = false;
+let writingTicker = false;
 let config = loadLiveConfig();
 
 function normalize(text: string): string {
@@ -50,7 +52,7 @@ function panelScore(node: HTMLElement): number {
   if (/intel|insight|strategic|threat|risk|conflict|crisis|security|sanction/.test(text)) score += 145;
   if (/market|economic|energy|trade|technology|climate/.test(text)) score += 80;
   if (/live-news|live-webcams|camera|webcam|video|stream/.test(text)) score -= 220;
-  if (panel?.classList.contains('broadcast-panel-hidden')) score -= 5; // Hidden panels still feed the wire.
+  if (panel?.classList.contains('broadcast-panel-hidden')) score -= 5;
   return score;
 }
 
@@ -203,6 +205,7 @@ function render(items: string[], state: 'loading' | 'live' | 'error'): void {
   const content = items.length > 0 ? items : [
     state === 'loading' ? 'جارٍ جمع الأخبار العالمية وترجمتها إلى العربية...' : 'تعذر الاتصال بخدمة الترجمة؛ تحقق من إعدادات Ollama أو خادم الترجمة في غرفة التحكم.',
   ];
+  writingTicker = true;
   track.replaceChildren();
   for (const headline of [...content, ...content]) {
     const item = document.createElement('span');
@@ -224,6 +227,7 @@ function render(items: string[], state: 'loading' | 'live' | 'error'): void {
   track.dataset.aynGlobalNewsWire = 'true';
   document.body.dataset.aynTickerStatus = state;
   document.body.dataset.aynTickerCount = String(items.length);
+  window.queueMicrotask(() => { writingTicker = false; });
 }
 
 async function refresh(): Promise<void> {
@@ -255,6 +259,24 @@ function schedule(delay = 900): void {
   debounce = window.setTimeout(() => { debounce = null; void refresh(); }, delay);
 }
 
+function observeNewsAndTicker(): void {
+  observer?.disconnect();
+  const root = document.querySelector('#panelsGrid');
+  if (root) {
+    observer = new MutationObserver(() => schedule(1600));
+    observer.observe(root, { childList: true, subtree: true, characterData: true });
+  }
+
+  tickerObserver?.disconnect();
+  const ticker = document.querySelector('#broadcastTickerTrack');
+  if (ticker) {
+    tickerObserver = new MutationObserver(() => {
+      if (!writingTicker) schedule(120);
+    });
+    tickerObserver.observe(ticker, { childList: true, subtree: true, characterData: true });
+  }
+}
+
 export function initBroadcastNewsWireV2(): void {
   const params = new URL(window.location.href).searchParams;
   if (params.get('broadcast') !== '1') return;
@@ -263,12 +285,11 @@ export function initBroadcastNewsWireV2(): void {
   loadCache();
   render([], 'loading');
   schedule(250);
-  window.setTimeout(() => schedule(50), 3000);
+  window.setTimeout(() => { observeNewsAndTicker(); schedule(50); }, 3000);
   window.setTimeout(() => schedule(50), 8000);
   window.setTimeout(() => schedule(50), 16000);
 
-  observer = new MutationObserver(() => schedule(1800));
-  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  observeNewsAndTicker();
   if (interval !== null) window.clearInterval(interval);
   interval = window.setInterval(() => schedule(50), 30_000);
   subscribeLiveConfig((next) => {
