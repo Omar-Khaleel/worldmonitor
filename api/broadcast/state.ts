@@ -1,5 +1,5 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { ConvexHttpClient } from 'convex/browser';
+import { Redis } from '@upstash/redis';
 
 interface ApiRequest {
   method?: string;
@@ -21,11 +21,6 @@ interface StateRecord {
   updatedAt: number;
 }
 
-interface PersistentStateClient {
-  query(name: unknown, args: Record<string, unknown>): Promise<unknown>;
-  mutation(name: unknown, args: Record<string, unknown>): Promise<unknown>;
-}
-
 declare global {
   // eslint-disable-next-line no-var
   var __aynBroadcastStates: Map<string, StateRecord> | undefined;
@@ -36,8 +31,17 @@ globalThis.__aynBroadcastStates = states;
 
 const MAX_STATIONS = 500;
 const MAX_CONFIG_BYTES = 128_000;
-const STATE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
-let persistentClient: PersistentStateClient | null | undefined;
+const STATE_TTL_SECONDS = 7 * 24 * 60 * 60;
+const STATE_TTL_MS = STATE_TTL_SECONDS * 1_000;
+const REDIS_PREFIX = 'ayn:broadcast:v2';
+let redisClient: Redis | null | undefined;
+
+class InvalidControlKeyError extends Error {
+  constructor() {
+    super('INVALID_CONTROL_KEY');
+    this.name = 'InvalidControlKeyError';
+  }
+}
 
 function single(value: string | string[] | undefined): string {
   return Array.isArray(value) ? value[0] || '' : value || '';
@@ -84,23 +88,32 @@ function parseBody(body: unknown): { config: Record<string, unknown>; controlKey
   return { config: candidate.config as Record<string, unknown>, controlKey: candidate.controlKey };
 }
 
-function getPersistentSecret(): string | null {
-  const secret = process.env.BROADCAST_STATE_SECRET || process.env.RELAY_SHARED_SECRET || '';
-  return secret.length >= 32 ? secret : null;
-}
-
-function getPersistentClient(): PersistentStateClient | null {
-  if (persistentClient !== undefined) return persistentClient;
-  const convexUrl = process.env.CONVEX_URL;
-  if (!convexUrl || !getPersistentSecret()) {
-    persistentClient = null;
+function getRedis(): Redis | null {
+  if (redisClient !== undefined) return redisClient;
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) {
+    redisClient = null;
     return null;
   }
-  persistentClient = new ConvexHttpClient(convexUrl, {
-    fetch: (input, init) =>
-      fetch(input, { ...init, signal: init?.signal ?? AbortSignal.timeout(8_000) }),
-  }) as PersistentStateClient;
-  return persistentClient;
+  redisClient = new Redis({
+    url,
+    token,
+    ...(process.env.NODE_TEST_CONTEXT ? { retry: false as const } : {}),
+  });
+  return redisClient;
+}
+
+function stateKey(station: string): string {
+  return `${REDIS_PREFIX}:state:${station}`;
+}
+
+function ownerKey(station: string): string {
+  return `${REDIS_PREFIX}:owner:${station}`;
+}
+
+function versionKey(station: string): string {
+  return `${REDIS_PREFIX}:version:${station}`;
 }
 
 function normalizePersistentRecord(value: unknown): StateRecord | null {
@@ -120,50 +133,63 @@ function normalizePersistentRecord(value: unknown): StateRecord | null {
 }
 
 async function readState(station: string): Promise<StateRecord | null> {
-  const client = getPersistentClient();
-  const serverSecret = getPersistentSecret();
-  if (!client || !serverSecret) return states.get(station) ?? null;
-  const value = await client.query('broadcastState:getState' as never, { station, serverSecret });
-  const record = normalizePersistentRecord(value);
+  const redis = getRedis();
+  if (!redis) return states.get(station) ?? null;
+  const record = normalizePersistentRecord(await redis.get(stateKey(station)));
   if (record) states.set(station, record);
   else states.delete(station);
   return record;
 }
 
-async function writeState(station: string, record: StateRecord): Promise<StateRecord> {
-  const client = getPersistentClient();
-  const serverSecret = getPersistentSecret();
-  if (!client || !serverSecret) {
-    states.set(station, record);
-    return record;
+async function claimOwner(redis: Redis, station: string, controlKeyHash: string): Promise<void> {
+  await redis.set(ownerKey(station), controlKeyHash, {
+    nx: true,
+    ex: STATE_TTL_SECONDS,
+  });
+  const owner = await redis.get<string>(ownerKey(station));
+  if (typeof owner !== 'string' || !secureEqual(owner, controlKeyHash)) {
+    throw new InvalidControlKeyError();
   }
-  const result = await client.mutation('broadcastState:putState' as never, {
-    station,
-    config: record.config,
-    version: record.version,
-    controlKeyHash: record.controlKeyHash,
-    updatedAt: record.updatedAt,
-    serverSecret,
-  }) as { version?: unknown } | null;
-  const stored = {
+}
+
+async function writeState(station: string, record: StateRecord): Promise<StateRecord> {
+  const redis = getRedis();
+  if (!redis) {
+    const existing = states.get(station);
+    const stored = {
+      ...record,
+      version: Math.max(record.version, (existing?.version ?? 0) + 1),
+    };
+    states.set(station, stored);
+    return stored;
+  }
+
+  await claimOwner(redis, station, record.controlKeyHash);
+  const existing = normalizePersistentRecord(await redis.get(stateKey(station)));
+  if (existing && !secureEqual(existing.controlKeyHash, record.controlKeyHash)) {
+    throw new InvalidControlKeyError();
+  }
+
+  const version = Number(await redis.incr(versionKey(station)));
+  const stored: StateRecord = {
     ...record,
-    version: Number.isFinite(Number(result?.version)) ? Number(result?.version) : record.version,
+    version: Number.isFinite(version) ? version : Math.max(record.version, (existing?.version ?? 0) + 1),
   };
+  await Promise.all([
+    redis.set(stateKey(station), stored, { ex: STATE_TTL_SECONDS }),
+    redis.expire(ownerKey(station), STATE_TTL_SECONDS),
+    redis.expire(versionKey(station), STATE_TTL_SECONDS),
+  ]);
   states.set(station, stored);
   return stored;
 }
 
 function persistentFailure(res: ApiResponse, error: unknown): void {
-  const message = error instanceof Error ? error.message : String(error);
-  if (message.includes('INVALID_CONTROL_KEY')) {
+  if (error instanceof InvalidControlKeyError) {
     res.status(403).json({ error: 'invalid_control_key' });
     return;
   }
-  if (message.includes('UNAUTHORIZED_BROADCAST_STATE')) {
-    console.error('[broadcast-state] Convex shared secret mismatch');
-  } else {
-    console.error('[broadcast-state] persistent store unavailable', error);
-  }
+  console.error('[broadcast-state] persistent Redis store unavailable', error);
   res.setHeader('Retry-After', '2');
   res.status(503).json({ error: 'broadcast_state_unavailable' });
 }
