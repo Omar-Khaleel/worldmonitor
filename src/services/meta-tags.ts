@@ -144,7 +144,28 @@ export function parseStoryParams(url: URL): StoryMeta | null {
   };
 }
 
+function normalizeBroadcastRoute(url: URL): void {
+  const path = url.pathname.replace(/\/+$/, '') || '/';
+  const mode = path === '/control' || path === '/station'
+    ? 'control'
+    : path === '/broadcast'
+      ? 'broadcast'
+      : null;
+  if (!mode) return;
+
+  url.pathname = '/';
+  url.searchParams.set(mode, '1');
+  url.searchParams.set('lang', 'ar');
+
+  try {
+    window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+  } catch {
+    // History replacement can be unavailable in embedded webviews; the in-memory URL still works.
+  }
+}
+
 function initBroadcastMode(url: URL): boolean {
+  normalizeBroadcastRoute(url);
   const enabled = url.searchParams.get('broadcast') === '1' || url.searchParams.get('control') === '1';
   if (!enabled) return false;
 
@@ -160,6 +181,8 @@ function initBroadcastMode(url: URL): boolean {
     setMetaTag('title', title);
     setMetaTag('description', 'واجهة بث عربية مباشرة للأخبار والتحليلات والخريطة العالمية.');
     setMetaTag('robots', 'noindex, nofollow');
+  } else {
+    document.title = 'عين الصقر — غرفة التحكم';
   }
 
   void import('@/broadcast-station-bootstrap')
@@ -168,10 +191,26 @@ function initBroadcastMode(url: URL): boolean {
   return true;
 }
 
+function mountBroadcastLauncher(): void {
+  const mount = (): void => {
+    void import('@/broadcast-launcher')
+      .then((module) => module.mountBroadcastLauncher())
+      .catch((error) => console.warn('[broadcast] Failed to mount launcher', error));
+  };
+
+  if (document.body) {
+    window.requestAnimationFrame(mount);
+  } else {
+    window.addEventListener('DOMContentLoaded', mount, { once: true });
+  }
+}
+
 export function initMetaTags(): void {
   const url = new URL(window.location.href);
 
   if (initBroadcastMode(url)) return;
+
+  mountBroadcastLauncher();
 
   if (url.pathname === '/story' || url.searchParams.has('c')) {
     const params = parseStoryParams(url);
