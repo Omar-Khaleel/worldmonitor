@@ -1,5 +1,1 @@
-docs-stats --check FAILED (2):
-  ✗ ARCHITECTURE.md: CI workflow `diagnose-broadcast-doc-claims.yml` is not listed in the CI/CD table
-  ✗ ARCHITECTURE.md: CI workflow `diagnose-broadcast-general-tests.yml` is not listed in the CI/CD table
-
-Fix the doc number, or run `npm run docs:stats` if the code total legitimately changed.
+docs-stats --check OK — 80 doc claims match code.
