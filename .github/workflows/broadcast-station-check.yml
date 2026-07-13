@@ -18,6 +18,7 @@ on:
       - 'convex/broadcastState.ts'
       - 'scripts/vite/broadcast-station-plugin.ts'
       - 'tests/broadcast-*.test.mts'
+      - 'e2e/broadcast-station.spec.ts'
       - 'vite.config.ts'
       - 'vercel.json'
       - 'docs/broadcast-station.md'
@@ -29,7 +30,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,6 +65,7 @@ jobs:
           convex/broadcastState.ts
           scripts/vite/broadcast-station-plugin.ts
           tests/broadcast-*.test.mts
+          e2e/broadcast-station.spec.ts
           > broadcast-lint.log 2>&1
 
       - name: Test route separation and live state API
@@ -169,6 +171,18 @@ jobs:
           grep -q 'خبر حي للاختبار' /tmp/state-get.json
           cat /tmp/state-put.json /tmp/state-get.json > broadcast-smoke.log
 
+      - name: Install Chromium for viewer test
+        id: browser_install
+        continue-on-error: true
+        shell: bash
+        run: npx playwright install --with-deps chromium > browser-install.log 2>&1
+
+      - name: Browser-test no-reload updates and refresh isolation
+        id: browser_e2e
+        continue-on-error: true
+        shell: bash
+        run: npx playwright test e2e/broadcast-station.spec.ts --project=chromium > browser-e2e.log 2>&1
+
       - name: Upload diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -185,6 +199,10 @@ jobs:
             broadcast-artifacts.log
             broadcast-dev-server.log
             broadcast-smoke.log
+            browser-install.log
+            browser-e2e.log
+            test-results/**
+            playwright-report/**
           if-no-files-found: warn
           retention-days: 3
 
@@ -198,7 +216,9 @@ jobs:
           steps.rate_limits.outcome != 'success' ||
           steps.build.outcome != 'success' ||
           steps.artifacts.outcome != 'success' ||
-          steps.smoke.outcome != 'success'
+          steps.smoke.outcome != 'success' ||
+          steps.browser_install.outcome != 'success' ||
+          steps.browser_e2e.outcome != 'success'
         run: |
           echo 'Dashboard typecheck: ${{ steps.dashboard.outcome }}'
           echo 'API typecheck: ${{ steps.api.outcome }}'
@@ -209,4 +229,6 @@ jobs:
           echo 'Production build: ${{ steps.build.outcome }}'
           echo 'Artifact separation: ${{ steps.artifacts.outcome }}'
           echo 'Live route/API smoke: ${{ steps.smoke.outcome }}'
+          echo 'Browser install: ${{ steps.browser_install.outcome }}'
+          echo 'Browser E2E: ${{ steps.browser_e2e.outcome }}'
           exit 1
