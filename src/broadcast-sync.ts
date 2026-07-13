@@ -31,9 +31,11 @@ const CHANNEL_NAME = 'ayn-al-saqr-live-control-v1';
 const STATION_PARAM = 'station';
 const BCFG_PARAM = 'bcfg';
 
+const subscribers = new Set<(config: LiveBroadcastConfig) => void>();
 let channel: BroadcastChannel | null = null;
 let pollTimer: number | null = null;
 let lastRemoteVersion = 0;
+let listenersInstalled = false;
 
 function randomToken(bytes = 12): string {
   const data = new Uint8Array(bytes);
@@ -154,6 +156,34 @@ function announceStatus(state: string, detail = ''): void {
   window.dispatchEvent(new CustomEvent('ayn-broadcast-sync-status', { detail: { state, detail } }));
 }
 
+function dispatchConfig(config: LiveBroadcastConfig): void {
+  for (const subscriber of subscribers) {
+    try { subscriber(config); } catch (error) { console.warn('[عين الصقر] sync subscriber failed', error); }
+  }
+}
+
+function ensureListeners(): void {
+  if (listenersInstalled) return;
+  listenersInstalled = true;
+  const station = getStationId();
+  const bc = getChannel();
+  bc?.addEventListener('message', (event: MessageEvent) => {
+    const message = event.data as { type?: string; station?: string; config?: Partial<LiveBroadcastConfig> };
+    if (message?.type !== 'config' || message.station !== station || !message.config) return;
+    dispatchConfig(normalizeLiveConfig(message.config));
+  });
+
+  window.addEventListener('storage', (event: StorageEvent) => {
+    if (event.key !== CONFIG_KEY || !event.newValue) return;
+    dispatchConfig(normalizeLiveConfig(parseStoredConfig(event.newValue)));
+  });
+
+  window.addEventListener('ayn-broadcast-config', (event: Event) => {
+    const custom = event as CustomEvent<Partial<LiveBroadcastConfig>>;
+    if (custom.detail) dispatchConfig(normalizeLiveConfig(custom.detail));
+  });
+}
+
 async function pushRemote(config: LiveBroadcastConfig): Promise<void> {
   const station = getStationId();
   try {
@@ -170,6 +200,7 @@ async function pushRemote(config: LiveBroadcastConfig): Promise<void> {
 }
 
 export function publishLiveConfig(input: Partial<LiveBroadcastConfig>, remote = true): LiveBroadcastConfig {
+  ensureListeners();
   const config = normalizeLiveConfig({ ...loadLiveConfig(), ...input, updatedAt: Date.now() });
   safeStorageSet(CONFIG_KEY, JSON.stringify(config));
   getChannel()?.postMessage({ type: 'config', station: getStationId(), config });
@@ -178,7 +209,7 @@ export function publishLiveConfig(input: Partial<LiveBroadcastConfig>, remote = 
   return config;
 }
 
-async function fetchRemoteConfig(onConfig: (config: LiveBroadcastConfig) => void): Promise<void> {
+async function fetchRemoteConfig(): Promise<void> {
   const station = getStationId();
   try {
     const response = await fetch(`/api/broadcast/state?station=${encodeURIComponent(station)}&after=${lastRemoteVersion}`, {
@@ -192,7 +223,7 @@ async function fetchRemoteConfig(onConfig: (config: LiveBroadcastConfig) => void
     lastRemoteVersion = version;
     const config = normalizeLiveConfig(payload.config);
     safeStorageSet(CONFIG_KEY, JSON.stringify(config));
-    onConfig(config);
+    dispatchConfig(config);
     announceStatus('online', 'وصل تحديث مباشر من غرفة التحكم');
   } catch {
     // BroadcastChannel/localStorage remain available for local previews.
@@ -200,36 +231,14 @@ async function fetchRemoteConfig(onConfig: (config: LiveBroadcastConfig) => void
 }
 
 export function subscribeLiveConfig(onConfig: (config: LiveBroadcastConfig) => void): () => void {
-  const station = getStationId();
-  const bc = getChannel();
-  const onMessage = (event: MessageEvent): void => {
-    const message = event.data as { type?: string; station?: string; config?: Partial<LiveBroadcastConfig> };
-    if (message?.type !== 'config' || message.station !== station || !message.config) return;
-    onConfig(normalizeLiveConfig(message.config));
-  };
-  bc?.addEventListener('message', onMessage);
-
-  const onStorage = (event: StorageEvent): void => {
-    if (event.key !== CONFIG_KEY || !event.newValue) return;
-    onConfig(normalizeLiveConfig(parseStoredConfig(event.newValue)));
-  };
-  window.addEventListener('storage', onStorage);
-
-  const onLocal = (event: Event): void => {
-    const custom = event as CustomEvent<Partial<LiveBroadcastConfig>>;
-    if (custom.detail) onConfig(normalizeLiveConfig(custom.detail));
-  };
-  window.addEventListener('ayn-broadcast-config', onLocal);
-
-  void fetchRemoteConfig(onConfig);
-  if (pollTimer !== null) window.clearInterval(pollTimer);
-  pollTimer = window.setInterval(() => void fetchRemoteConfig(onConfig), 1000);
+  ensureListeners();
+  subscribers.add(onConfig);
+  void fetchRemoteConfig();
+  if (pollTimer === null) pollTimer = window.setInterval(() => void fetchRemoteConfig(), 1000);
 
   return () => {
-    bc?.removeEventListener('message', onMessage);
-    window.removeEventListener('storage', onStorage);
-    window.removeEventListener('ayn-broadcast-config', onLocal);
-    if (pollTimer !== null) {
+    subscribers.delete(onConfig);
+    if (subscribers.size === 0 && pollTimer !== null) {
       window.clearInterval(pollTimer);
       pollTimer = null;
     }
