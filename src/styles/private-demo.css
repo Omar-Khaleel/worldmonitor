@@ -33,18 +33,33 @@ html.wm-pro-banner-reserved .skeleton-shell {
   height: 100vh !important;
 }
 
-/* Hide subscription/auth upsell surfaces in the visual demo. */
+/* Hide subscription upsell surfaces in the visual demo. */
 .panel-pro-badge,
 .panel-locked-state,
 .panel-is-locked,
-.auth-widget-mount,
-#authWidgetMount,
 .payment-failure-banner,
 .checkout-failure-banner,
 .checkout-overlay,
 .pro-banner,
 .pro-banner-slot {
   display: none !important;
+}
+
+/*
+ * Keep the auth mount's 200px reservation so the desktop header does not jump
+ * when auth hydrates. Its contents stay invisible/non-interactive in the demo.
+ */
+.auth-widget-mount,
+#authWidgetMount {
+  display: flex !important;
+  flex: 0 0 200px !important;
+  width: 200px !important;
+  min-width: 200px !important;
+  max-width: 200px !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
 }
 
 /* Presentation/kiosk mode: remove download prompts, external links, docs, social, and footer chrome. */
