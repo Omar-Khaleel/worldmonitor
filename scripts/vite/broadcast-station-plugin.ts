@@ -5,18 +5,20 @@ import translateHandler from '../../api/broadcast/translate';
 
 const MAX_BODY_BYTES = 256_000;
 
+interface DevApiResponse {
+  setHeader(name: string, value: string): void;
+  status(code: number): DevApiResponse;
+  json(value: unknown): void;
+  end(): void;
+}
+
 type ApiHandler = (
   request: {
     method?: string;
     query?: Record<string, string | string[] | undefined>;
     body?: unknown;
   },
-  response: {
-    setHeader(name: string, value: string): void;
-    status(code: number): unknown;
-    json(value: unknown): void;
-    end(): void;
-  },
+  response: DevApiResponse,
 ) => Promise<void>;
 
 async function readJsonBody(request: IncomingMessage): Promise<unknown> {
@@ -49,17 +51,12 @@ function buildQuery(url: URL): Record<string, string | string[]> {
   return query;
 }
 
-function responseAdapter(response: ServerResponse): {
-  setHeader(name: string, value: string): void;
-  status(code: number): ReturnType<typeof responseAdapter>;
-  json(value: unknown): void;
-  end(): void;
-} {
-  const adapter = {
+function responseAdapter(response: ServerResponse): DevApiResponse {
+  const adapter: DevApiResponse = {
     setHeader(name: string, value: string): void {
       response.setHeader(name, value);
     },
-    status(code: number) {
+    status(code: number): DevApiResponse {
       response.statusCode = code;
       return adapter;
     },
