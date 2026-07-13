@@ -84,10 +84,15 @@ function parseBody(body: unknown): { config: Record<string, unknown>; controlKey
   return { config: candidate.config as Record<string, unknown>, controlKey: candidate.controlKey };
 }
 
+function getPersistentSecret(): string | null {
+  const secret = process.env.BROADCAST_STATE_SECRET || process.env.RELAY_SHARED_SECRET || '';
+  return secret.length >= 32 ? secret : null;
+}
+
 function getPersistentClient(): PersistentStateClient | null {
   if (persistentClient !== undefined) return persistentClient;
   const convexUrl = process.env.CONVEX_URL;
-  if (!convexUrl) {
+  if (!convexUrl || !getPersistentSecret()) {
     persistentClient = null;
     return null;
   }
@@ -116,8 +121,9 @@ function normalizePersistentRecord(value: unknown): StateRecord | null {
 
 async function readState(station: string): Promise<StateRecord | null> {
   const client = getPersistentClient();
-  if (!client) return states.get(station) ?? null;
-  const value = await client.query('broadcastState:getState' as never, { station });
+  const serverSecret = getPersistentSecret();
+  if (!client || !serverSecret) return states.get(station) ?? null;
+  const value = await client.query('broadcastState:getState' as never, { station, serverSecret });
   const record = normalizePersistentRecord(value);
   if (record) states.set(station, record);
   else states.delete(station);
@@ -126,7 +132,8 @@ async function readState(station: string): Promise<StateRecord | null> {
 
 async function writeState(station: string, record: StateRecord): Promise<StateRecord> {
   const client = getPersistentClient();
-  if (!client) {
+  const serverSecret = getPersistentSecret();
+  if (!client || !serverSecret) {
     states.set(station, record);
     return record;
   }
@@ -136,6 +143,7 @@ async function writeState(station: string, record: StateRecord): Promise<StateRe
     version: record.version,
     controlKeyHash: record.controlKeyHash,
     updatedAt: record.updatedAt,
+    serverSecret,
   }) as { version?: unknown } | null;
   const stored = {
     ...record,
@@ -151,7 +159,11 @@ function persistentFailure(res: ApiResponse, error: unknown): void {
     res.status(403).json({ error: 'invalid_control_key' });
     return;
   }
-  console.error('[broadcast-state] persistent store unavailable', error);
+  if (message.includes('UNAUTHORIZED_BROADCAST_STATE')) {
+    console.error('[broadcast-state] Convex shared secret mismatch');
+  } else {
+    console.error('[broadcast-state] persistent store unavailable', error);
+  }
   res.setHeader('Retry-After', '2');
   res.status(503).json({ error: 'broadcast_state_unavailable' });
 }
