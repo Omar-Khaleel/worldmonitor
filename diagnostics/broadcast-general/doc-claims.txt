@@ -1,1 +1,0 @@
-docs-stats --check OK — 80 doc claims match code.
