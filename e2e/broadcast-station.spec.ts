@@ -43,6 +43,13 @@ function stationConfig(
   };
 }
 
+async function expectViewerUrl(page: import('@playwright/test').Page, station: string): Promise<void> {
+  await expect.poll(() => {
+    const url = new URL(page.url());
+    return { pathname: url.pathname, station: url.searchParams.get('station') };
+  }).toEqual({ pathname: '/broadcast', station });
+}
+
 test('isolated viewer receives changes without reload and remains viewer after refresh', async ({ page, request }) => {
   const station = `ayn-e2e-${Date.now().toString(36)}`;
   const controlKey = 'e2e-control-key-12345678901234567890';
@@ -61,7 +68,7 @@ test('isolated viewer receives changes without reload and remains viewer after r
   // Use the slashless public route deliberately: the dev middleware and Vercel
   // must both serve the dedicated viewer HTML instead of the dashboard fallback.
   await page.goto(`/broadcast?station=${station}&lang=ar`, { waitUntil: 'domcontentloaded' });
-  await expect(page).toHaveURL(new RegExp(`/broadcast\?station=${station}`));
+  await expectViewerUrl(page, station);
   await expect(page.locator('#app')).toHaveCount(0);
   await expect(page.locator('.broadcast-control-room')).toHaveCount(0);
   await expect(page.locator('#aynBroadcastViewer')).toHaveCount(1);
@@ -105,7 +112,7 @@ test('isolated viewer receives changes without reload and remains viewer after r
   expect(loadedScripts.some((name) => /panels-(?:markets|energy|defense|news|economy|intel|risk)/.test(name))).toBeFalsy();
 
   await page.reload({ waitUntil: 'domcontentloaded' });
-  await expect(page).toHaveURL(new RegExp(`/broadcast\?station=${station}`));
+  await expectViewerUrl(page, station);
   await expect(page.locator('#app')).toHaveCount(0);
   await expect(page.locator('.broadcast-control-room')).toHaveCount(0);
   await expect(page.locator('.ayn-viewer-brand-copy strong')).toHaveText('عين الصقر — التحديث الثاني');
