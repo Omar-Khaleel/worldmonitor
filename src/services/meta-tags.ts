@@ -153,7 +153,7 @@ function normalizeBroadcastRoute(url: URL): void {
       : null;
   if (!mode) return;
 
-  url.pathname = '/';
+  url.pathname = mode === 'control' ? '/control/' : '/broadcast/';
   url.searchParams.set(mode, '1');
   url.searchParams.set('lang', 'ar');
 

@@ -41,6 +41,7 @@ let currentConfig = loadLiveConfig();
 let fallbackHeadlines: string[] = [];
 let fallbackTimer: number | null = null;
 let mediaKey = '';
+let mediaGeneration = 0;
 let mapKey = '';
 let mapLoadTimer: number | null = null;
 let clockTimer: number | null = null;
@@ -256,8 +257,16 @@ async function renderMedia(config: LiveBroadcastConfig): Promise<void> {
   document.documentElement.style.setProperty('--ayn-media-columns', String(config.mediaColumns));
   if (nextKey === mediaKey) return;
   mediaKey = nextKey;
+  const generation = ++mediaGeneration;
   destroyMedia();
   const tiles = await Promise.all(sources.map(createMediaTile));
+  if (generation !== mediaGeneration) {
+    tiles.forEach((tile) => tile?.querySelectorAll<ManagedVideoElement>('video').forEach((video) => {
+      video.__aynHls?.destroy();
+      video.pause();
+    }));
+    return;
+  }
   ui.mediaWall.append(...tiles.filter((tile): tile is HTMLElement => Boolean(tile)));
 }
 

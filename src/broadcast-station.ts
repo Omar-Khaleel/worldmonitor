@@ -70,12 +70,17 @@ function createElement<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
+function normalizedPath(): string {
+  return window.location.pathname.replace(/\/+$/, '') || '/';
+}
+
 function isViewerMode(params = new URL(window.location.href).searchParams): boolean {
-  return params.get('broadcast') === '1';
+  return normalizedPath() === '/broadcast' || params.get('broadcast') === '1';
 }
 
 function isControlMode(params = new URL(window.location.href).searchParams): boolean {
-  return params.get('control') === '1';
+  const path = normalizedPath();
+  return path === '/control' || path === '/station' || params.get('control') === '1';
 }
 
 export function prepareBroadcastLanguage(params = new URL(window.location.href).searchParams): void {
@@ -170,6 +175,7 @@ function saveConfig(config: BroadcastConfig): void {
 
 function buildViewerUrl(config: BroadcastConfig): string {
   const url = new URL(window.location.href);
+  url.pathname = '/broadcast/';
   url.search = '';
   url.searchParams.set('broadcast', '1');
   url.searchParams.set('lang', 'ar');

@@ -4,7 +4,7 @@ const LAUNCHER_ID = 'aynBroadcastLauncher';
 
 function buildControlUrl(): string {
   const url = new URL(window.location.href);
-  url.pathname = '/control';
+  url.pathname = '/control/';
   url.search = '';
   url.hash = '';
   return url.toString();
