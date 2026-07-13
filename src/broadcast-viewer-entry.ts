@@ -32,10 +32,8 @@ const MAP_LAYER_ALIASES: Record<string, string> = {
 
 let currentConfig = loadLiveConfig();
 let fallbackHeadlines: string[] = [];
-let fallbackTimer: number | null = null;
 let mediaTimer: number | null = null;
 let mapTimer: number | null = null;
-let clockTimer: number | null = null;
 let mediaKey = '';
 let mediaGeneration = 0;
 let mapKey = '';
@@ -335,9 +333,9 @@ window.addEventListener('ayn-broadcast-sync-status', (event) => {
 subscribeLiveConfig((config) => void applyConfig(config));
 void refreshRemoteConfig();
 window.setTimeout(() => void refreshFallbackHeadlines(), 500);
-fallbackTimer = window.setInterval(() => void refreshFallbackHeadlines(), 60_000);
+window.setInterval(() => void refreshFallbackHeadlines(), 60_000);
 updateClock();
-clockTimer = window.setInterval(updateClock, 1_000);
+window.setInterval(updateClock, 1_000);
 
 if ('caches' in window) {
   void Promise.all([
