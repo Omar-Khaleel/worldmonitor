@@ -58,8 +58,10 @@ test('isolated viewer receives changes without reload and remains viewer after r
   });
   expect(firstWrite.ok()).toBeTruthy();
 
-  await page.goto(`/broadcast/?station=${station}&lang=ar`, { waitUntil: 'domcontentloaded' });
-  await expect(page).toHaveURL(new RegExp(`/broadcast/\\?station=${station}`));
+  // Use the slashless public route deliberately: the dev middleware and Vercel
+  // must both serve the dedicated viewer HTML instead of the dashboard fallback.
+  await page.goto(`/broadcast?station=${station}&lang=ar`, { waitUntil: 'domcontentloaded' });
+  await expect(page).toHaveURL(new RegExp(`/broadcast\?station=${station}`));
   await expect(page.locator('#app')).toHaveCount(0);
   await expect(page.locator('.broadcast-control-room')).toHaveCount(0);
   await expect(page.locator('#aynBroadcastViewer')).toHaveCount(1);
@@ -79,6 +81,7 @@ test('isolated viewer receives changes without reload and remains viewer after r
     'تفاصيل اللوحة المحدثة لحظياً',
     Date.now() + 10,
   );
+  const started = Date.now();
   const secondWrite = await request.put(`/api/broadcast/state?station=${station}`, {
     data: { controlKey, config: secondConfig },
   });
@@ -88,6 +91,7 @@ test('isolated viewer receives changes without reload and remains viewer after r
   await expect(page.locator('.ayn-ticker-track')).toContainText('خبر التحديث الثاني وصل من دون إعادة تحميل الصفحة');
   await expect(page.locator('.ayn-panel-card[data-panel-id="politics"] h2')).toHaveText('الأخبار السياسية المحدثة');
   await expect(page.locator('.ayn-panel-card[data-panel-id="politics"]')).toContainText('تفاصيل اللوحة المحدثة لحظياً');
+  expect(Date.now() - started).toBeLessThan(4_000);
   await expect.poll(() => page.evaluate(() =>
     (window as Window & { __aynNoReloadMarker?: string }).__aynNoReloadMarker,
   )).toBe('preserved');
@@ -95,12 +99,13 @@ test('isolated viewer receives changes without reload and remains viewer after r
   const loadedScripts = await page.evaluate(() =>
     performance.getEntriesByType('resource')
       .map((entry) => entry.name)
-      .filter((name) => /\\.js(?:$|\\?)/.test(name)),
+      .filter((name) => /\.js(?:$|\?)/.test(name)),
   );
   expect(loadedScripts.some((name) => /\/assets\/(?:main|control)-/.test(name))).toBeFalsy();
+  expect(loadedScripts.some((name) => /panels-(?:markets|energy|defense|news|economy|intel|risk)/.test(name))).toBeFalsy();
 
   await page.reload({ waitUntil: 'domcontentloaded' });
-  await expect(page).toHaveURL(new RegExp(`/broadcast/\\?station=${station}`));
+  await expect(page).toHaveURL(new RegExp(`/broadcast\?station=${station}`));
   await expect(page.locator('#app')).toHaveCount(0);
   await expect(page.locator('.broadcast-control-room')).toHaveCount(0);
   await expect(page.locator('.ayn-viewer-brand-copy strong')).toHaveText('عين الصقر — التحديث الثاني');
