@@ -195,6 +195,11 @@ function persistentFailure(res: ApiResponse, error: unknown): void {
   res.status(503).json({ error: 'broadcast_state_unavailable' });
 }
 
+function configTimestamp(config: Record<string, unknown>): number {
+  const value = Number(config.updatedAt);
+  return Number.isFinite(value) && value > 0 ? value : 0;
+}
+
 export default async function handler(req: ApiRequest, res: ApiResponse): Promise<void> {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -259,7 +264,19 @@ export default async function handler(req: ApiRequest, res: ApiResponse): Promis
     return;
   }
 
-  const version = Math.max(Date.now(), Number((parsed.config as { updatedAt?: unknown }).updatedAt || 0));
+  const incomingTimestamp = configTimestamp(parsed.config);
+  const existingTimestamp = existing ? configTimestamp(existing.config) : 0;
+  if (existing && incomingTimestamp > 0 && existingTimestamp > incomingTimestamp) {
+    res.status(200).json({
+      ok: true,
+      station,
+      version: existing.version,
+      ignored: 'stale_update',
+    });
+    return;
+  }
+
+  const version = Math.max(Date.now(), incomingTimestamp);
   try {
     const stored = await writeState(station, {
       config: parsed.config,
