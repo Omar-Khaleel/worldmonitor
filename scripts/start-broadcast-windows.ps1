@@ -119,14 +119,16 @@ if ($null -ne $existingPort) {
   Remove-Item $OutLog, $ErrorLog -Force -ErrorAction SilentlyContinue
   $nodePath = (Get-Command node.exe).Source
   $vitePath = Join-Path $ProjectRoot 'node_modules\vite\bin\vite.js'
-  $process = Start-Process \
-    -FilePath $nodePath \
-    -ArgumentList @($vitePath, '--host', '0.0.0.0', '--port', [string]$Port, '--strictPort') \
-    -WorkingDirectory $ProjectRoot \
-    -RedirectStandardOutput $OutLog \
-    -RedirectStandardError $ErrorLog \
-    -WindowStyle Hidden \
-    -PassThru
+  $startArguments = @{
+    FilePath = $nodePath
+    ArgumentList = @($vitePath, '--host', '0.0.0.0', '--port', [string]$Port, '--strictPort')
+    WorkingDirectory = $ProjectRoot
+    RedirectStandardOutput = $OutLog
+    RedirectStandardError = $ErrorLog
+    WindowStyle = 'Hidden'
+    PassThru = $true
+  }
+  $process = Start-Process @startArguments
 
   Set-Content -Path $PidFile -Value $process.Id -Encoding ASCII
   Set-Content -Path $PortFile -Value $Port -Encoding ASCII
