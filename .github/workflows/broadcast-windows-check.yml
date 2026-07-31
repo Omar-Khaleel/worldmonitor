@@ -70,9 +70,9 @@ jobs:
         shell: pwsh
         run: |
           $expectations = @{
-            'INSTALL-AIN-SAQR.cmd' = 'scripts\\setup-broadcast-windows.ps1'
-            'START-AIN-SAQR.cmd' = 'scripts\\start-broadcast-windows.ps1'
-            'STOP-AIN-SAQR.cmd' = 'scripts\\stop-broadcast-windows.ps1'
+            'INSTALL-AIN-SAQR.cmd' = 'scripts\setup-broadcast-windows.ps1'
+            'START-AIN-SAQR.cmd' = 'scripts\start-broadcast-windows.ps1'
+            'STOP-AIN-SAQR.cmd' = 'scripts\stop-broadcast-windows.ps1'
           }
           foreach ($entry in $expectations.GetEnumerator()) {
             if (-not (Test-Path $entry.Key)) { throw "Missing $($entry.Key)" }
