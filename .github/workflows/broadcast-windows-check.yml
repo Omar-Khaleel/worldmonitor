@@ -81,3 +81,7 @@ jobs:
               throw "$($entry.Key) does not target $($entry.Value)"
             }
           }
+
+      - name: Run setup preflight without installation
+        shell: pwsh
+        run: ./scripts/setup-broadcast-windows.ps1 -ValidateOnly -SkipUpdate
