@@ -121,7 +121,7 @@ if ($null -ne $existingPort) {
   $vitePath = Join-Path $ProjectRoot 'node_modules\vite\bin\vite.js'
   $startArguments = @{
     FilePath = $nodePath
-    ArgumentList = @($vitePath, '--host', '0.0.0.0', '--port', [string]$Port, '--strictPort')
+    ArgumentList = "`"$vitePath`" --host 0.0.0.0 --port $Port --strictPort"
     WorkingDirectory = $ProjectRoot
     RedirectStandardOutput = $OutLog
     RedirectStandardError = $ErrorLog
