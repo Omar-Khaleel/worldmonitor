@@ -6,6 +6,7 @@ import { mkdir, readFile, writeFile } from 'fs/promises';
 import { brotliCompress } from 'zlib';
 import { promisify } from 'util';
 import pkg from './package.json';
+import { broadcastStationDevPlugin } from './scripts/vite/broadcast-station-plugin';
 import { VARIANT_META, type VariantMeta } from './src/config/variant-meta';
 import {
   WEB_DASHBOARD_VARIANTS,
@@ -965,6 +966,7 @@ export default defineConfig(({ mode }) => {
           });
         },
       },
+      broadcastStationDevPlugin(),
       htmlVariantPlugin(activeMeta, activeVariant, isDesktopBuild),
       !isDesktopBuild && dashboardHtmlOutputPlugin(),
       // Variant subdomain SEO pages only make sense on the web deployment,
@@ -1042,7 +1044,9 @@ export default defineConfig(({ mode }) => {
 
           runtimeCaching: [
             {
-              urlPattern: ({ request }: { request: Request }) => request.mode === 'navigate',
+              urlPattern: ({ request, url }: { request: Request; url: URL }) =>
+                request.mode === 'navigate'
+                && !/^\/(?:broadcast|control)(?:\/|$)/.test(url.pathname),
               handler: 'NetworkFirst',
               options: {
                 cacheName: 'html-navigation',
@@ -1160,6 +1164,8 @@ export default defineConfig(({ mode }) => {
         },
         input: {
           main: resolve(__dirname, 'index.html'),
+          control: resolve(__dirname, 'control/index.html'),
+          broadcast: resolve(__dirname, 'broadcast/index.html'),
           embed: resolve(__dirname, 'embed.html'),
           settings: resolve(__dirname, 'settings.html'),
           liveChannels: resolve(__dirname, 'live-channels.html'),

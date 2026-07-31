@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#05070b" />
+    <title>عين الصقر — شاشة المشاهد</title>
+    <style>
+      html,body{margin:0;min-height:100%;background:#05070b;color:#f4f7fb;font-family:system-ui,"Segoe UI",Tahoma,Arial,sans-serif}
+      body{overflow-x:hidden}.ayn-viewer-boot{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 25%,#132033 0,#05070b 55%)}
+      .ayn-viewer-boot strong{font-size:22px}.ayn-viewer-boot span{display:block;margin-top:10px;color:#9ba7b8;font-size:13px}
+    </style>
+    <link rel="stylesheet" href="/src/styles/broadcast-viewer-performance.css" />
+  </head>
+  <body>
+    <div id="aynBroadcastViewer" class="ayn-viewer-boot" aria-live="polite">
+      <div><strong>عين الصقر</strong><span>جارٍ الاتصال بغرفة التحكم وجلب البث...</span></div>
+    </div>
+    <script type="module" src="/src/broadcast-viewer-entry.ts"></script>
+  </body>
+</html>

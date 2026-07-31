@@ -12,7 +12,7 @@
   "variantCount": 6,
   "componentTopLevelTsFiles": 160,
   "serviceTopLevelEntries": 197,
-  "apiEndpointEntries": 88,
+  "apiEndpointEntries": 89,
   "panelClasses": 104,
   "protoFiles": 279,
   "protoServices": 35,
@@ -48,6 +48,7 @@
   ],
   "locales": 25,
   "workflows": [
+    "broadcast-station-check.yml",
     "build-desktop.yml",
     "contributor-trust.yml",
     "convex-deploy.yml",
@@ -69,7 +70,7 @@
     "test.yml",
     "typecheck.yml"
   ],
-  "workflowCount": 20,
+  "workflowCount": 21,
   "freshnessSources": 35,
   "freshnessRequiredForRisk": 2,
   "feedDefinitions": 567,

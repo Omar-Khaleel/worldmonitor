@@ -1,0 +1,232 @@
+name: Broadcast Station Check
+
+# Focused validation for the realtime Ain Al-Saqr control room and viewer.
+on:
+  push:
+    branches:
+      - broadcast-station-mvp
+  pull_request:
+    branches:
+      - custom-demo-branding
+    paths:
+      - 'broadcast/**'
+      - 'control/**'
+      - 'src/broadcast-*.ts'
+      - 'src/control-entry.ts'
+      - 'src/styles/broadcast-*.css'
+      - 'api/broadcast/**'
+      - 'scripts/vite/broadcast-station-plugin.ts'
+      - 'tests/broadcast-*.test.mts'
+      - 'e2e/broadcast-station.spec.ts'
+      - 'vite.config.ts'
+      - 'vercel.json'
+      - 'docs/broadcast-station.md'
+      - '.github/workflows/broadcast-station-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          show-progress: false
+
+      - name: Install dependencies quietly
+        shell: bash
+        run: npm ci --ignore-scripts --silent >/dev/null 2>&1
+
+      - name: Typecheck dashboard
+        id: dashboard
+        continue-on-error: true
+        shell: bash
+        run: npx tsc --noEmit --pretty false > dashboard-typecheck.log 2>&1
+
+      - name: Typecheck API
+        id: api
+        continue-on-error: true
+        shell: bash
+        run: npx tsc --noEmit --pretty false -p tsconfig.api.json > api-typecheck.log 2>&1
+
+      - name: Lint broadcast files
+        id: lint
+        continue-on-error: true
+        shell: bash
+        run: >-
+          npx biome lint
+          src/broadcast-*.ts
+          src/control-entry.ts
+          api/broadcast/*.ts
+          scripts/vite/broadcast-station-plugin.ts
+          tests/broadcast-*.test.mts
+          e2e/broadcast-station.spec.ts
+          > broadcast-lint.log 2>&1
+
+      - name: Test route separation and live state API
+        id: station_tests
+        continue-on-error: true
+        shell: bash
+        run: >-
+          npx tsx --test
+          tests/broadcast-route-separation.test.mts
+          tests/broadcast-state.test.mts
+          > broadcast-tests.log 2>&1
+
+      - name: Validate API contract
+        id: api_contract
+        continue-on-error: true
+        shell: bash
+        run: npm run lint:api-contract > api-contract.log 2>&1
+
+      - name: Validate API rate-limit policies
+        id: rate_limits
+        continue-on-error: true
+        shell: bash
+        run: npm run lint:rate-limit-policies > rate-limit-policies.log 2>&1
+
+      - name: Build production dashboard
+        id: build
+        continue-on-error: true
+        shell: bash
+        run: npx vite build > broadcast-build.log 2>&1
+
+      - name: Verify isolated production documents and viewer entry weight
+        id: artifacts
+        continue-on-error: true
+        shell: bash
+        run: |
+          node <<'NODE' > broadcast-artifacts.log 2>&1
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const assert = require('node:assert/strict');
+          const viewerPath = 'dist/broadcast/index.html';
+          const controlPath = 'dist/control/index.html';
+          assert.ok(fs.existsSync(viewerPath), 'dist/broadcast/index.html is missing');
+          assert.ok(fs.existsSync(controlPath), 'dist/control/index.html is missing');
+          const viewer = fs.readFileSync(viewerPath, 'utf8');
+          const control = fs.readFileSync(controlPath, 'utf8');
+          assert.match(viewer, /id="aynBroadcastViewer"/);
+          assert.match(viewer, /assets\/broadcast-[^"']+\.js/);
+          assert.match(control, /id="app"/);
+          assert.match(control, /assets\/control-[^"']+\.js/);
+          assert.notEqual(viewer, control);
+          assert.doesNotMatch(viewer, /src\/main\.ts|id="app"|assets\/control-/);
+
+          const referencedAssets = new Set([
+            ...[...viewer.matchAll(/<script[^>]+src="([^"]+)"/g)].map((match) => match[1]),
+            ...[...viewer.matchAll(/<link[^>]+(?:href)="([^"]+)"/g)].map((match) => match[1]),
+          ].filter((asset) => asset.startsWith('/assets/')));
+          assert.ok(referencedAssets.size >= 2, 'viewer has no built assets');
+          let initialAssetBytes = 0;
+          for (const source of referencedAssets) {
+            const file = path.join('dist', source.replace(/^\//, ''));
+            assert.ok(fs.existsSync(file), `missing viewer asset ${file}`);
+            initialAssetBytes += fs.statSync(file).size;
+          }
+          assert.ok(initialAssetBytes < 250_000, `viewer initial assets are too heavy: ${initialAssetBytes} bytes`);
+          console.log({
+            referencedAssets: [...referencedAssets],
+            initialAssetBytes,
+            viewerBytes: Buffer.byteLength(viewer),
+            controlBytes: Buffer.byteLength(control),
+          });
+          NODE
+
+      - name: Smoke-test refresh routes and Vite broadcast API
+        id: smoke
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx vite --host 127.0.0.1 --port 4174 > broadcast-dev-server.log 2>&1 &
+          SERVER_PID=$!
+          cleanup() { kill "$SERVER_PID" 2>/dev/null || true; }
+          trap cleanup EXIT
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:4174/broadcast/ >/tmp/viewer.html; then break; fi
+            sleep 1
+          done
+          grep -q 'src/broadcast-viewer-entry.ts' /tmp/viewer.html
+          curl -fsS 'http://127.0.0.1:4174/broadcast/?station=ayn-refresh-test' >/tmp/viewer-refresh.html
+          grep -q 'src/broadcast-viewer-entry.ts' /tmp/viewer-refresh.html
+          ! grep -q 'src/main.ts' /tmp/viewer-refresh.html
+          curl -fsS http://127.0.0.1:4174/control/ >/tmp/control.html
+          grep -q 'src/control-entry.ts' /tmp/control.html
+
+          STATION="ayn-ci-$(date +%s)"
+          KEY='ci-control-key-12345678901234567890'
+          curl -fsS -X PUT "http://127.0.0.1:4174/api/broadcast/state?station=$STATION" \
+            -H 'Content-Type: application/json' \
+            --data "{\"controlKey\":\"$KEY\",\"config\":{\"version\":2,\"updatedAt\":$(date +%s%3N),\"channelName\":\"عين الصقر CI\",\"tickerHeadlines\":[\"خبر حي للاختبار\"],\"panelSnapshots\":[],\"mediaSources\":[]}}" \
+            >/tmp/state-put.json
+          grep -q '"ok":true' /tmp/state-put.json
+          curl -fsS "http://127.0.0.1:4174/api/broadcast/state?station=$STATION" >/tmp/state-get.json
+          grep -q 'عين الصقر CI' /tmp/state-get.json
+          grep -q 'خبر حي للاختبار' /tmp/state-get.json
+          cat /tmp/state-put.json /tmp/state-get.json > broadcast-smoke.log
+
+      - name: Install Chromium for viewer test
+        id: browser_install
+        continue-on-error: true
+        shell: bash
+        run: npx playwright install --with-deps chromium > browser-install.log 2>&1
+
+      - name: Browser-test no-reload updates and refresh isolation
+        id: browser_e2e
+        continue-on-error: true
+        shell: bash
+        run: npx playwright test e2e/broadcast-station.spec.ts --project=chromium > browser-e2e.log 2>&1
+
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: broadcast-validation-diagnostics
+          path: |
+            dashboard-typecheck.log
+            api-typecheck.log
+            broadcast-lint.log
+            broadcast-tests.log
+            api-contract.log
+            rate-limit-policies.log
+            broadcast-build.log
+            broadcast-artifacts.log
+            broadcast-dev-server.log
+            broadcast-smoke.log
+            browser-install.log
+            browser-e2e.log
+            test-results/**
+            playwright-report/**
+          if-no-files-found: warn
+          retention-days: 3
+
+      - name: Fail when validation failed
+        if: >-
+          steps.dashboard.outcome != 'success' ||
+          steps.api.outcome != 'success' ||
+          steps.lint.outcome != 'success' ||
+          steps.station_tests.outcome != 'success' ||
+          steps.api_contract.outcome != 'success' ||
+          steps.rate_limits.outcome != 'success' ||
+          steps.build.outcome != 'success' ||
+          steps.artifacts.outcome != 'success' ||
+          steps.smoke.outcome != 'success' ||
+          steps.browser_install.outcome != 'success' ||
+          steps.browser_e2e.outcome != 'success'
+        run: |
+          echo 'Dashboard typecheck: ${{ steps.dashboard.outcome }}'
+          echo 'API typecheck: ${{ steps.api.outcome }}'
+          echo 'Broadcast lint: ${{ steps.lint.outcome }}'
+          echo 'Station tests: ${{ steps.station_tests.outcome }}'
+          echo 'API contract: ${{ steps.api_contract.outcome }}'
+          echo 'Rate limits: ${{ steps.rate_limits.outcome }}'
+          echo 'Production build: ${{ steps.build.outcome }}'
+          echo 'Artifact separation: ${{ steps.artifacts.outcome }}'
+          echo 'Live route/API smoke: ${{ steps.smoke.outcome }}'
+          echo 'Browser install: ${{ steps.browser_install.outcome }}'
+          echo 'Browser E2E: ${{ steps.browser_e2e.outcome }}'
+          exit 1

@@ -1,0 +1,129 @@
+@import url('./broadcast-full-control.css');
+
+/* Broadcast station control-room reliability fixes. */
+
+body.broadcast-control {
+  overflow: hidden !important;
+}
+
+body.broadcast-control .broadcast-control-room {
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(520px, 98vw) !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+body.broadcast-control .broadcast-control-header {
+  flex: 0 0 auto !important;
+}
+
+body.broadcast-control .broadcast-control-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding-bottom: 22px !important;
+}
+
+body.broadcast-control .broadcast-panel-list {
+  flex: 0 0 auto;
+  max-height: 420px !important;
+  min-height: 190px;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* private-demo.css hides every footer globally. Restore the control actions. */
+body.broadcast-control footer.broadcast-control-actions,
+body.broadcast-control .broadcast-control-actions {
+  position: relative !important;
+  z-index: 2147483646 !important;
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  flex: 0 0 auto !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-height: 104px !important;
+  padding: 12px 16px 15px !important;
+  box-sizing: border-box !important;
+  border-top: 1px solid #374152 !important;
+  background: linear-gradient(180deg, #0c1119, #070a10) !important;
+  box-shadow: 0 -10px 26px rgba(0, 0, 0, .42) !important;
+}
+
+body.broadcast-control .broadcast-control-actions button {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  min-width: 0 !important;
+  min-height: 38px !important;
+  padding: 8px 7px !important;
+  color: #f5f7fb !important;
+  font-size: 11px !important;
+  font-weight: 700;
+  white-space: normal;
+  border: 1px solid #465166 !important;
+  background: #171e2a !important;
+}
+
+body.broadcast-control .broadcast-control-actions .broadcast-primary-action {
+  grid-column: 1 / -1;
+  color: #111 !important;
+  font-weight: 900 !important;
+  border-color: #f0d47b !important;
+  background: linear-gradient(135deg, #efd77f, #bd9430) !important;
+}
+
+body.broadcast-control .broadcast-control-status {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  flex: 0 0 auto !important;
+  max-height: 72px;
+  overflow-y: auto;
+}
+
+/* Make translated news visibly Arabic inside every broadcast box. */
+body.broadcast-viewer [data-ayn-translated='true'] {
+  direction: rtl !important;
+  unicode-bidi: plaintext;
+  text-align: right !important;
+  font-family: system-ui, 'Segoe UI', Tahoma, Arial, sans-serif !important;
+}
+
+body.broadcast-viewer .item-title[data-ayn-translated='true'] {
+  line-height: 1.65 !important;
+  font-weight: 800 !important;
+}
+
+body.broadcast-viewer .item-snippet[data-ayn-translated='true'],
+body.broadcast-viewer .news-summary[data-ayn-translated='true'],
+body.broadcast-viewer .article-summary[data-ayn-translated='true'] {
+  line-height: 1.75 !important;
+}
+
+@media (max-width: 540px) {
+  body.broadcast-control .broadcast-control-room {
+    width: 100vw !important;
+  }
+
+  body.broadcast-control .broadcast-control-field {
+    grid-template-columns: 1fr !important;
+    gap: 5px !important;
+  }
+
+  body.broadcast-control .broadcast-panel-list {
+    max-height: 240px !important;
+  }
+}

@@ -363,6 +363,7 @@ Runs before every `git push`:
 | `lint-code.yml` | PR, push to main | Biome lint + sebuf API-contract enforcement |
 | `lint.yml` | PR (markdown changes) | markdownlint-cli2 |
 | `test.yml` | PR, push to main | Unit/integration suite, docs-stats guardrail, plus conditional digest-image and resilience-validation smoke gates |
+| `broadcast-station-check.yml` | PR and broadcast branch changes | Isolated control/viewer routing, live state API, lightweight bundle size, refresh behavior, and no-reload Playwright update test |
 | `proto-check.yml` | PR (proto changes) | Generated code matches committed output |
 | `pro-bundle-freshness.yml` | PR (pro bundle changes) | Committed pro data bundle artifacts are fresh |
 | `feed-validation.yml` | PR (feed changes), daily cron | RSS feed reachability and validation |

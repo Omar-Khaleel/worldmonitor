@@ -1,0 +1,87 @@
+name: Broadcast Windows Check
+
+on:
+  push:
+    branches:
+      - broadcast-station-mvp
+    paths:
+      - 'INSTALL-AIN-SAQR.cmd'
+      - 'START-AIN-SAQR.cmd'
+      - 'STOP-AIN-SAQR.cmd'
+      - 'scripts/broadcast-doctor.mjs'
+      - 'scripts/*broadcast-windows.ps1'
+      - 'docs/new-computer-windows.md'
+      - '.github/workflows/broadcast-windows-check.yml'
+  pull_request:
+    branches:
+      - custom-demo-branding
+    paths:
+      - 'INSTALL-AIN-SAQR.cmd'
+      - 'START-AIN-SAQR.cmd'
+      - 'STOP-AIN-SAQR.cmd'
+      - 'scripts/broadcast-doctor.mjs'
+      - 'scripts/*broadcast-windows.ps1'
+      - 'docs/new-computer-windows.md'
+      - '.github/workflows/broadcast-windows-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-windows-launchers:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          show-progress: false
+
+      - name: Parse PowerShell launchers
+        shell: pwsh
+        run: |
+          $failed = $false
+          $files = @(
+            'scripts/setup-broadcast-windows.ps1',
+            'scripts/start-broadcast-windows.ps1',
+            'scripts/stop-broadcast-windows.ps1'
+          )
+          foreach ($file in $files) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile(
+              (Resolve-Path $file),
+              [ref]$tokens,
+              [ref]$errors
+            ) | Out-Null
+            if ($errors.Count -gt 0) {
+              $failed = $true
+              Write-Error "$file contains PowerShell syntax errors:"
+              $errors | ForEach-Object { Write-Error $_.Message }
+            }
+          }
+          if ($failed) { exit 1 }
+
+      - name: Validate doctor JavaScript syntax
+        shell: pwsh
+        run: node --check scripts/broadcast-doctor.mjs
+
+      - name: Validate command wrapper targets
+        shell: pwsh
+        run: |
+          $expectations = @{
+            'INSTALL-AIN-SAQR.cmd' = 'scripts\setup-broadcast-windows.ps1'
+            'START-AIN-SAQR.cmd' = 'scripts\start-broadcast-windows.ps1'
+            'STOP-AIN-SAQR.cmd' = 'scripts\stop-broadcast-windows.ps1'
+          }
+          foreach ($entry in $expectations.GetEnumerator()) {
+            if (-not (Test-Path $entry.Key)) { throw "Missing $($entry.Key)" }
+            $content = Get-Content -Raw $entry.Key
+            if ($content -notmatch [regex]::Escape($entry.Value)) {
+              throw "$($entry.Key) does not target $($entry.Value)"
+            }
+          }
+
+      - name: Run setup preflight without installation
+        shell: pwsh
+        run: ./scripts/setup-broadcast-windows.ps1 -ValidateOnly -SkipUpdate
